@@ -31,7 +31,7 @@ function submitForm() {
 
     const result = `
         <strong>Senesi:</strong> ${date} <br>
-        <strong>Familiýasy, ady:</strong> ${fname} <br>
+        <strong>Familiyasy, ady:</strong> ${fname} <br>
         <strong>Bölüm:</strong> ${department} <br>
         <strong>Jynsy:</strong> ${gender} <br>
         <strong>Doglan ýyly:</strong> ${birthYear} <br>
@@ -42,7 +42,7 @@ function submitForm() {
         <strong>Kelleçanagyň şekili:</strong> ${brainImage} <br>
         <strong>Ak we çal maddanyň differensasiýasy:</strong> ${differentiation} <br>
         <strong>Beýni parenhimasynyň ojaklaýyn üýtgemeleri:</strong> ${changes} <br>
-        <strong>Likwor saklaýan giňişликler:</strong> ${liquorSpaces} <br>
+        <strong>Likwor saklaýan giňişlikler:</strong> ${liquorSpaces} <br>
         <strong>Netije:</strong> ${conclusion} <br>
         <strong>Maslahat:</strong> ${advice} <br>
         <strong>Lukman:</strong> ${doctor}

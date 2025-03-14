@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelle beyninin MRT barlagy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Kelle beyninin MRT barlagy</h2>
+        <form onsubmit="event.preventDefault(); submitForm();">
+            <label for="fname">Ady:</label>
+            <input type="text" id="fname" required>
+
+            <label for="nname">Familiyasy:</label>
+            <input type="text" id="nname" required>
+
+            <label for="birthDate">Doglan senesi:</label>
+            <input type="date" id="birthDate" required>
+
+            <label>Jynsy:</label>
+            <input type="radio" id="male" name="gender" checked> Erkek
+            <input type="radio" id="female" name="gender"> Aýal
+
+            <label>MR impulslary:</label>
+            <input type="checkbox" id="t1"> T1
+            <input type="checkbox" id="t2"> T2
+            <input type="checkbox" id="t2tirm"> T2 Tirm
+            <input type="checkbox" id="diffuz"> Diffuz
+            <input type="checkbox" id="angioimp"> Angio Imp
+
+            <button type="submit">Ýatda sakla</button>
+        </form>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -5,6 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MRT_REPORTS</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+        }
+        input, button {
+            margin-top: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -51,7 +75,7 @@
             <label for="changes">Beýni parenhimasynyň ojaklaýyn üýtgemeleri:</label>
             <input type="text" id="changes" name="changes" required>
 
-            <label for="liquorSpaces">Likwor saklaýan giňişlikler:</label>
+            <label for="liquorSpaces">Likwor saklaýan giňişликler:</label>
             <input type="text" id="liquorSpaces" name="liquorSpaces" required>
 
             <label for="conclusion">Netije:</label>

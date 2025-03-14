@@ -42,7 +42,7 @@ function submitForm() {
         <strong>Kelleçanagyň şekili:</strong> ${brainImage} <br>
         <strong>Ak we çal maddanyň differensasiýasy:</strong> ${differentiation} <br>
         <strong>Beýni parenhimasynyň ojaklaýyn üýtgemeleri:</strong> ${changes} <br>
-        <strong>Likwor saklaýan giňişлікler:</strong> ${liquorSpaces} <br>
+        <strong>Likwor saklaýan giňişликler:</strong> ${liquorSpaces} <br>
         <strong>Netije:</strong> ${conclusion} <br>
         <strong>Maslahat:</strong> ${advice} <br>
         <strong>Lukman:</strong> ${doctor}

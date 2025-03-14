@@ -11,24 +11,24 @@
         <h2>Kelle beyninin MRT barlagy</h2>
         <form onsubmit="event.preventDefault(); submitForm();">
             <label for="fname">Ady:</label>
-            <input type="text" id="fname" required>
+            <input type="text" id="fname" name="fname" required>
 
             <label for="nname">Familiyasy:</label>
-            <input type="text" id="nname" required>
+            <input type="text" id="nname" name="nname" required>
 
             <label for="birthDate">Doglan senesi:</label>
-            <input type="date" id="birthDate" required>
+            <input type="date" id="birthDate" name="birthDate" required>
 
             <label>Jynsy:</label>
-            <input type="radio" id="male" name="gender" checked> Erkek
-            <input type="radio" id="female" name="gender"> Aýal
+            <input type="radio" id="male" name="gender" value="male" checked> Erkek
+            <input type="radio" id="female" name="gender" value="female"> Aýal
 
             <label>MR impulslary:</label>
-            <input type="checkbox" id="t1"> T1
-            <input type="checkbox" id="t2"> T2
-            <input type="checkbox" id="t2tirm"> T2 Tirm
-            <input type="checkbox" id="diffuz"> Diffuz
-            <input type="checkbox" id="angioimp"> Angio Imp
+            <input type="checkbox" id="t1" name="t1"> T1
+            <input type="checkbox" id="t2" name="t2"> T2
+            <input type="checkbox" id="t2tirm" name="t2tirm"> T2 Tirm
+            <input type="checkbox" id="diffuz" name="diffuz"> Diffuz
+            <input type="checkbox" id="angioimp" name="angioimp"> Angio Imp
 
             <button type="submit">Ýatda sakla</button>
         </form>

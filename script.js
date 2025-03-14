@@ -1,21 +1,32 @@
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('form').addEventListener('submit', event => {
+        event.preventDefault();
+        submitForm();
+    });
+});
+
 function submitForm() {
-    const fname = document.getElementById('fname').value;
-    const nname = document.getElementById('nname').value;
-    const birthDate = document.getElementById('birthDate').value;
-    const gender = document.getElementById('male').checked ? 'Erkek' : 'Aýal';
-    
-    const impulses = [];
-    if (document.getElementById('t1').checked) impulses.push('T1');
-    if (document.getElementById('t2').checked) impulses.push('T2');
-    if (document.getElementById('t2tirm').checked) impulses.push('T2 Tirm');
-    if (document.getElementById('diffuz').checked) impulses.push('Diffuz');
-    if (document.getElementById('angioimp').checked) impulses.push('Angio Imp');
-    
-    const result = `
-        <strong>Ady:</strong> ${fname} ${nname} <br>
-        <strong>Doglan senesi:</strong> ${birthDate} <br>
-        <strong>Jynsy:</strong> ${gender} <br>
-        <strong>MR impulslary:</strong> ${impulses.join(', ')}
-    `;
-    document.getElementById('result').innerHTML = result;
+    try {
+        const fname = document.getElementById('fname').value.trim();
+        const nname = document.getElementById('nname').value.trim();
+        const birthDate = document.getElementById('birthDate').value;
+        const gender = document.querySelector('input[name="gender"]:checked').value;
+        
+        const impulses = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+                              .map(checkbox => checkbox.nextSibling.textContent.trim());
+
+        if (!fname || !nname || !birthDate || !gender) {
+            throw new Error('Все поля должны быть заполнены.');
+        }
+
+        const result = `
+            <strong>Ady:</strong> ${fname} ${nname} <br>
+            <strong>Doglan senesi:</strong> ${birthDate} <br>
+            <strong>Jynsy:</strong> ${gender} <br>
+            <strong>MR impulslary:</strong> ${impulses.join(', ')}
+        `;
+        document.getElementById('result').innerHTML = result;
+    } catch (error) {
+        alert(error.message);
+    }
 }

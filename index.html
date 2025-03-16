@@ -1,67 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MRT_REPORTS</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
     <div class="container">
         <form>
             <label for="date">Senesi:</label>
-            <input type="date" id="date" name="date" required>
+            <input type="date" id="date" name="date" required />
 
             <label for="fname">Familiýasy, ady:</label>
-            <input type="text" id="fname" name="fname" required>
+            <input type="text" id="fname" name="fname" required />
 
             <label for="department">Bölüm:</label>
-            <input type="text" id="department" name="department" required>
+            <input type="text" id="department" name="department" required />
 
             <label>Jynsy:</label>
-            <input type="radio" id="male" name="gender" value="male"> Erkek
-            <input type="radio" id="female" name="gender" value="female" checked> Aýal
+            <input type="radio" id="male" name="gender" value="male" /> Erkek
+            <input type="radio" id="female" name="gender" value="female" checked />
+            Aýal
 
             <label for="birthYear">Doglan ýyly:</label>
-            <input type="number" id="birthYear" name="birthYear" required>
+            <input type="number" id="birthYear" name="birthYear" required />
 
             <label for="code">Näsagyň kody:</label>
-            <input type="text" id="code" name="code">
+            <input type="text" id="code" name="code" />
 
             <label>Barlag usuly:</label>
-            <input type="checkbox" id="t1" name="method" value="T1"> T1
-            <input type="checkbox" id="t2" name="method" value="T2"> T2
-            <input type="checkbox" id="t2tirm" name="method" value="T2_tirm"> T2 Tirm
-            <input type="checkbox" id="diffuz" name="method" value="diffuz"> Diffuz
-            <input type="checkbox" id="angioimp" name="method" value="MRT angiografiýa"> MRT angiografiýa
+            <input type="checkbox" id="t1" name="method" value="T1" /> T1
+            <input type="checkbox" id="t2" name="method" value="T2" /> T2
+            <input type="checkbox" id="t2tirm" name="method" value="T2_tirm" /> T2
+            Tirm
+            <input type="checkbox" id="diffuz" name="method" value="diffuz" />
+            Diffuz
+            <input type="checkbox" id="angioimp" name="method" value="MRT angiografiýa" />
+            MRT angiografiýa
 
             <label>Artefaktlar:</label>
-            <input type="checkbox" id="artifacts" name="artifacts" value="Ýok"> Ýok
+            <input type="checkbox" id="artifacts" name="artifacts" value="Ýok" />
+            Ýok
 
             <label>Barlag:</label>
-            <input type="radio" id="firstExam" name="exam" value="Ilkinji gezek" checked> Ilkinji gezek
-            <input type="radio" id="repeatExam" name="exam" value="Gaytadan barlag"> Gaytadan barlag
+            <input type="radio" id="firstExam" name="exam" value="Ilkinji gezek" checked />
+            Ilkinji gezek
+            <input type="radio" id="repeatExam" name="exam" value="Gaytadan barlag" />
+            Gaytadan barlag
 
             <label for="brainImage">Kelleçanagyň şekili:</label>
-            <input type="text" id="brainImage" name="brainImage" required>
+            <input type="text" id="brainImage" name="brainImage" required />
 
             <label for="differentiation">Ak we çal maddanyň differensasiýasy:</label>
-            <input type="text" id="differentiation" name="differentiation" required>
+            <input type="text" id="differentiation" name="differentiation" required />
 
             <label for="changes">Beýni parenhimasynyň ojaklaýyn üýtgemeleri:</label>
-            <input type="text" id="changes" name="changes" required>
+            <input type="text" id="changes" name="changes" required />
 
             <label for="liquorSpaces">Likwor saklaýan giňişlikler:</label>
-            <input type="text" id="liquorSpaces" name="liquorSpaces" required>
+            <input type="text" id="liquorSpaces" name="liquorSpaces" required />
 
             <label for="conclusion">Netije:</label>
-            <input type="text" id="conclusion" name="conclusion" required>
+            <input type="text" id="conclusion" name="conclusion" required />
 
             <label for="advice">Maslahat:</label>
-            <input type="text" id="advice" name="advice" required>
+            <input type="text" id="advice" name="advice" required />
 
             <label for="doctor">Lukman:</label>
-            <input type="text" id="doctor" name="doctor" required>
+            <input type="text" id="doctor" name="doctor" required />
 
             <button type="submit">Ýatda sakla</button>
             <button type="button" id="saveWord">Ýatda sakla (Word)</button>
@@ -69,11 +78,12 @@
 
         <div class="result" id="result"></div>
     </div>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzip/3.0.0/pizzip.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.21.0/docxtemplater.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.21.0/docxtemplater.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-      <script src="saveWord.js"></script>
+    <script src="saveWord.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>

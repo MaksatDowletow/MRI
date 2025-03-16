@@ -75,17 +75,3 @@ button:hover {
     border-radius: 5px;
     color: #333;
 }
-import { jsPDF } from "jspdf";
-// import the plugin
-import "jspdf-html2canvas";
-
-document.getElementById('savePDF').addEventListener('click', () => {
-    const content = document.getElementById('result').innerHTML;
-    const doc = new jsPDF();
-
-    doc.fromHTML(content, 15, 15, {
-        'width': 170,
-    });
-
-    doc.save('document.pdf');
-});

@@ -1,7 +1,7 @@
 document.getElementById('saveWord').addEventListener('click', () => {
     const content = document.getElementById('result').innerHTML;
 
-    const zip = new JSZip();
+    const zip = new PizZip();
     const doc = new window.docxtemplater(zip, {
         paragraphLoop: true,
         linebreaks: true,

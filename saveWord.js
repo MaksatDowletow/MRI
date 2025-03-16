@@ -1,10 +1,10 @@
-import PizZip from 'pizzip';
-import Docxtemplater from 'docxtemplater';
+const PizZip = require('pizzip');
+const Docxtemplater = require('docxtemplater');
 document.getElementById('saveWord').addEventListener('click', () => {
     const content = document.getElementById('result').innerHTML;
 
     const zip = new PizZip();
-    const doc = new window.docxtemplater(zip, {
+    const doc = new Docxtemplater(zip, {
         paragraphLoop: true,
         linebreaks: true,
     });

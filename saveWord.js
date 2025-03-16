@@ -1,4 +1,5 @@
 document.getElementById("saveWord").addEventListener("click", () => {
+    console.log("Docxtemplater:", typeof Docxtemplater);
     if (typeof Docxtemplater === "undefined") {
         console.error("Docxtemplater не загружен!");
         return;

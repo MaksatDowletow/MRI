@@ -21,7 +21,7 @@ document.getElementById("saveWord").addEventListener("click", () => {
     zip.file("word/document.xml", content);
 
     try {
-        const doc = new Docxtemplater(zip);
+        const doc = new window.docxtemplater(zip);
         doc.render();
 
         const out = doc.getZip().generate({

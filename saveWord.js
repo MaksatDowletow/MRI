@@ -1,36 +1,49 @@
 document.getElementById("saveWord").addEventListener("click", () => {
-  const content = document.getElementById("result").innerHTML;
-
-  const doc = new Docxtemplater(new PizZip(), {
-    paragraphLoop: true,
-    linebreaks: true,
-  });
-
-  const template = `
-        <html>
-            <head>
-                <meta charset="utf-8">
-            </head>
-            <body>
-                ${content}
-            </body>
-        </html>
+    const content = `
+        <w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+            <w:body>
+                <w:p>
+                    <w:r>
+                        <w:t>${document.getElementById("date").value}</w:t>
+                    </w:r>
+                </w:p>
+                <w:p>
+                    <w:r>
+                        <w:t>${document.getElementById("fname").value}</w:t>
+                    </w:r>
+                </w:p>
+                <w:p>
+                    <w:r>
+                        <w:t>${document.getElementById("department").value}</w:t>
+                    </w:r>
+                </w:p>
+                <w:p>
+                    <w:r>
+                        <w:t>${document.getElementById("conclusion").value}</w:t>
+                    </w:r>
+                </w:p>
+                <w:p>
+                    <w:r>
+                        <w:t>${document.getElementById("doctor").value}</w:t>
+                    </w:r>
+                </w:p>
+            </w:body>
+        </w:document>
     `;
 
-  new PizZip().file("word/document.xml", template);
-  doc.loadZip(new PizZip());
+    const zip = new PizZip();
+    zip.file("word/document.xml", content);
+    const doc = new Docxtemplater(zip, { paragraphLoop: true, linebreaks: true });
 
-  try {
-    doc.render();
-  } catch (error) {
-    console.error(error);
-  }
+    try {
+        doc.render();
+        const out = doc.getZip().generate({
+            type: "blob",
+            mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        });
 
-  const out = doc.getZip().generate({
-    type: "blob",
-    mimeType:
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-  });
-
-  saveAs(out, "document.docx");
+        saveAs(out, "MRT_Report.docx");
+    } catch (error) {
+        console.error("Ошибка при создании документа:", error);
+    }
 });

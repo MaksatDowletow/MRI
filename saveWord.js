@@ -1,34 +1,39 @@
-document.getElementById('saveWord').addEventListener('click', async function() {
+document.getElementById('saveWord').addEventListener('click', async () => {
     try {
-        // 1. Получаем данные формы
+        // Проверка наличия Pizzip
+        if (typeof Pizzip === 'undefined') {
+            throw new Error("Pizzip не загружен! Проверьте подключение скриптов");
+        }
+
+        // Данные формы
         const formData = {
             date: document.getElementById('date').value,
             fname: document.getElementById('fname').value,
+            department: document.getElementById('department').value,
             gender: document.querySelector('input[name="gender"]:checked').value,
-            // ... добавьте все остальные поля
+            birthYear: document.getElementById('birthYear').value,
+            // ... все остальные поля
         };
 
-        // 2. Загружаем шаблон
+        // Загрузка шаблона
         const response = await fetch("template.docx");
-        const arrayBuffer = await response.arrayBuffer();
+        const buffer = await response.arrayBuffer();
         
-        // 3. Инициализируем Pizzip (обратите внимание на две 'p'!)
-        const zip = new Pizzip(arrayBuffer);
+        // Инициализация Pizzip
+        const zip = new Pizzip(buffer); // Именно Pizzip с двумя 'p'!
         
-        // 4. Работаем с docxtemplater
+        // Работа с документом
         const doc = new docxtemplater();
         doc.loadZip(zip);
-        
-        // 5. Заполняем шаблон
         doc.setData(formData);
         doc.render();
         
-        // 6. Генерируем и сохраняем файл
-        const out = doc.getZip().generate({ type: "blob" });
-        saveAs(out, `MRI_Report_${new Date().toISOString().slice(0,10)}.docx`);
+        // Сохранение файла
+        const blob = doc.getZip().generate({ type: "blob" });
+        saveAs(blob, "MRI_Report.docx");
         
-    } catch(error) {
-        console.error("Ошибка генерации:", error);
-        alert("Невозможно создать документ. Проверьте:\n1. Подключение к интернету\n2. Заполнение всех полей");
+    } catch (error) {
+        console.error("Фатальная ошибка:", error);
+        alert(`Ошибка: ${error.message}`);
     }
 });

@@ -1,5 +1,5 @@
 import PizZip from "./pizzip.min.js";
-import Docxtemplater from "docxtemplater";
+import Docxtemplater from "./docxtemplater.min.js";
 import { saveAs } from "file-saver";
 
 document.getElementById("saveWord").addEventListener("click", () => {

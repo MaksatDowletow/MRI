@@ -1,6 +1,6 @@
 import PizZip from "./pizzip.min.js";
 import Docxtemplater from "./docxtemplater.min.js";
-import { saveAs } from "file-saver";
+import { saveAs } from "./FileSaver.min.js"; // Измените путь к FileSaver при необходимости
 
 document.getElementById("saveWord").addEventListener("click", () => {
     const content = document.getElementById("result").innerHTML;

@@ -1,0 +1,1 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.57.1/docxtemplater.min.js" integrity="sha512-TRYli2oUTOtkaL8mPsLYAqcg2xmGOuKNkYHNsbCQU3fhchKedp6vlkdNdDKt7wEW2uGV0dF2be9sldHKGnZDWw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

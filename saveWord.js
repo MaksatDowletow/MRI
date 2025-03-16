@@ -1,29 +1,34 @@
-document.getElementById('saveWord').addEventListener('click', function() {
-    // Получение данных из формы
-    const formData = {
-        date: document.getElementById('date').value,
-        fname: document.getElementById('fname').value,
-        // ... остальные поля
-    };
+document.getElementById('saveWord').addEventListener('click', async function() {
+    try {
+        // Получение данных формы
+        const formData = {
+            date: document.getElementById('date').value,
+            fname: document.getElementById('fname').value,
+            department: document.getElementById('department').value,
+            gender: document.querySelector('input[name="gender"]:checked').value,
+            // ... добавьте все остальные поля формы
+        };
 
-    // Загрузка шаблона
-    fetch("template.docx")
-        .then(response => response.arrayBuffer())
-        .then(buffer => {
-            const zip = new JSZip();
-            zip.load(buffer);
-            const doc = new docxtemplater().loadZip(zip);
-            
-            // Замена данных в шаблоне
-            doc.setData(formData);
-            
-            try {
-                doc.render();
-                const out = doc.getZip().generate({ type: "blob" });
-                saveAs(out, "report.docx");
-            } catch(error) {
-                console.error("Ошибка генерации документа:", error);
-            }
-        })
-        .catch(error => console.error("Ошибка загрузки шаблона:", error));
+        // Загрузка и обработка шаблона
+        const response = await fetch("template.docx");
+        const buffer = await response.arrayBuffer();
+        
+        // Асинхронная загрузка ZIP-архива
+        const zip = await JSZip.loadAsync(buffer);
+        
+        // Инициализация docxtemplater
+        const doc = new docxtemplater().loadZip(zip);
+        
+        // Замена данных в шаблоне
+        doc.setData(formData);
+        doc.render();
+        
+        // Генерация и сохранение файла
+        const out = doc.getZip().generate({ type: "blob" });
+        saveAs(out, "report_" + Date.now() + ".docx");
+        
+    } catch(error) {
+        console.error("Произошла ошибка:", error);
+        alert("Ошибка при генерации документа! Проверьте консоль для деталей.");
+    }
 });

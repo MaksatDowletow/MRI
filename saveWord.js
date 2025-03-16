@@ -1,19 +1,32 @@
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('saveWord').addEventListener('click', async function() {
         try {
-            // Проверка загрузки PizZip
-            if (typeof PizZip === 'undefined') {
-                throw new Error("PizZip не загружен. Проверьте:\n1. Блокировку CDN\n2. Интернет-соединение\n3. Консоль браузера");
+            // Проверка загрузки библиотек
+            if (typeof PizZip === 'undefined' || typeof docxtemplater === 'undefined') {
+                throw new Error("Библиотеки не загружены. Проверьте консоль браузера.");
             }
 
-            // Получение данных формы
+            // Сбор данных формы
             const formData = {
                 date: document.getElementById('date').value,
                 fname: document.getElementById('fname').value,
                 department: document.getElementById('department').value,
                 gender: document.querySelector('input[name="gender"]:checked').value,
-                // ... остальные поля
+                birthYear: document.getElementById('birthYear').value,
+                code: document.getElementById('code').value,
+                brainImage: document.getElementById('brainImage').value,
+                differentiation: document.getElementById('differentiation').value,
+                changes: document.getElementById('changes').value,
+                liquorSpaces: document.getElementById('liquorSpaces').value,
+                conclusion: document.getElementById('conclusion').value,
+                advice: document.getElementById('advice').value,
+                doctor: document.getElementById('doctor').value,
+                methods: Array.from(document.querySelectorAll('input[name="method"]:checked')).map(el => el.value).join(', '),
+                artifacts: document.querySelector('input[name="artifacts"]:checked')?.value || 'Не указано'
             };
+
+            // Логирование данных для отладки
+            console.log("Form Data:", formData);
 
             // Загрузка шаблона
             const response = await fetch("template.docx");
@@ -26,14 +39,14 @@ document.addEventListener('DOMContentLoaded', function() {
             doc.loadZip(zip);
             
             doc.setData(formData);
-            doc.render();
+            doc.render(); // Если есть ошибки рендеринга, они появятся здесь
             
             const out = doc.getZip().generate({ type: "blob" });
-            saveAs(out, "report.docx");
+            saveAs(out, "report_${new Date().toISOString()}.docx");
 
         } catch(error) {
             console.error("Ошибка:", error);
-            alert(error.message);
+            alert("Ошибка генерации документа: " + error.message);
         }
     });
 });

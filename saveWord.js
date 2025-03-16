@@ -1,4 +1,4 @@
-import PizZip from "pizzip";
+import PizZip from "./pizzip.min.js";
 import Docxtemplater from "docxtemplater";
 import { saveAs } from "file-saver";
 

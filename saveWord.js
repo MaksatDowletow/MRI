@@ -1,8 +1,7 @@
 document.getElementById("saveWord").addEventListener("click", () => {
   const content = document.getElementById("result").innerHTML;
 
-  const zip = new PizZip();
-  const doc = new Docxtemplater(zip, {
+  const doc = new Docxtemplater(new PizZip(), {
     paragraphLoop: true,
     linebreaks: true,
   });
@@ -18,8 +17,8 @@ document.getElementById("saveWord").addEventListener("click", () => {
         </html>
     `;
 
-  zip.file("word/document.xml", template);
-  doc.loadZip(zip);
+  new PizZip().file("word/document.xml", template);
+  doc.loadZip(new PizZip());
 
   try {
     doc.render();

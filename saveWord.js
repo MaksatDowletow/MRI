@@ -1,34 +1,34 @@
 document.getElementById('saveWord').addEventListener('click', async function() {
     try {
-        // Получение данных формы
+        // Получаем данные формы
         const formData = {
             date: document.getElementById('date').value,
             fname: document.getElementById('fname').value,
-            department: document.getElementById('department').value,
             gender: document.querySelector('input[name="gender"]:checked').value,
-            // ... добавьте все остальные поля формы
+            // ... добавьте все остальные поля
         };
 
-        // Загрузка и обработка шаблона
+        // Загружаем шаблон
         const response = await fetch("template.docx");
-        const buffer = await response.arrayBuffer();
+        const arrayBuffer = await response.arrayBuffer();
         
-        // Асинхронная загрузка ZIP-архива
-        const zip = await JSZip.loadAsync(buffer);
+        // Инициализируем PizZip
+        const zip = new PizZip(arrayBuffer);
         
-        // Инициализация docxtemplater
-        const doc = new docxtemplater().loadZip(zip);
+        // Создаем документ
+        const doc = new docxtemplater();
+        doc.loadZip(zip);
         
-        // Замена данных в шаблоне
+        // Заменяем данные
         doc.setData(formData);
         doc.render();
         
-        // Генерация и сохранение файла
+        // Генерируем файл
         const out = doc.getZip().generate({ type: "blob" });
-        saveAs(out, "report_" + Date.now() + ".docx");
+        saveAs(out, `report_${Date.now()}.docx`);
         
     } catch(error) {
-        console.error("Произошла ошибка:", error);
-        alert("Ошибка при генерации документа! Проверьте консоль для деталей.");
+        console.error("Ошибка генерации документа:", error);
+        alert("Ошибка! Подробности в консоли.");
     }
 });

@@ -1,3 +1,5 @@
+import PizZip from 'pizzip';
+import Docxtemplater from 'docxtemplater';
 document.getElementById('saveWord').addEventListener('click', () => {
     const content = document.getElementById('result').innerHTML;
 

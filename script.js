@@ -25,7 +25,7 @@ function submitForm() {
     const doctor = document.getElementById('doctor').value.trim();
 
     if (!date || !fname || !department || !gender || !birthYear || !brainImage || !differentiation || !changes || !liquorSpaces || !conclusion || !advice || !doctor) {
-        alert('Все поля должны быть заполнены.');
+        alert('Ähli meýdançalar doldurumaly.');
         return;
     }
 

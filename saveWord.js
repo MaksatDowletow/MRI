@@ -1,5 +1,7 @@
-const PizZip = require("pizzip");
-const Docxtemplater = require("docxtemplater");
+import PizZip from "pizzip";
+import Docxtemplater from "docxtemplater";
+import { saveAs } from "file-saver";
+
 document.getElementById("saveWord").addEventListener("click", () => {
   const content = document.getElementById("result").innerHTML;
 

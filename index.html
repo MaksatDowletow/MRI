@@ -21,8 +21,13 @@
             <hr>
             <h2>1. Общая информация</h2>
             <ul>
-                <li>Дата исследования:</li>
-                <li>Тип исследования: Первичное / Повторное (сравнение с исследованием от _____ г.).</li>
+                <li>Дата исследования:<input type="date" id="research-date"></li>
+               <li>Тип исследования: 
+                    <select id="research-type">
+                        <option value="Первичное">Первичное</option>
+                        <option value="Повторное">Повторное (сравнение с исследованием от <input type="text" id="previous-research-date" placeholder="____ г.">)</option>
+                    </select>
+                </li>
                 <li>Наличие артефактов:
                     <ul>
                         <li>Без артефактов.</li>

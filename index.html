@@ -18,10 +18,14 @@
       <div class="protocol">
         <h1>KELLE BEÝNINIŇ MRT BARLAGY</h1>
         <h2>Umumy maglumatlar:</h2>
-        <p style="display: flex; align-items: center; gap: 8px;">
-  <span>Barlagyň senesi:</span>
-  <input type="date" id="research-date"+ " ý."/>
-</p>
+        <form id="research-form">
+  <p style="display: flex; align-items: center; gap: 8px;">
+    <label for="research-date">Barlagyň senesi:</label>
+    <input type="date" id="research-date" name="research-date" />
+    <span>ý.</span>
+  </p>
+</form>
+
         Тип исследования:
             <select id="research-type">
               <option value="Первичное">Первичное</option>

@@ -26,14 +26,15 @@
 <script>
   document.getElementById('research-date').value = new Date().toISOString().split('T')[0];
 </script>
-           <span>Тип исследования:
+           <p>Тип исследования:
             <select id="research-type-1">
               <option value="Первичное">Первичное</option>
               <option value="Повторное">
                 Повторное (сравнение с исследованием от ____ г.)
               </option>
             </select>
-            Наличие артефактов:
+           </p>
+           <p> Наличие артефактов:
             <select id="research-type-2">
               <option value="Без артефактов.">Без артефактов.</option>
               <option value="Артефакты от движения пациента.">
@@ -44,6 +45,7 @@
               </option>
             </select>
            </span>
+             </p>
         <h2>2. Протокол исследования</h2>
         <h3>2.1. Форма черепа</h3>
 

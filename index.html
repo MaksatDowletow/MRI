@@ -18,18 +18,13 @@
       <div class="protocol">
         <h1>KELLE BEÝNINIŇ MRT BARLAGY</h1>
         <h2>Umumy maglumatlar:</h2>
-<form id="research-form">
-  <p style="display: flex; align-items: left; gap: 8px;">
-    <label for="research-date">Barlagyň senesi:</label>
-    <input type="date" id="research-date" name="research-date" />
-    <span>ý.</span>
-  </p>
+<form id="research-form" style="display:inline-flex; align-items:center; gap:6px; font-size:14px;">
+  <label for="research-date">Barlagyň senesi:</label>
+  <input type="date" id="research-date" name="research-date" style="padding:2px;">
+  <span>ý.</span>
 </form>
-
 <script>
-  // Устанавливаем сегодняшнюю дату в формате YYYY-MM-DD
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('research-date').value = today;
+  document.getElementById('research-date').value = new Date().toISOString().split('T')[0];
 </script>
         Тип исследования:
             <select id="research-type">

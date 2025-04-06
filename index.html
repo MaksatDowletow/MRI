@@ -20,59 +20,55 @@
         <h2>Umumy maglumatlar:</h2>
 <form id="research-form" style="display:inline-flex; align-items:center; gap:6px; font-size:14px;">
   <label for="research-date">Barlagyň senesi:</label>
-  <input type="date" id="research-date" name="research-date"+ "ý." style="padding:0px;">
+  <input type="date" id="research-date" name="research-date"  style="padding:0px;">
 </form>
 <script>
   document.getElementById('research-date').value = new Date().toISOString().split('T')[0];
 </script>
-           <p>Тип исследования:
+           <p>Barlag:
             <select id="research-type-1">
-              <option value="Первичное">Первичное</option>
+              <option value="Первичное">Ilkinji gezek.</option>
               <option value="Повторное">
-                Повторное (сравнение с исследованием от ____ г.)
+                Gaýtadan.
               </option>
             </select>
            </p>
-           <p> Наличие артефактов:
+           <p> Artefaktlar:
             <select id="research-type-2">
-              <option value="Без артефактов.">Без артефактов.</option>
+              <option value="Без артефактов.">Artefaktlar ýok.</option>
               <option value="Артефакты от движения пациента.">
-                Артефакты от движения пациента.
+                Näsagyň hereket artefaktlary.
               </option>
               <option value="Артефакты от металлических объектов.">
-                Артефакты от металлических объектов.
+                Metal artefaktlar.
               </option>
             </select>
            </span>
              </p>
-        <h2>2. Протокол исследования</h2>
-        <h3>2.1. Форма черепа</h3>
-
-        Тип:
-        <select id="research-type">
-          <option value="Мезоцефалическая.">Мезоцефалическая.</option>
-          <option value="Долихоцефалическая.">Долихоцефалическая.</option>
-          <option value="Брахиоцефалическая">Брахиоцефалическая.</option>
+        <h2>Barlag protokoly:</h2>
+        <h3>Kelle çanak:</h3>
+          <select id="research-type">
+          <option value="Мезоцефалическая.">Mezosefal tipli.</option>
+          <option value="Долихоцефалическая.">Dolihosefal tipli.</option>
+          <option value="Брахиоцефалическая">Brahiosefal tipli.</option>
         </select>
-
-        Швы:<select id="research-type">
+        Tikinlri:<select id="research-type">
             <option value="Без признаков краниостеноза.">
-                Без признаков краниостеноза.
+                kadaly ýagdaýda.
               </option>
             <option value="Признаки краниостеноза.">
-            Признаки краниостеноза.
+            kraniostenoz alamatlary.
           </option>
         </select>
-
-        Симметрия:<select id="research-type">
-          <option value="Симметричная.">Симметричная.</option>
-          <option value="Асимметричная.">Асимметричная.</option>
+        Simmetriýa:<select id="research-type">
+          <option value="Симметричная.">simmetrik.</option>
+          <option value="Асимметричная.">Asimmetrik.</option>
         </select>
 
-        Черепные ямки:<select id="research-type">
-          <option value="Нормальные.">Нормальные.</option>
-          <option value="Тесные.">Тесные.</option>
-          <option value="Расширены.">Расширены.</option>
+        Kelleçanagyň çukurjuklary:<select id="research-type">
+          <option value="Нормальные.">kadaly.</option>
+          <option value="Тесные.">gysylan.</option>
+          <option value="Расширены.">giňelen.</option>
         </select>
 
         Послеоперационные изменения:

@@ -26,19 +26,11 @@
 <script>
   document.getElementById('research-date').value = new Date().toISOString().split('T')[0];
 </script>
-<form id="research-form" style="display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 14px;">
   <label for="research-type">Тип исследования:</label>
-  <select id="research-type" name="research-type" style="padding:2px;">
-    <option value="Первичное">Первичное</option>
-    <option value="Повторное">Повторное (сравнение с исследованием от ____ г.)</option>
-  </select>
-  <label for="artifact-presence">Наличие артефактов:</label>
-  <select id="artifact-presence" name="artifact-presence" style="padding:2px;">
-    <option value="Без артефактов.">Без артефактов.</option>
-    <option value="Артефакты от движения пациента.">Артефакты от движения пациента.</option>
-    <option value="Артефакты от металлических объектов.">Артефакты от металлических объектов.</option>
-  </select>
-</form>
+  <select id="research-type" name="research-type" style="padding: 2px 4px; font-size: 14px; line-height: 1; margin: 0;">
+  <option value="Первичное">Первичное</option>
+  <option value="Повторное">Повторное (сравнение с исследованием от ____ г.)</option>
+</select>
         <h2>2. Протокол исследования</h2>
         <h3>2.1. Форма черепа</h3>
 

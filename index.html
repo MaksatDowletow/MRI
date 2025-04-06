@@ -6,8 +6,7 @@
     <title>ОБЩИЙ ПРОТОКОЛ МРТ ГОЛОВНОГО МОЗГА</title>
     <link rel="stylesheet" href="styles.css" />
 
-    <!-- Удалите все упоминания JSZip -->
-    <script src="https://unpkg.com/pizzip@3.1.0/dist/pizzip.min.js"></script>
+    <!-- Removed JSZip reference -->
     <script src="https://cdn.jsdelivr.net/npm/docxtemplater@3.42.0/build/docxtemplater.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <!-- Порядок важен: сначала Pizzip, потом docxtemplater -->
@@ -22,18 +21,17 @@
         <h2>1. Общая информация</h2>
         <ul>
           <li>Дата исследования:<input type="date" id="research-date" /></li>
+          <li></li>
           <li>
             Тип исследования:
-            <select id="research-type">
+            <select id="research-type-1">
               <option value="Первичное">Первичное</option>
               <option value="Повторное">
                 Повторное (сравнение с исследованием от ____ г.)
               </option>
             </select>
-          </li>
-          <li>
             Наличие артефактов:
-            <select id="research-type">
+            <select id="research-type-2">
               <option value="Без артефактов.">Без артефактов.</option>
               <option value="Артефакты от движения пациента.">
                 Артефакты от движения пациента.
@@ -47,68 +45,68 @@
         <hr />
         <h2>2. Протокол исследования</h2>
         <h3>2.1. Форма черепа</h3>
-        <ul>
-          <li>
-            Тип:
-            <select id="research-type">
-              <option value="Мезоцефалическая.">Мезоцефалическая.</option>
-              <option value="Долихоцефалическая.">Долихоцефалическая.</option>
-              <option value="Брахиоцефалическая">Брахиоцефалическая.</option>
-            </select>
-          </li>
-          <li>
-            Швы:<select id="research-type">
-              <option value="Состояние в норме.">Состояние в норме.</option>
-              <option value="Признаки краниостеноза.">Признаки краниостеноза.</option>
-            </select>
-          </li>
-          <li>
-            Симметрия:<select id="research-type">
-                  
-                      <option value="Симметричная.">Симметричная.</option>
-                      <option value="Асимметричная.">Асимметричная.</option>
-                    </select>
-                  </li>
-            
-             
-           
-          </li>
-          <li>
-            Черепные ямки:
-            <ul>
-              <li>
-                Нормальные / Тесные / Расширены (смещение латеральных синусов,
-                намета мозжечка и др.).
-              </li>
-            </ul>
-          </li>
-          <li>
-            Послеоперационные изменения:
-            <ul>
-              <li>
-                Краниотомия (локализация, размеры, состояние рубцов, наличие
-                жидкости).
-              </li>
-              <li>
-                Дефекты кости (размеры, форма, пролабирование пластинки,
-                эпи-/субапоневротическая жидкость).
-              </li>
-              <li>
-                Дефекты вещества ГМ (область резекции, подкожное жидкостное
-                образование).
-              </li>
-            </ul>
-          </li>
-        </ul>
+
+        Тип:
+        <select id="research-type-3">
+          <option value="Мезоцефалическая.">Мезоцефалическая.</option>
+          <option value="Долихоцефалическая.">Долихоцефалическая.</option>
+          <option value="Брахиоцефалическая">Брахиоцефалическая.</option>
+        </select>
+
+        Швы:<select id="research-type">
+            <option value="Без признаков краниостеноза.">
+                Без признаков краниостеноза.
+              </option>
+            <option value="Признаки краниостеноза.">
+            Признаки краниостеноза.
+          </option>
+        </select>
+
+        Симметрия:<select id="research-type">
+          <option value="Симметричная.">Симметричная.</option>
+          <option value="Асимметричная.">Асимметричная.</option>
+        </select>
+
+        Черепные ямки:<select id="research-type">
+          <option value="Нормальные.">Нормальные.</option>
+          <option value="Тесные.">Тесные.</option>
+          <option value="Расширены.">Расширены.</option>
+        </select>
+
+        Послеоперационные изменения:
+        <select id="postoperative-changes">
+          <option value="Отсутствуют.">Отсутствуют.</option>
+          <option value="Краниотомия.">Краниотомия.</option>
+        </select>
+
         <h3>2.2. Дифференциация серого и белого вещества</h3>
-        <ul>
-          <li>Норма: Отчетливая, без очаговых изменений.</li>
-          <li>Гетеротопия: Присутствует / Отсутствует.</li>
-          <li>
-            Гиппокамп: Симметричный / Асимметричный, очаговые изменения (есть /
-            нет).
-          </li>
-        </ul>
+        Норма:
+            <select id="postoperative-changes">
+              <option value="Отчетливая, без очаговых изменений.">
+                Отчетливая, без очаговых изменений.
+              </option>
+              <option value="Не Отчетливая, с очаговымы изменениями.">
+                Не Отчетливая, с очаговымы изменениями.
+              </option>
+            </select>
+        Гетеротопия:
+            <select id="postoperative-changes">
+              <option value="Отсутствует.">Отсутствует.</option>
+              <option value="Присутствует.">Присутствует.</option>
+            </select>
+        Гиппокамп:
+            <select id="postoperative-changes">
+              <option value="Симметричный.">Симметричный.</option>
+              <option value="Асимметричный.">Асимметричный.</option>
+            </select>
+            <select id="postoperative-changes">
+              <option value="очаговые изменения нет.">
+                очаговые изменения нет.
+              </option>
+              <option value="очаговые изменения есть.">
+                очаговые изменения есть.
+              </option>
+            </select>
         <h3>2.3. Очаговые изменения</h3>
         <h4>А. Дисциркуляторные очаги</h4>
         <ul>

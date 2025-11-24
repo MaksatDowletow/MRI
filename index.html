@@ -1,212 +1,258 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tk">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>KELLE BEÝNINIŇ MRT BARLAGY</title>
+    <title>KELLE BEÝNINIŇ MRT BARLAGY | RSNA stilindäki protokol</title>
     <link rel="stylesheet" href="styles.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script defer src="script.js"></script>
     <script defer src="saveWord.js"></script>
   </head>
   <body>
-   <div class="header">
-    <p>Görnüşiň şertli belligi</p>
-    <p>Edaranyň şertli belligi</p>
-    <p><span class="label">Türkmenistanyň Saglygy goraýyş we derman senagaty ministrligi</span></p>
-    <p>TSG we DS ministrliginiň № 7/18-23 haty esasynda 022 görnüşli lukmançylyk resminamasy HSMM-i tarapyndan 23.04.2004-nji ýylyň №82 buýruk esasynda tassyklanan</p>
-    <p><span class="label">Edaranyň ady:</span> KYKMH</p>
-  </div>
-   <div class="container">
-      <div class="protocol">
-        <h1>KELLE BEÝNINIŇ MRT BARLAGY</h1>
+    <header class="rsna-hero" role="banner">
+      <div class="rsna-brand">
+        <div class="rsna-mark" aria-hidden="true">RSNA</div>
+        <div>
+          <p class="eyebrow">The Radiological Society of North America</p>
+          <h1>Beýni MRT protokoly</h1>
+          <p class="lead">
+            RSNA-nyň kliniki stili boýunça tertipleşdirilen beýan we meýdançalar.
+          </p>
+        </div>
+      </div>
+      <div class="rsna-meta">
+        <p>Türkmenistanyň Saglygy goraýyş we derman senagaty ministrligi</p>
+        <p>TSG we DS ministrliginiň № 7/18-23 haty esasynda 022 görnüşli lukmançylyk resminamasy HSMM-i tarapyndan 23.04.2004-nji ýylyň №82 buýruk esasynda tassyklanan</p>
+        <p><strong>Edaranyň ady:</strong> KYKMH</p>
+      </div>
+    </header>
 
-        <div id="messages" class="messages" role="alert" aria-live="polite"></div>
+    <main class="layout" aria-label="RSNA laýyk MRT meýdançalary">
+      <aside class="reference-card" aria-label="Nusga maglumatlary">
+        <div class="reference-header">
+          <span class="pill">Beýni_kada_.docx</span>
+          <p class="reference-title">Nusga hasabatdan alnan mazmunlar</p>
+          <p class="reference-subtitle">Meýdançalary doldurmak üçin görkezme hökmünde ulanyň.</p>
+        </div>
+        <ul class="reference-list">
+          <li><strong>Barlagyň senesi:</strong> 24.11.2025 ý.</li>
+          <li><strong>Barlag usuly:</strong> Umumy, T1, T2, T2_tirm, diffuz we MRT angiografiýa usulda tra, sag, cor kesimlerde.</li>
+          <li><strong>Artefaktlar:</strong> Ýok. | <strong>Barlag:</strong> Ilkinji gezek.</li>
+          <li><strong>Kelleçanagyň şekili:</strong> Mezosefal tipli, simmetrik.</li>
+          <li><strong>Differensasiýa:</strong> Ak we çal maddanyň aýdyň, ojaklaýyn üýtgemeler ýok.</li>
+          <li><strong>Likwor giňişlikleri:</strong> Garynjyklary giňelmedik; bazal sisternalar we subarahnoidal keşler kadaly.</li>
+          <li><strong>Süňkler we beýleki gurluşlar:</strong> Kelleçanagyň eňňidinde patologiýa ýok, gözhanalar dogry ösen.</li>
+          <li><strong>Netije:</strong> Kelle beýnide organiki üýtgeşme anyklanmady. | <strong>Maslahat:</strong> Newropatolog maslahaty.</li>
+        </ul>
+      </aside>
 
-        <form id="research-form">
-          <div class="form-grid">
-            <div class="field-group">
-              <label class="required" for="research-date"
-                >Barlagyň senesi
-                <span class="tooltip" aria-label="Şu günki sana awtomatiki goýulýar">?</span></label
-              >
-              <input type="date" id="research-date" name="research-date" required />
-            </div>
-            <div class="field-group">
-              <label class="required" for="patient-name"
-                >Familiyasy, ady
-                <span class="tooltip" aria-label="Doly adyny ýazmagy unutmaň">?</span></label
-              >
-              <input type="text" id="patient-name" name="patient-name" required />
-            </div>
-            <div class="field-group">
-              <label class="required" for="department"
-                >Bölüm
-                <span class="tooltip" aria-label="Gelen bölümiň ady">?</span></label
-              >
-              <input type="text" id="department" name="department" required />
-            </div>
-            <div class="field-group">
-              <span class="field-label required">Jynsy</span>
-              <div class="option-row">
-                <label><input type="radio" id="gender-male" name="gender" value="Erkek" required /> Erkek</label>
-                <label><input type="radio" id="gender-female" name="gender" value="Aýal" /> Aýal</label>
+      <section class="protocol" aria-label="Barlag protokoly">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Kelle beýniniň MRT</p>
+            <h2>RSNA laýyk maglumat görkezişi</h2>
+            <p class="section-lead">Meýdançalar bloklara bölünip, aýratyn kartlarda ýerleşdirildi.</p>
+          </div>
+          <div id="messages" class="messages" role="alert" aria-live="polite"></div>
+        </div>
+
+        <form id="research-form" class="card">
+          <div class="card-section">
+            <div class="section-title">1. Umumy maglumatlar</div>
+            <div class="form-grid">
+              <div class="field-group">
+                <label class="required" for="research-date">
+                  Barlagyň senesi
+                  <span class="tooltip" aria-label="Şu günki sana awtomatiki goýulýar">?</span></label>
+                <input type="date" id="research-date" name="research-date" required />
+              </div>
+              <div class="field-group">
+                <label class="required" for="patient-name">
+                  Familiyasy, ady
+                  <span class="tooltip" aria-label="Doly adyny ýazmagy unutmaň">?</span></label>
+                <input type="text" id="patient-name" name="patient-name" required />
+              </div>
+              <div class="field-group">
+                <label class="required" for="department">
+                  Bölüm
+                  <span class="tooltip" aria-label="Gelen bölümiň ady">?</span></label>
+                <input type="text" id="department" name="department" required />
+              </div>
+              <div class="field-group">
+                <span class="field-label required">Jynsy</span>
+                <div class="option-row">
+                  <label><input type="radio" id="gender-male" name="gender" value="Erkek" required /> Erkek</label>
+                  <label><input type="radio" id="gender-female" name="gender" value="Aýal" /> Aýal</label>
+                </div>
+              </div>
+              <div class="field-group">
+                <label class="required" for="birth-year">
+                  Doglan ýyly
+                  <span class="tooltip" aria-label="YYYY görnüşinde ýazylýar">?</span></label>
+                <input type="number" id="birth-year" name="birth-year" min="1900" max="2100" required />
+              </div>
+              <div class="field-group">
+                <label for="patient-code">
+                  Näsagyň kody
+                  <span class="tooltip" aria-label="Hasaba alyş belgisi bar bolsa">?</span></label>
+                <input type="text" id="patient-code" name="patient-code" />
               </div>
             </div>
-            <div class="field-group">
-              <label class="required" for="birth-year"
-                >Doglan ýyly
-                <span class="tooltip" aria-label="YYYY görnüşinde ýazylýar">?</span></label
-              >
-              <input type="number" id="birth-year" name="birth-year" min="1900" max="2100" required />
-            </div>
-            <div class="field-group">
-              <label for="patient-code"
-                >Näsagyň kody
-                <span class="tooltip" aria-label="Hasaba alyş belgisi bar bolsa">?</span></label
-              >
-              <input type="text" id="patient-code" name="patient-code" />
-            </div>
-            <div class="field-group">
-              <span class="field-label">Barlag usuly</span>
-              <div class="option-column">
-                <label><input type="checkbox" id="method-t1" name="method" value="T1" /> T1</label>
-                <label><input type="checkbox" id="method-t2" name="method" value="T2" /> T2</label>
-                <label><input type="checkbox" id="method-fla" name="method" value="FLAIR" /> FLAIR</label>
+          </div>
+
+          <div class="card-section">
+            <div class="section-title">2. Barlag akymy</div>
+            <div class="form-grid three-cols">
+              <div class="field-group">
+                <span class="field-label">Barlag usuly</span>
+                <div class="option-column">
+                  <label><input type="checkbox" id="method-t1" name="method" value="T1" /> T1</label>
+                  <label><input type="checkbox" id="method-t2" name="method" value="T2" /> T2</label>
+                  <label><input type="checkbox" id="method-fla" name="method" value="FLAIR" /> FLAIR</label>
+                </div>
+              </div>
+              <div class="field-group">
+                <label for="research-frequency">
+                  Barlag
+                  <span class="tooltip" aria-label="Ilkinji ýa gaýtadan barlagy saýlaň">?</span></label>
+                <select id="research-frequency" name="research-frequency">
+                  <option value="Ilkinji gezek.">Ilkinji gezek.</option>
+                  <option value="Gaýtadan.">Gaýtadan.</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="artifact-notes">
+                  Artefaktlar
+                  <span class="tooltip" aria-label="Hereket ýa metal artefaktlaryny belläň">?</span></label>
+                <select id="artifact-notes" name="artifact-notes">
+                  <option value="Artefaktlar ýok.">Artefaktlar ýok.</option>
+                  <option value="Näsagyň hereket artefaktlary.">Näsagyň hereket artefaktlary.</option>
+                  <option value="Metal artefaktlar.">Metal artefaktlar.</option>
+                </select>
               </div>
             </div>
+          </div>
+
+          <div class="card-section">
+            <div class="section-title">3. Gurluşlar we simmetriýa</div>
+            <div class="form-grid three-cols">
+              <div class="field-group">
+                <label for="skull-shape"><strong>Kelle çanak:</strong></label>
+                <select id="skull-shape" name="skull-shape">
+                  <option value="Mezosefal tipli.">Mezosefal tipli.</option>
+                  <option value="Dolihosefal tipli.">Dolihosefal tipli.</option>
+                  <option value="Brahiosefal tipli.">Brahiosefal tipli.</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="cranial-sutures">Tikinleri:</label>
+                <select id="cranial-sutures" name="cranial-sutures">
+                  <option value="kadaly ýagdaýda.">kadaly ýagdaýda.</option>
+                  <option value="kraniostenoz alamatlary.">kraniostenoz alamatlary.</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="skull-symmetry">Simmetriýa:</label>
+                <select id="skull-symmetry" name="skull-symmetry">
+                  <option value="Simmetrik.">Simmetrik.</option>
+                  <option value="Asimmetrik.">Asimmetrik.</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="cranial-fossa">Kelleçanagyň çukurjuklary:</label>
+                <select id="cranial-fossa" name="cranial-fossa">
+                  <option value="Kadaly.">Kadaly.</option>
+                  <option value="Gysylan.">Gysylan.</option>
+                  <option value="Giňelen.">Giňelen.</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="postoperative-changes">Operasiýadan soňky üýtgemeleri:</label>
+                <select id="postoperative-changes" name="postoperative-changes">
+                  <option value="ýok.">ýok.</option>
+                  <option value="Kraniotomiýa.">Kraniotomiýa.</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="differentiation"><strong>Ak we çal maddanyň differensasiýasy:</strong></label>
+                <select id="differentiation" name="differentiation">
+                  <option value="aýdyň. Ojaklaýyn üýtgemeleri bellenmeýär.">aýdyň. Ojaklaýyn üýtgemeleri bellenmeýär.</option>
+                  <option value="ojaklaýyn üýtgemelri anyklanýar.">ojaklaýyn üýtgemelri anyklanýar.</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="heterotopia">Geterotopiýa:</label>
+                <select id="heterotopia" name="heterotopia">
+                  <option value="bellenmeýar.">bellenmeýar.</option>
+                  <option value="bellenýär.">bellenýär.</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="hippocampus-symmetry">Gippokamp simmetriýasy:</label>
+                <select id="hippocampus-symmetry" name="hippocampus-symmetry">
+                  <option value="Simmetrik.">Simmetrik.</option>
+                  <option value="Asimmetrik.">Asimmetrik.</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="hippocampus-lesions">Gippokampdaky ojaklar:</label>
+                <select id="hippocampus-lesions" name="hippocampus-lesions">
+                  <option value="ojaklaýyn üýtgeşme ýok.">ojaklaýyn üýtgeşme ýok.</option>
+                  <option value="ojaklaýyn üýtgeşme bar.">ojaklaýyn üýtgeşme bar.</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-section two-cols">
             <div class="field-group">
-              <label for="research-frequency"
-                >Barlag
-                <span class="tooltip" aria-label="Ilkinji ýa gaýtadan barlagy saýlaň">?</span></label
-              >
-              <select id="research-frequency" name="research-frequency">
-                <option value="Ilkinji gezek.">Ilkinji gezek.</option>
-                <option value="Gaýtadan.">Gaýtadan.</option>
-              </select>
+              <label for="parenchyma-changes">Beýni parenhimasynyň ojaklaýyn üýtgemeleri:</label>
+              <textarea id="parenchyma-changes" name="parenchyma-changes" rows="3" placeholder="Degişli bellikler"></textarea>
             </div>
             <div class="field-group">
-              <label for="artifact-notes"
-                >Artefaktlar
-                <span class="tooltip" aria-label="Hereket ýa metal artefaktlaryny belläň">?</span></label
-              >
-              <select id="artifact-notes" name="artifact-notes">
-                <option value="Artefaktlar ýok.">Artefaktlar ýok.</option>
-                <option value="Näsagyň hereket artefaktlary.">Näsagyň hereket artefaktlary.</option>
-                <option value="Metal artefaktlar.">Metal artefaktlar.</option>
-              </select>
+              <label for="liquor-spaces">Likwor saklaýan giňişlikler:</label>
+              <textarea id="liquor-spaces" name="liquor-spaces" rows="3" placeholder="Degişli bellikler"></textarea>
             </div>
           </div>
 
-          <h2>Barlag protokoly:</h2>
-          <div class="field-group">
-            <label for="skull-shape"><strong>Kelle çanak:</strong></label>
-            <select id="skull-shape" name="skull-shape">
-              <option value="Mezosefal tipli.">Mezosefal tipli.</option>
-              <option value="Dolihosefal tipli.">Dolihosefal tipli.</option>
-              <option value="Brahiosefal tipli.">Brahiosefal tipli.</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label for="cranial-sutures">Tikinleri:</label>
-            <select id="cranial-sutures" name="cranial-sutures">
-              <option value="kadaly ýagdaýda.">kadaly ýagdaýda.</option>
-              <option value="kraniostenoz alamatlary.">kraniostenoz alamatlary.</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label for="skull-symmetry">Simmetriýa:</label>
-            <select id="skull-symmetry" name="skull-symmetry">
-              <option value="Simmetrik.">Simmetrik.</option>
-              <option value="Asimmetrik.">Asimmetrik.</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label for="cranial-fossa">Kelleçanagyň çukurjuklary:</label>
-            <select id="cranial-fossa" name="cranial-fossa">
-              <option value="Kadaly.">Kadaly.</option>
-              <option value="Gysylan.">Gysylan.</option>
-              <option value="Giňelen.">Giňelen.</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label for="postoperative-changes">Operasiýadan soňky üýtgemeleri:</label>
-            <select id="postoperative-changes" name="postoperative-changes">
-              <option value="ýok.">ýok.</option>
-              <option value="Kraniotomiýa.">Kraniotomiýa.</option>
-            </select>
+          <div class="card-section two-cols">
+            <div class="field-group">
+              <label class="required" for="conclusion">
+                Netije
+                <span class="tooltip" aria-label="Esasy netijeleri gysgaça jemläň">?</span></label>
+              <textarea id="conclusion" name="conclusion" rows="3" required></textarea>
+            </div>
+            <div class="field-group">
+              <label class="required" for="advice">
+                Maslahat
+                <span class="tooltip" aria-label="Goýmalar we gözegçilik boýunça bellikler">?</span></label>
+              <textarea id="advice" name="advice" rows="3" required></textarea>
+            </div>
           </div>
 
-          <div class="field-group">
-            <label for="differentiation"><strong>Ak we çal maddanyň differensasiýasy:</strong></label>
-            <select id="differentiation" name="differentiation">
-              <option value="aýdyň. Ojaklaýyn üýtgemeleri bellenmeýär.">aýdyň. Ojaklaýyn üýtgemeleri bellenmeýär.</option>
-              <option value="ojaklaýyn üýtgemelri anyklanýar.">ojaklaýyn üýtgemelri anyklanýar.</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label for="heterotopia">Geterotopiýa:</label>
-            <select id="heterotopia" name="heterotopia">
-              <option value="bellenmeýar.">bellenmeýar.</option>
-              <option value="bellenýär.">bellenýär.</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label for="hippocampus-symmetry">Gippokamp simmetriýasy:</label>
-            <select id="hippocampus-symmetry" name="hippocampus-symmetry">
-              <option value="Simmetrik.">Simmetrik.</option>
-              <option value="Asimmetrik.">Asimmetrik.</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label for="hippocampus-lesions">Gippokampdaky ojaklar:</label>
-            <select id="hippocampus-lesions" name="hippocampus-lesions">
-              <option value="ojaklaýyn üýtgeşme ýok.">ojaklaýyn üýtgeşme ýok.</option>
-              <option value="ojaklaýyn üýtgeşme bar.">ojaklaýyn üýtgeşme bar.</option>
-            </select>
-          </div>
-
-          <div class="field-group">
-            <label for="parenchyma-changes">Beýni parenhimasynyň ojaklaýyn üýtgemeleri:</label>
-            <textarea id="parenchyma-changes" name="parenchyma-changes" rows="3" placeholder="Degişli bellikler"></textarea>
-          </div>
-          <div class="field-group">
-            <label for="liquor-spaces">Likwor saklaýan giňişlikler:</label>
-            <textarea id="liquor-spaces" name="liquor-spaces" rows="3" placeholder="Degişli bellikler"></textarea>
-          </div>
-          <div class="field-group">
-            <label class="required" for="conclusion"
-              >Netije
-              <span class="tooltip" aria-label="Esasy netijeleri gysgaça jemläň">?</span></label
-            >
-            <textarea id="conclusion" name="conclusion" rows="3" required></textarea>
-          </div>
-          <div class="field-group">
-            <label class="required" for="advice"
-              >Maslahat
-              <span class="tooltip" aria-label="Goýmalar we gözegçilik boýunça bellikler">?</span></label
-            >
-            <textarea id="advice" name="advice" rows="3" required></textarea>
-          </div>
-          <div class="field-group">
-            <label class="required" for="doctor"
-              >Lukman
-              <span class="tooltip" aria-label="Gol çekýän lukmanyň F.A. ýazylýar">?</span></label
-            >
-            <input type="text" id="doctor" name="doctor" required />
-          </div>
-
-          <div class="form-actions">
-            <button type="submit">Hasabat döret</button>
-            <button type="button" id="saveWord">Word görnüşde ýükle</button>
+          <div class="card-section">
+            <div class="form-grid">
+              <div class="field-group">
+                <label class="required" for="doctor">
+                  Lukman
+                  <span class="tooltip" aria-label="Gol çekýän lukmanyň F.A. ýazylýar">?</span></label>
+                <input type="text" id="doctor" name="doctor" required />
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit">Hasabat döret</button>
+              <button type="button" id="saveWord">Word görnüşde ýükle</button>
+            </div>
           </div>
         </form>
 
-        <div class="result-actions" aria-label="Netijä ugradyşlary">
-          <button type="button" id="copyReport" disabled>Nusgany göçür</button>
+        <div class="result-card" aria-label="Netije">
+          <div class="result-actions" aria-label="Netijä ugradyşlary">
+            <button type="button" id="copyReport" disabled>Nusgany göçür</button>
+          </div>
+          <div id="result" class="result" aria-live="polite"></div>
         </div>
-
-        <div id="result" class="result" aria-live="polite"></div>
 
         <div class="tab-container" aria-label="Gysga görkezmeler">
           <div class="tab-list" role="tablist">
@@ -226,7 +272,7 @@
                   Häsiýetnamasy:
                   <ul>
                     <li>Etiologiýasy (posttravmatik, operasiýadan soňky we ş.m.).</li>
-                    <li>Sany: Ýeketäk / köpetäk (>__ ).</li>
+                    <li>Sany: Ýeketäk / köpetäk (&gt;__ ).</li>
                     <li>Ölçegleri (üç tekizde), görnüşi.</li>
                     <li>Fazekas boýunça: 0–3.</li>
                   </ul>
@@ -374,7 +420,7 @@
                 Esasy tapyndylar:
                 <ul>
                   <li>Ojaklaýyn üýtgemeleriň, göwrümli döremeleriň, damaryň anomaliýalarynyň barlygy ýa-da ýokdugy.</li>
-                  <li>Dinamika (öňki barlag bilen deňeşdirme).</li>
+                  <li>Dinamika (öňki barlag bilen deňeşdirme).
                 </ul>
               </li>
               <li>Maslahatlar: Zerur bolsa – hünärmen maslahaty, gözegçilik.</li>
@@ -384,7 +430,7 @@
             <p>Senesi: __________</p>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   </body>
 </html>

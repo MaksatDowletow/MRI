@@ -1,14 +1,11 @@
  <!DOCTYPE html>
-<html lang="ru">
+<html lang="tk">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>KELLE BEÝNINIŇ MRT BARLAGY</title>
     <link rel="stylesheet" href="styles.css" />
-    <script src="https://cdn.jsdelivr.net/npm/pizzip@3.1.6/dist/pizzip.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/docxtemplater@3.42.0/build/docxtemplater.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <!-- Порядок важен: сначала Pizzip, потом docxtemplater -->
     <script defer src="script.js"></script>
     <script defer src="saveWord.js"></script>
   </head>
@@ -207,180 +204,180 @@
 
         <div id="result" class="result" aria-live="polite"></div>
 
-        <div class="tab-container" aria-label="Кыскача görkezmeler">
+        <div class="tab-container" aria-label="Gysga görkezmeler">
           <div class="tab-list" role="tablist">
-            <button role="tab" aria-selected="true" class="tab active" data-tab="focal">2.3. Очаговые</button>
+            <button role="tab" aria-selected="true" class="tab active" data-tab="focal">2.3. Ojaklaýyn</button>
             <button role="tab" aria-selected="false" class="tab" data-tab="dynamics">2.4–2.6</button>
             <button role="tab" aria-selected="false" class="tab" data-tab="spaces">2.7–2.9</button>
             <button role="tab" aria-selected="false" class="tab" data-tab="others">2.10–3</button>
           </div>
 
           <div class="tab-panel active" id="tab-focal" role="tabpanel">
-            <h3>2.3. Очаговые изменения</h3>
+            <h3>2.3. Ojaklaýyn üýtgemeler</h3>
             <details open>
-              <summary>А. Дисциркуляторные очаги</summary>
+              <summary>A. Diskirkulýator ojaklar</summary>
               <ul>
-                <li>Локализация: Белое/серое вещество, граница, ствол, мозжечок.</li>
+                <li>Lokalizasiýasy: Ak/çal madda, araçäk, beýni sütüni, beýnijik.</li>
                 <li>
-                  Характеристики:
+                  Häsiýetnamasy:
                   <ul>
-                    <li>Этиология (посттравматические, послеоперационные и др.).</li>
-                    <li>Количество: Единичные / Множественные (более __).</li>
-                    <li>Размеры (в трёх плоскостях), форма.</li>
-                    <li>Шкала Fazekas: 0–3.</li>
+                    <li>Etiologiýasy (posttravmatik, operasiýadan soňky we ş.m.).</li>
+                    <li>Sany: Ýeketäk / köpetäk (>__ ).</li>
+                    <li>Ölçegleri (üç tekizde), görnüşi.</li>
+                    <li>Fazekas boýunça: 0–3.</li>
                   </ul>
                 </li>
               </ul>
             </details>
             <details>
-              <summary>Б. Очаги гемосидероза</summary>
+              <summary>B. Gemosideroz ojaklary</summary>
               <ul>
-                <li>Локализация.</li>
-                <li>Характеристики: Количество, размеры, форма.</li>
+                <li>Lokalizasiýasy.</li>
+                <li>Häsiýetnamasy: Sany, ölçegi, görnüşi.</li>
               </ul>
             </details>
             <details>
-              <summary>В. Очаги геморрагии</summary>
+              <summary>C. Ganakma ojaklary</summary>
               <ul>
                 <li>
-                  Внутримозговые:
+                  Beýniniň içinde:
                   <ul>
-                    <li>Стадия (свежие/лизирующиеся), перифокальный отёк, размеры.</li>
+                    <li>Tapgyr (täze/rezorbsýa), perifokal şiş, ölçegleri.</li>
                   </ul>
                 </li>
                 <li>
-                  Внемозговые:
+                  Beýni daşky:
                   <ul>
-                    <li>Локализация (субдуральная/эпидуральная), толщина, распространение.</li>
-                    <li>Шкала ASPECTS: __.</li>
+                    <li>Lokalizasiýasy (subdural/epidural), galyňlygy, ýaýramagy.</li>
+                    <li>ASPECTS boýunça: __.</li>
                   </ul>
                 </li>
               </ul>
             </details>
             <details>
-              <summary>Г. Очаги гипергидратации</summary>
+              <summary>Ç. Gipergidratasiýa ojaklary</summary>
               <ul>
-                <li>Этиология: ЧМТ, понтинный миелинолиз и др.</li>
-                <li>Локализация, симметричность, масс-эффект, накопление контраста.</li>
+                <li>Etiologiýasy: KÇT, pontin mielinoliz we ş.m.</li>
+                <li>Lokalizasiýasy, simmetriýasy, massa-effekti, kontrast toplama.</li>
               </ul>
             </details>
             <details>
-              <summary>Д. Очаги на ДВИ</summary>
+              <summary>D. DWI-da ojaklar</summary>
               <ul>
-                <li>Наличие, локализация, размеры, форма.</li>
+                <li>Bardygy, lokalizasiýasy, ölçegleri, görnüşi.</li>
               </ul>
             </details>
           </div>
 
           <div class="tab-panel" id="tab-dynamics" role="tabpanel" hidden>
-            <h3>2.4. Динамика и контрастирование</h3>
+            <h3>2.4. Dinamika we kontrast toplama</h3>
             <ul>
               <li>
-                Сравнение с предыдущим исследованием: Новые очаги (локализация, размеры).
+                Öňki barlag bilen deňeşdirme: Täze ojaklar (lokalizasiýasy, ölçegleri).
               </li>
               <li>
-                Контраст: Введено ___ мл [препарат]. Патологического накопления не выявлено.
+                Kontrast: ___ ml [preparat] berildi. Patologiki toplanma anyklanmaýar.
               </li>
             </ul>
-            <h3>2.5. Кисты</h3>
+            <h3>2.5. Kistalar</h3>
             <ul>
-              <li>Тип: Первичные / Вторичные (постгеморрагические, арахноидальные и др.).</li>
+              <li>Görnüşi: Ilkinji / Ikinji (postgemorragik, arahnoidal we ş.m.).</li>
               <li>
-                Характеристики:
+                Häsiýetnamasy:
                 <ul>
-                  <li>Локализация, размеры, форма.</li>
-                  <li>Наличие ободка гемосидероза, перифокального отёка, компрессии.</li>
+                  <li>Lokalizasiýasy, ölçegi, görnüşi.</li>
+                  <li>Gemosideroz halkasynyň, perifokal şişiň, kompressiýanyň barlygy.</li>
                 </ul>
               </li>
             </ul>
-            <h3>2.6. Объёмные образования</h3>
+            <h3>2.6. Göwrümli döremeler</h3>
             <ul>
-              <li>Локализация: Анатомическая и функциональная область.</li>
+              <li>Lokalizasiýasy: Anatomiki we funksional sebit.</li>
               <li>
-                Характеристики:
+                Häsiýetnamasy:
                 <ul>
-                  <li>Размеры, контуры, масс-эффект, инвазия, накопление контраста.</li>
+                  <li>Ölçegleri, kontury, massa-effekti, invaziýasy, kontrast toplama.</li>
                 </ul>
               </li>
             </ul>
           </div>
 
           <div class="tab-panel" id="tab-spaces" role="tabpanel" hidden>
-            <h3>2.7. Ликворные пространства</h3>
+            <h3>2.7. Likwor giňişlikleri</h3>
             <ul>
               <li>
-                Желудочки:
+                Garynjyklar:
                 <ul>
-                  <li>Размеры, симметрия, индекс боковых желудочков.</li>
-                  <li>Форма (баллонообразная и др.).</li>
+                  <li>Ölçegleri, simmetriýasy, ýan garynjyk indeksleri.</li>
+                  <li>Görnüşi (meselen, balon şekilli we ş.m.).</li>
                 </ul>
               </li>
-              <li>Субарахноидальные борозды: Расширение / сглаженность.</li>
-              <li>Перивентрикулярный лейкоареоз: Степень выраженности.</li>
+              <li>Subarahnoidal ýaralary: Giňelme / tekizlenme.</li>
+              <li>Periwentrikulýar leýkoareoz: Aňlatma derejesi.</li>
             </ul>
-            <h3>2.8. Сосудистые структуры</h3>
+            <h3>2.8. Damarly gurluşlar</h3>
             <ul>
               <li>
-                Артерии: Виллизиев круг (замкнут/разомкнут), патологии (аневризмы, стенозы).
+                Arteriýalar: Willisiý dolanyşygy (ýapyk/ýapyk däl), patologiki üýtgeşmeler (anevrizmalar, stenozy).
               </li>
-              <li>Вены: Расширение, аномалии хода.</li>
+              <li>Wenalar: Giňelme, ugrunyň anomaliýasy.</li>
             </ul>
-            <h3>2.9. Гипофиз и селлярная область</h3>
+            <h3>2.9. Gipofiz we sellýar sebiti</h3>
             <ul>
-              <li>Турецкое седло: Форма, размеры, послеоперационные изменения.</li>
+              <li>Türk eýeri: Görnüşi, ölçegi, operasiýadan soňky üýtgemeler.</li>
               <li>
-                Гипофиз:
+                Gipofiz:
                 <ul>
-                  <li>Размеры (сагиттальный, коронарный, аксиальный).</li>
-                  <li>Структура (дифференциация адено-/нейрогипофиза, узлы).</li>
+                  <li>Ölçegleri (sagittal, koronar, aksiýal).</li>
+                  <li>Gurluşy (adeno-/neýrogipofiziň differensasiýasy, düwünler).</li>
                 </ul>
               </li>
-              <li>Динамическое контрастирование: Отсутствие патологии.</li>
+              <li>Dinamiki kontrastlama: Patologiýa ýok.</li>
             </ul>
           </div>
 
           <div class="tab-panel" id="tab-others" role="tabpanel" hidden>
-            <h3>2.10. Орбиты</h3>
+            <h3>2.10. Orbitlar</h3>
             <ul>
-              <li>Глазные яблоки: Размеры, структура.</li>
-              <li>Зрительные нервы: Ход, толщина.</li>
-              <li>Мышцы и сосуды: Без патологий.</li>
+              <li>Göz almalary: Ölçegi, gurluşy.</li>
+              <li>Görnüş nerwleri: Ugry, galyňlygy.</li>
+              <li>Muskullar we damarlary: Patologiýasyz.</li>
             </ul>
-            <h3>2.11. Мозжечок и стволовые структуры</h3>
-            <ul>
-              <li>
-                Мозжечок:
-                <ul>
-                  <li>Симметрия, гипоплазия/дисплазия, борозды.</li>
-                </ul>
-              </li>
-              <li>Ствол мозга: Без особенностей.</li>
-            </ul>
-            <h3>2.12. Костные структуры</h3>
-            <ul>
-              <li>Череп: Без деструкций.</li>
-              <li>Височные кости: Структура, слуховые проходы.</li>
-            </ul>
-            <h3>2.13. Дополнительные наблюдения</h3>
-            <ul>
-              <li>Периваскулярные пространства: Расширены / норма.</li>
-              <li>Лимфоидная ткань: Гипертрофия глоточной миндалины (аденоиды __ степени).</li>
-            </ul>
-            <hr />
-            <h2>3. Заключение</h2>
+            <h3>2.11. Beýnijik we beýni sütüni</h3>
             <ul>
               <li>
-                Основные находки:
+                Beýnijik:
                 <ul>
-                  <li>Отсутствие/наличие очаговых изменений, объёмных образований, сосудистых аномалий.</li>
-                  <li>Динамика (при сравнении с предыдущими исследованиями).</li>
+                  <li>Simmetriýa, gipoplaziýa/displaziýa, ýaralaryň görnüşi.</li>
                 </ul>
               </li>
-              <li>Рекомендации: При необходимости — консультация специалиста, контроль.</li>
+              <li>Beýni sütüni: Aýratynlyksyz.</li>
+            </ul>
+            <h3>2.12. Süňk gurluşlar</h3>
+            <ul>
+              <li>Kelle süňki: Destruksiýasyz.</li>
+              <li>Wagtlaýyn süňkler: Gurluşy, eşidiş ýollary.</li>
+            </ul>
+            <h3>2.13. Goşmaça bellikler</h3>
+            <ul>
+              <li>Periwaskulýar giňişlikler: Giňelme / kadaly.</li>
+              <li>Limfoid dokuma: Damak badamasynyň gipertrofiýasy (adenoid __ derejesi).</li>
             </ul>
             <hr />
-            <p>Подпись врача: __________</p>
-            <p>Дата: __________</p>
+            <h2>3. Netije</h2>
+            <ul>
+              <li>
+                Esasy tapyndylar:
+                <ul>
+                  <li>Ojaklaýyn üýtgemeleriň, göwrümli döremeleriň, damaryň anomaliýalarynyň barlygy ýa-da ýokdugy.</li>
+                  <li>Dinamika (öňki barlag bilen deňeşdirme).</li>
+                </ul>
+              </li>
+              <li>Maslahatlar: Zerur bolsa – hünärmen maslahaty, gözegçilik.</li>
+            </ul>
+            <hr />
+            <p>Lukmanyň goly: __________</p>
+            <p>Senesi: __________</p>
           </div>
         </div>
       </div>

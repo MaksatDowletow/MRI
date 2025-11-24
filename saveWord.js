@@ -4,10 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     saveButton.addEventListener('click', async function() {
         try {
-            if (typeof PizZip === 'undefined' || typeof docxtemplater === 'undefined') {
-                throw new Error("Библиотеки не загружены. Проверьте консоль браузера.");
-            }
-
             const genderInput = document.querySelector('input[name="gender"]:checked');
             const methods = Array.from(document.querySelectorAll('input[name="method"]:checked')).map(el => el.value).join(', ');
 
@@ -37,26 +33,52 @@ document.addEventListener('DOMContentLoaded', function() {
                 doctor: document.getElementById('doctor')?.value || ''
             };
 
-            console.log("Form Data:", formData);
+            const htmlContent = `<!DOCTYPE html>
+                <html lang="tk">
+                  <head>
+                    <meta charset="UTF-8" />
+                    <title>MRT hasabaty</title>
+                    <style>
+                      body { font-family: 'Arial', sans-serif; line-height: 1.5; }
+                      h1 { text-align: center; }
+                      .section { margin: 12px 0; }
+                      .label { font-weight: bold; }
+                    </style>
+                  </head>
+                  <body>
+                    <h1>KELLE BEÝNINIŇ MRT BARLAGY</h1>
+                    <div class="section"><span class="label">Barlagyň senesi:</span> ${formData.date}</div>
+                    <div class="section"><span class="label">Familiyasy, ady:</span> ${formData.patientName}</div>
+                    <div class="section"><span class="label">Bölüm:</span> ${formData.department}</div>
+                    <div class="section"><span class="label">Jynsy:</span> ${formData.gender}</div>
+                    <div class="section"><span class="label">Doglan ýyly:</span> ${formData.birthYear}</div>
+                    <div class="section"><span class="label">Näsagyň kody:</span> ${formData.patientCode}</div>
+                    <div class="section"><span class="label">Barlag usuly:</span> ${methods || '—'}</div>
+                    <div class="section"><span class="label">Barlagyň gaýtalanmasy:</span> ${formData.researchFrequency}</div>
+                    <div class="section"><span class="label">Artefaktlar:</span> ${formData.artifactNotes}</div>
+                    <div class="section"><span class="label">Kelle çanagy:</span> ${formData.skullShape}</div>
+                    <div class="section"><span class="label">Tikinleri:</span> ${formData.cranialSutures}</div>
+                    <div class="section"><span class="label">Simmetriýa:</span> ${formData.skullSymmetry}</div>
+                    <div class="section"><span class="label">Kelleçanagyň çukurjuklary:</span> ${formData.cranialFossa}</div>
+                    <div class="section"><span class="label">Operasiýadan soňky üýtgemeleri:</span> ${formData.postoperativeChanges}</div>
+                    <div class="section"><span class="label">Ak we çal maddanyň differensasiýasy:</span> ${formData.differentiation}</div>
+                    <div class="section"><span class="label">Geterotopiýa:</span> ${formData.heterotopia}</div>
+                    <div class="section"><span class="label">Gippokamp simmetriýasy:</span> ${formData.hippocampusSymmetry}</div>
+                    <div class="section"><span class="label">Gippokampdaky ojaklar:</span> ${formData.hippocampusLesions}</div>
+                    <div class="section"><span class="label">Beýni parenhimasynyň ojaklaýyn üýtgemeleri:</span><br/>${formData.parenchymaChanges || '—'}</div>
+                    <div class="section"><span class="label">Likwor saklaýan giňişlikler:</span><br/>${formData.liquorSpaces || '—'}</div>
+                    <div class="section"><span class="label">Netije:</span><br/>${formData.conclusion}</div>
+                    <div class="section"><span class="label">Maslahat:</span><br/>${formData.advice}</div>
+                    <div class="section"><span class="label">Lukman:</span> ${formData.doctor}</div>
+                  </body>
+                </html>`;
 
-            const response = await fetch("template.docx");
-            if (!response.ok) throw new Error("Ошибка загрузки шаблона: " + response.status);
-
-            const buffer = await response.arrayBuffer();
-            const zip = new PizZip(buffer);
-
-            const doc = new docxtemplater();
-            doc.loadZip(zip);
-
-            doc.setData(formData);
-            doc.render();
-
-            const out = doc.getZip().generate({ type: "blob" });
-            saveAs(out, `report_${new Date().toISOString()}.docx`);
+            const blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword;charset=utf-8' });
+            saveAs(blob, `mrt_hasabaty_${new Date().toISOString().slice(0, 10)}.doc`);
 
         } catch(error) {
-            console.error("Ошибка:", error);
-            alert("Ошибка генерации документа: " + error.message);
+            console.error("Ýalňyşlyk:", error);
+            alert("Resminama döretmekde ýalňyşlyk: " + error.message);
         }
     });
 });

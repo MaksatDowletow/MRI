@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>KELLE BEÝNINIŇ MRT BARLAGY</title>
     <link rel="stylesheet" href="styles.css" />
-    <!-- Removed JSZip reference -->
+    <script src="https://cdn.jsdelivr.net/npm/pizzip@3.1.6/dist/pizzip.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/docxtemplater@3.42.0/build/docxtemplater.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <!-- Порядок важен: сначала Pizzip, потом docxtemplater -->
@@ -23,93 +23,157 @@
    <div class="container">
       <div class="protocol">
         <h1>KELLE BEÝNINIŇ MRT BARLAGY</h1>
- 
-<form id="research-form">
-  <label for="research-date">Barlagyň senesi:</label>
-  <input type="date" id="research-date" name="research-date">
-</form>
-<script>
-  document.getElementById('research-date').value = new Date().toISOString().split('T')[0];
-</script>
-           <p>Barlag:
-            <select id="research-type-1">
-              <option value="Первичное">Ilkinji gezek.</option>
-              <option value="Повторное">
-                Gaýtadan.
-              </option>
-            </select>
-           
-        Artefaktlar:
-            <select id="research-type-2">
-              <option value="Без артефактов.">Artefaktlar ýok.</option>
-              <option value="Артефакты от движения пациента.">
-                Näsagyň hereket artefaktlary.
-              </option>
-              <option value="Артефакты от металлических объектов.">
-                Metal artefaktlar.
-              </option>
-            </select>
-           </span>
-             </p>
-        <h2>Barlag protokoly:</h2>
-        <p><strong>Kelle çanak:</strong>
-          <select id="research-type">
-          <option value="Мезоцефалическая.">Mezosefal tipli.</option>
-          <option value="Долихоцефалическая.">Dolihosefal tipli.</option>
-          <option value="Брахиоцефалическая">Brahiosefal tipli.</option>
-        </select>
-        Tikinlri:<select id="research-type">
-            <option value="Без признаков краниостеноза.">
-                kadaly ýagdaýda.
-              </option>
-            <option value="Признаки краниостеноза.">
-            kraniostenoz alamatlary.
-          </option>
-        </select>
-        Simmetriýa:<select id="research-type">
-          <option value="Симметричная.">simmetrik.</option>
-          <option value="Асимметричная.">Asimmetrik.</option>
-        </select>
 
-        Kelleçanagyň çukurjuklary:<select id="research-type">
-          <option value="Нормальные.">kadaly.</option>
-          <option value="Тесные.">gysylan.</option>
-          <option value="Расширены.">giňelen.</option>
-        </select>
+        <form id="research-form">
+          <div class="form-grid">
+            <div class="field-group">
+              <label for="research-date">Barlagyň senesi:</label>
+              <input type="date" id="research-date" name="research-date" required />
+            </div>
+            <div class="field-group">
+              <label for="patient-name">Familiyasy, ady:</label>
+              <input type="text" id="patient-name" name="patient-name" required />
+            </div>
+            <div class="field-group">
+              <label for="department">Bölüm:</label>
+              <input type="text" id="department" name="department" required />
+            </div>
+            <div class="field-group">
+              <span class="field-label">Jynsy:</span>
+              <div class="option-row">
+                <label><input type="radio" id="gender-male" name="gender" value="Erkek" required /> Erkek</label>
+                <label><input type="radio" id="gender-female" name="gender" value="Aýal" /> Aýal</label>
+              </div>
+            </div>
+            <div class="field-group">
+              <label for="birth-year">Doglan ýyly:</label>
+              <input type="number" id="birth-year" name="birth-year" min="1900" max="2100" required />
+            </div>
+            <div class="field-group">
+              <label for="patient-code">Näsagyň kody:</label>
+              <input type="text" id="patient-code" name="patient-code" />
+            </div>
+            <div class="field-group">
+              <span class="field-label">Barlag usuly:</span>
+              <div class="option-column">
+                <label><input type="checkbox" id="method-t1" name="method" value="T1" /> T1</label>
+                <label><input type="checkbox" id="method-t2" name="method" value="T2" /> T2</label>
+                <label><input type="checkbox" id="method-fla" name="method" value="FLAIR" /> FLAIR</label>
+              </div>
+            </div>
+            <div class="field-group">
+              <label for="research-frequency">Barlag:</label>
+              <select id="research-frequency" name="research-frequency">
+                <option value="Ilkinji gezek.">Ilkinji gezek.</option>
+                <option value="Gaýtadan.">Gaýtadan.</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label for="artifact-notes">Artefaktlar:</label>
+              <select id="artifact-notes" name="artifact-notes">
+                <option value="Artefaktlar ýok.">Artefaktlar ýok.</option>
+                <option value="Näsagyň hereket artefaktlary.">Näsagyň hereket artefaktlary.</option>
+                <option value="Metal artefaktlar.">Metal artefaktlar.</option>
+              </select>
+            </div>
+          </div>
 
-        Operasiýadan soňky üýtgemeleri:
-        <select id="postoperative-changes">
-          <option value="Отсутствуют.">ýok.</option>
-          <option value="Краниотомия.">Kraniotomiýa.</option>
-        </select> </p>
+          <h2>Barlag protokoly:</h2>
+          <div class="field-group">
+            <label for="skull-shape"><strong>Kelle çanak:</strong></label>
+            <select id="skull-shape" name="skull-shape">
+              <option value="Mezosefal tipli.">Mezosefal tipli.</option>
+              <option value="Dolihosefal tipli.">Dolihosefal tipli.</option>
+              <option value="Brahiosefal tipli.">Brahiosefal tipli.</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="cranial-sutures">Tikinleri:</label>
+            <select id="cranial-sutures" name="cranial-sutures">
+              <option value="kadaly ýagdaýda.">kadaly ýagdaýda.</option>
+              <option value="kraniostenoz alamatlary.">kraniostenoz alamatlary.</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="skull-symmetry">Simmetriýa:</label>
+            <select id="skull-symmetry" name="skull-symmetry">
+              <option value="Simmetrik.">Simmetrik.</option>
+              <option value="Asimmetrik.">Asimmetrik.</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="cranial-fossa">Kelleçanagyň çukurjuklary:</label>
+            <select id="cranial-fossa" name="cranial-fossa">
+              <option value="Kadaly.">Kadaly.</option>
+              <option value="Gysylan.">Gysylan.</option>
+              <option value="Giňelen.">Giňelen.</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="postoperative-changes">Operasiýadan soňky üýtgemeleri:</label>
+            <select id="postoperative-changes" name="postoperative-changes">
+              <option value="ýok.">ýok.</option>
+              <option value="Kraniotomiýa.">Kraniotomiýa.</option>
+            </select>
+          </div>
 
-        <p><strong>Ak we çal maddanyň differensasiýasy: </>
-                  <select id="postoperative-changes">
-              <option value="Отчетливая, без очаговых изменений.">
-                aýdyň. Ojaklaýyn üýtgmeleri bellenmeýär.
-              </option>
-              <option value="Не Отчетливая, с очаговымы изменениями.">
-                ojaklaýyn üýtgemelri anyklanýar.
-              </option>
+          <div class="field-group">
+            <label for="differentiation"><strong>Ak we çal maddanyň differensasiýasy:</strong></label>
+            <select id="differentiation" name="differentiation">
+              <option value="aýdyň. Ojaklaýyn üýtgemeleri bellenmeýär.">aýdyň. Ojaklaýyn üýtgemeleri bellenmeýär.</option>
+              <option value="ojaklaýyn üýtgemelri anyklanýar.">ojaklaýyn üýtgemelri anyklanýar.</option>
             </select>
-        Geterotopiýa:
-            <select id="postoperative-changes">
-              <option value="Отсутствует.">bellenmeýar.</option>
-              <option value="Присутствует.">bellenýär.</option>
+          </div>
+          <div class="field-group">
+            <label for="heterotopia">Geterotopiýa:</label>
+            <select id="heterotopia" name="heterotopia">
+              <option value="bellenmeýar.">bellenmeýar.</option>
+              <option value="bellenýär.">bellenýär.</option>
             </select>
-        Гиппокамп:
-            <select id="postoperative-changes">
-              <option value="Симметричный.">Симметричный.</option>
-              <option value="Асимметричный.">Асимметричный.</option>
+          </div>
+          <div class="field-group">
+            <label for="hippocampus-symmetry">Gippokamp simmetriýasy:</label>
+            <select id="hippocampus-symmetry" name="hippocampus-symmetry">
+              <option value="Simmetrik.">Simmetrik.</option>
+              <option value="Asimmetrik.">Asimmetrik.</option>
             </select>
-            <select id="postoperative-changes">
-              <option value="очаговые изменения нет.">
-                очаговые изменения нет.
-              </option>
-              <option value="очаговые изменения есть.">
-                очаговые изменения есть.
-              </option>
+          </div>
+          <div class="field-group">
+            <label for="hippocampus-lesions">Gippokampdaky ojaklar:</label>
+            <select id="hippocampus-lesions" name="hippocampus-lesions">
+              <option value="ojaklaýyn üýtgeşme ýok.">ojaklaýyn üýtgeşme ýok.</option>
+              <option value="ojaklaýyn üýtgeşme bar.">ojaklaýyn üýtgeşme bar.</option>
             </select>
+          </div>
+
+          <div class="field-group">
+            <label for="parenchyma-changes">Beýni parenhimasynyň ojaklaýyn üýtgemeleri:</label>
+            <textarea id="parenchyma-changes" name="parenchyma-changes" rows="3" placeholder="Degişli bellikler"></textarea>
+          </div>
+          <div class="field-group">
+            <label for="liquor-spaces">Likwor saklaýan giňişlikler:</label>
+            <textarea id="liquor-spaces" name="liquor-spaces" rows="3" placeholder="Degişli bellikler"></textarea>
+          </div>
+          <div class="field-group">
+            <label for="conclusion">Netije:</label>
+            <textarea id="conclusion" name="conclusion" rows="3" required></textarea>
+          </div>
+          <div class="field-group">
+            <label for="advice">Maslahat:</label>
+            <textarea id="advice" name="advice" rows="3" required></textarea>
+          </div>
+          <div class="field-group">
+            <label for="doctor">Lukman:</label>
+            <input type="text" id="doctor" name="doctor" required />
+          </div>
+
+          <div class="form-actions">
+            <button type="submit">Hasabat döret</button>
+            <button type="button" id="saveWord">Word görnüşde ýükle</button>
+          </div>
+        </form>
+
+        <div id="result" class="result" aria-live="polite"></div>
         <h3>2.3. Очаговые изменения</h3>
         <h4>А. Дисциркуляторные очаги</h4>
         <ul>

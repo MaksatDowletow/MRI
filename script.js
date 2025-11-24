@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('research-form');
     const dateInput = document.getElementById('research-date');
     const tabs = document.querySelectorAll('.tab');
+    const copyButton = document.getElementById('copyReport');
 
     ensureMessageContainer();
 
@@ -20,6 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         renderSummary();
     });
+
+    if (copyButton) {
+        copyButton.addEventListener('click', copyReport);
+    }
 });
 
 function initTabs(tabs) {
@@ -70,6 +75,14 @@ function showError(message) {
     container.appendChild(element);
 }
 
+function showSuccess(message) {
+    const container = ensureMessageContainer();
+    const element = document.createElement('div');
+    element.className = 'message success';
+    element.textContent = message;
+    container.appendChild(element);
+}
+
 function getField(id, label) {
     const element = document.getElementById(id);
 
@@ -85,6 +98,7 @@ function renderSummary() {
 
     const resultContainer = document.getElementById('result');
     const form = document.getElementById('research-form');
+    const copyButton = document.getElementById('copyReport');
 
     if (!form) {
         showError('Forma tapylmady, maglumatlary ugratyp bolmaýar.');
@@ -209,4 +223,43 @@ function renderSummary() {
     `;
 
     resultContainer.innerHTML = result;
+
+    if (copyButton) {
+        copyButton.disabled = false;
+    }
+}
+
+async function copyReport() {
+    clearMessages();
+
+    const resultContainer = document.getElementById('result');
+
+    if (!resultContainer) {
+        showError('Hasabat bölümi tapylmady.');
+        return;
+    }
+
+    const text = resultContainer.innerText.trim();
+
+    if (!text) {
+        showError('Köçürmek üçin taýýar hasabat ýok. Ilki bilen hasabat dörediň.');
+        return;
+    }
+
+    try {
+        if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(text);
+        } else {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
+
+        showSuccess('Hasabat nusgasy göçürildi.');
+    } catch (error) {
+        showError('Hasabaty göçürip bolmady: ' + error.message);
+    }
 }

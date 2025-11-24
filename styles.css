@@ -150,3 +150,20 @@ button:hover {
     border-radius: 5px;
     color: #333;
 }
+
+.messages {
+    margin: 10px 0;
+    padding: 0;
+}
+
+.message {
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.message.error {
+    background-color: #fdecea;
+    border: 1px solid #f5c2c0;
+    color: #5f2120;
+}

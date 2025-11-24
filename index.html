@@ -29,34 +29,49 @@
         <form id="research-form">
           <div class="form-grid">
             <div class="field-group">
-              <label for="research-date">Barlagyň senesi:</label>
+              <label class="required" for="research-date"
+                >Barlagyň senesi
+                <span class="tooltip" aria-label="Şu günki sana awtomatiki goýulýar">?</span></label
+              >
               <input type="date" id="research-date" name="research-date" required />
             </div>
             <div class="field-group">
-              <label for="patient-name">Familiyasy, ady:</label>
+              <label class="required" for="patient-name"
+                >Familiyasy, ady
+                <span class="tooltip" aria-label="Doly adyny ýazmagy unutmaň">?</span></label
+              >
               <input type="text" id="patient-name" name="patient-name" required />
             </div>
             <div class="field-group">
-              <label for="department">Bölüm:</label>
+              <label class="required" for="department"
+                >Bölüm
+                <span class="tooltip" aria-label="Gelen bölümiň ady">?</span></label
+              >
               <input type="text" id="department" name="department" required />
             </div>
             <div class="field-group">
-              <span class="field-label">Jynsy:</span>
+              <span class="field-label required">Jynsy</span>
               <div class="option-row">
                 <label><input type="radio" id="gender-male" name="gender" value="Erkek" required /> Erkek</label>
                 <label><input type="radio" id="gender-female" name="gender" value="Aýal" /> Aýal</label>
               </div>
             </div>
             <div class="field-group">
-              <label for="birth-year">Doglan ýyly:</label>
+              <label class="required" for="birth-year"
+                >Doglan ýyly
+                <span class="tooltip" aria-label="YYYY görnüşinde ýazylýar">?</span></label
+              >
               <input type="number" id="birth-year" name="birth-year" min="1900" max="2100" required />
             </div>
             <div class="field-group">
-              <label for="patient-code">Näsagyň kody:</label>
+              <label for="patient-code"
+                >Näsagyň kody
+                <span class="tooltip" aria-label="Hasaba alyş belgisi bar bolsa">?</span></label
+              >
               <input type="text" id="patient-code" name="patient-code" />
             </div>
             <div class="field-group">
-              <span class="field-label">Barlag usuly:</span>
+              <span class="field-label">Barlag usuly</span>
               <div class="option-column">
                 <label><input type="checkbox" id="method-t1" name="method" value="T1" /> T1</label>
                 <label><input type="checkbox" id="method-t2" name="method" value="T2" /> T2</label>
@@ -64,14 +79,20 @@
               </div>
             </div>
             <div class="field-group">
-              <label for="research-frequency">Barlag:</label>
+              <label for="research-frequency"
+                >Barlag
+                <span class="tooltip" aria-label="Ilkinji ýa gaýtadan barlagy saýlaň">?</span></label
+              >
               <select id="research-frequency" name="research-frequency">
                 <option value="Ilkinji gezek.">Ilkinji gezek.</option>
                 <option value="Gaýtadan.">Gaýtadan.</option>
               </select>
             </div>
             <div class="field-group">
-              <label for="artifact-notes">Artefaktlar:</label>
+              <label for="artifact-notes"
+                >Artefaktlar
+                <span class="tooltip" aria-label="Hereket ýa metal artefaktlaryny belläň">?</span></label
+              >
               <select id="artifact-notes" name="artifact-notes">
                 <option value="Artefaktlar ýok.">Artefaktlar ýok.</option>
                 <option value="Näsagyň hereket artefaktlary.">Näsagyň hereket artefaktlary.</option>
@@ -157,15 +178,24 @@
             <textarea id="liquor-spaces" name="liquor-spaces" rows="3" placeholder="Degişli bellikler"></textarea>
           </div>
           <div class="field-group">
-            <label for="conclusion">Netije:</label>
+            <label class="required" for="conclusion"
+              >Netije
+              <span class="tooltip" aria-label="Esasy netijeleri gysgaça jemläň">?</span></label
+            >
             <textarea id="conclusion" name="conclusion" rows="3" required></textarea>
           </div>
           <div class="field-group">
-            <label for="advice">Maslahat:</label>
+            <label class="required" for="advice"
+              >Maslahat
+              <span class="tooltip" aria-label="Goýmalar we gözegçilik boýunça bellikler">?</span></label
+            >
             <textarea id="advice" name="advice" rows="3" required></textarea>
           </div>
           <div class="field-group">
-            <label for="doctor">Lukman:</label>
+            <label class="required" for="doctor"
+              >Lukman
+              <span class="tooltip" aria-label="Gol çekýän lukmanyň F.A. ýazylýar">?</span></label
+            >
             <input type="text" id="doctor" name="doctor" required />
           </div>
 
@@ -176,178 +206,183 @@
         </form>
 
         <div id="result" class="result" aria-live="polite"></div>
-        <h3>2.3. Очаговые изменения</h3>
-        <h4>А. Дисциркуляторные очаги</h4>
-        <ul>
-          <li>Локализация: Белое/серое вещество, граница, ствол, мозжечок.</li>
-          <li>
-            Характеристики:
-            <ul>
-              <li>Этиология (посттравматические, послеоперационные и др.).</li>
-              <li>Количество: Единичные / Множественные (более __).</li>
-              <li>Размеры (в трёх плоскостях), форма.</li>
-              <li>Шкала Fazekas: 0–3.</li>
-            </ul>
-          </li>
-        </ul>
-        <h4>Б. Очаги гемосидероза</h4>
-        <ul>
-          <li>Локализация:</li>
-          <li>Характеристики: Количество, размеры, форма.</li>
-        </ul>
-        <h4>В. Очаги геморрагии</h4>
-        <ul>
-          <li>
-            Внутримозговые:
-            <ul>
-              <li>
-                Стадия (свежие/лизирующиеся), перифокальный отёк, размеры.
-              </li>
-            </ul>
-          </li>
-          <li>
-            Внемозговые:
-            <ul>
-              <li>
-                Локализация (субдуральная/эпидуральная), толщина,
-                распространение.
-              </li>
-              <li>Шкала ASPECTS: __.</li>
-            </ul>
-          </li>
-        </ul>
-        <h4>Г. Очаги гипергидратации</h4>
-        <ul>
-          <li>Этиология: ЧМТ, понтинный миелинолиз и др.</li>
-          <li>
-            Локализация, симметричность, масс-эффект, накопление контраста.
-          </li>
-        </ul>
-        <h4>Д. Очаги на ДВИ</h4>
-        <ul>
-          <li>Наличие, локализация, размеры, форма.</li>
-        </ul>
-        <h3>2.4. Динамика и контрастирование</h3>
-        <ul>
-          <li>
-            Сравнение с предыдущим исследованием: Новые очаги (локализация,
-            размеры).
-          </li>
-          <li>
-            Контраст: Введено ___ мл [препарат]. Патологического накопления не
-            выявлено.
-          </li>
-        </ul>
-        <h3>2.5. Кисты</h3>
-        <ul>
-          <li>
-            Тип: Первичные / Вторичные (постгеморрагические, арахноидальные и
-            др.).
-          </li>
-          <li>
-            Характеристики:
-            <ul>
-              <li>Локализация, размеры, форма.</li>
-              <li>
-                Наличие ободка гемосидероза, перифокального отёка, компрессии.
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <h3>2.6. Объёмные образования</h3>
-        <ul>
-          <li>Локализация: Анатомическая и функциональная область.</li>
-          <li>
-            Характеристики:
+
+        <div class="tab-container" aria-label="Кыскача görkezmeler">
+          <div class="tab-list" role="tablist">
+            <button role="tab" aria-selected="true" class="tab active" data-tab="focal">2.3. Очаговые</button>
+            <button role="tab" aria-selected="false" class="tab" data-tab="dynamics">2.4–2.6</button>
+            <button role="tab" aria-selected="false" class="tab" data-tab="spaces">2.7–2.9</button>
+            <button role="tab" aria-selected="false" class="tab" data-tab="others">2.10–3</button>
+          </div>
+
+          <div class="tab-panel active" id="tab-focal" role="tabpanel">
+            <h3>2.3. Очаговые изменения</h3>
+            <details open>
+              <summary>А. Дисциркуляторные очаги</summary>
+              <ul>
+                <li>Локализация: Белое/серое вещество, граница, ствол, мозжечок.</li>
+                <li>
+                  Характеристики:
+                  <ul>
+                    <li>Этиология (посттравматические, послеоперационные и др.).</li>
+                    <li>Количество: Единичные / Множественные (более __).</li>
+                    <li>Размеры (в трёх плоскостях), форма.</li>
+                    <li>Шкала Fazekas: 0–3.</li>
+                  </ul>
+                </li>
+              </ul>
+            </details>
+            <details>
+              <summary>Б. Очаги гемосидероза</summary>
+              <ul>
+                <li>Локализация.</li>
+                <li>Характеристики: Количество, размеры, форма.</li>
+              </ul>
+            </details>
+            <details>
+              <summary>В. Очаги геморрагии</summary>
+              <ul>
+                <li>
+                  Внутримозговые:
+                  <ul>
+                    <li>Стадия (свежие/лизирующиеся), перифокальный отёк, размеры.</li>
+                  </ul>
+                </li>
+                <li>
+                  Внемозговые:
+                  <ul>
+                    <li>Локализация (субдуральная/эпидуральная), толщина, распространение.</li>
+                    <li>Шкала ASPECTS: __.</li>
+                  </ul>
+                </li>
+              </ul>
+            </details>
+            <details>
+              <summary>Г. Очаги гипергидратации</summary>
+              <ul>
+                <li>Этиология: ЧМТ, понтинный миелинолиз и др.</li>
+                <li>Локализация, симметричность, масс-эффект, накопление контраста.</li>
+              </ul>
+            </details>
+            <details>
+              <summary>Д. Очаги на ДВИ</summary>
+              <ul>
+                <li>Наличие, локализация, размеры, форма.</li>
+              </ul>
+            </details>
+          </div>
+
+          <div class="tab-panel" id="tab-dynamics" role="tabpanel" hidden>
+            <h3>2.4. Динамика и контрастирование</h3>
             <ul>
               <li>
-                Размеры, контуры, масс-эффект, инвазия, накопление контраста.
+                Сравнение с предыдущим исследованием: Новые очаги (локализация, размеры).
+              </li>
+              <li>
+                Контраст: Введено ___ мл [препарат]. Патологического накопления не выявлено.
               </li>
             </ul>
-          </li>
-        </ul>
-        <h3>2.7. Ликворные пространства</h3>
-        <ul>
-          <li>
-            Желудочки:
+            <h3>2.5. Кисты</h3>
             <ul>
-              <li>Размеры, симметрия, индекс боковых желудочков.</li>
-              <li>Форма (баллонообразная и др.).</li>
+              <li>Тип: Первичные / Вторичные (постгеморрагические, арахноидальные и др.).</li>
+              <li>
+                Характеристики:
+                <ul>
+                  <li>Локализация, размеры, форма.</li>
+                  <li>Наличие ободка гемосидероза, перифокального отёка, компрессии.</li>
+                </ul>
+              </li>
             </ul>
-          </li>
-          <li>Субарахноидальные борозды: Расширение / сглаженность.</li>
-          <li>Перивентрикулярный лейкоареоз: Степень выраженности.</li>
-        </ul>
-        <h3>2.8. Сосудистые структуры</h3>
-        <ul>
-          <li>
-            Артерии: Виллизиев круг (замкнут/разомкнут), патологии (аневризмы,
-            стенозы).
-          </li>
-          <li>Вены: Расширение, аномалии хода.</li>
-        </ul>
-        <h3>2.9. Гипофиз и селлярная область</h3>
-        <ul>
-          <li>Турецкое седло: Форма, размеры, послеоперационные изменения.</li>
-          <li>
-            Гипофиз:
+            <h3>2.6. Объёмные образования</h3>
             <ul>
-              <li>Размеры (сагиттальный, коронарный, аксиальный).</li>
-              <li>Структура (дифференциация адено-/нейрогипофиза, узлы).</li>
+              <li>Локализация: Анатомическая и функциональная область.</li>
+              <li>
+                Характеристики:
+                <ul>
+                  <li>Размеры, контуры, масс-эффект, инвазия, накопление контраста.</li>
+                </ul>
+              </li>
             </ul>
-          </li>
-          <li>Динамическое контрастирование: Отсутствие патологии.</li>
-        </ul>
-        <h3>2.10. Орбиты</h3>
-        <ul>
-          <li>Глазные яблоки: Размеры, структура.</li>
-          <li>Зрительные нервы: Ход, толщина.</li>
-          <li>Мышцы и сосуды: Без патологий.</li>
-        </ul>
-        <h3>2.11. Мозжечок и стволовые структуры</h3>
-        <ul>
-          <li>
-            Мозжечок:
-            <ul>
-              <li>Симметрия, гипоплазия/дисплазия, борозды.</li>
-            </ul>
-          </li>
-          <li>Ствол мозга: Без особенностей.</li>
-        </ul>
-        <h3>2.12. Костные структуры</h3>
-        <ul>
-          <li>Череп: Без деструкций.</li>
-          <li>Височные кости: Структура, слуховые проходы.</li>
-        </ul>
-        <h3>2.13. Дополнительные наблюдения</h3>
-        <ul>
-          <li>Периваскулярные пространства: Расширены / норма.</li>
-          <li>
-            Лимфоидная ткань: Гипертрофия глоточной миндалины (аденоиды __
-            степени).
-          </li>
-        </ul>
-        <hr />
-        <h2>3. Заключение</h2>
-        <ul>
-          <li>
-            Основные находки:
+          </div>
+
+          <div class="tab-panel" id="tab-spaces" role="tabpanel" hidden>
+            <h3>2.7. Ликворные пространства</h3>
             <ul>
               <li>
-                Отсутствие/наличие очаговых изменений, объёмных образований,
-                сосудистых аномалий.
+                Желудочки:
+                <ul>
+                  <li>Размеры, симметрия, индекс боковых желудочков.</li>
+                  <li>Форма (баллонообразная и др.).</li>
+                </ul>
               </li>
-              <li>Динамика (при сравнении с предыдущими исследованиями).</li>
+              <li>Субарахноидальные борозды: Расширение / сглаженность.</li>
+              <li>Перивентрикулярный лейкоареоз: Степень выраженности.</li>
             </ul>
-          </li>
-          <li>
-            Рекомендации: При необходимости — консультация специалиста,
-            контроль.
-          </li>
-        </ul>
-        <hr />
-        <p>Подпись врача: __________</p>
-        <p>Дата: __________</p>
+            <h3>2.8. Сосудистые структуры</h3>
+            <ul>
+              <li>
+                Артерии: Виллизиев круг (замкнут/разомкнут), патологии (аневризмы, стенозы).
+              </li>
+              <li>Вены: Расширение, аномалии хода.</li>
+            </ul>
+            <h3>2.9. Гипофиз и селлярная область</h3>
+            <ul>
+              <li>Турецкое седло: Форма, размеры, послеоперационные изменения.</li>
+              <li>
+                Гипофиз:
+                <ul>
+                  <li>Размеры (сагиттальный, коронарный, аксиальный).</li>
+                  <li>Структура (дифференциация адено-/нейрогипофиза, узлы).</li>
+                </ul>
+              </li>
+              <li>Динамическое контрастирование: Отсутствие патологии.</li>
+            </ul>
+          </div>
+
+          <div class="tab-panel" id="tab-others" role="tabpanel" hidden>
+            <h3>2.10. Орбиты</h3>
+            <ul>
+              <li>Глазные яблоки: Размеры, структура.</li>
+              <li>Зрительные нервы: Ход, толщина.</li>
+              <li>Мышцы и сосуды: Без патологий.</li>
+            </ul>
+            <h3>2.11. Мозжечок и стволовые структуры</h3>
+            <ul>
+              <li>
+                Мозжечок:
+                <ul>
+                  <li>Симметрия, гипоплазия/дисплазия, борозды.</li>
+                </ul>
+              </li>
+              <li>Ствол мозга: Без особенностей.</li>
+            </ul>
+            <h3>2.12. Костные структуры</h3>
+            <ul>
+              <li>Череп: Без деструкций.</li>
+              <li>Височные кости: Структура, слуховые проходы.</li>
+            </ul>
+            <h3>2.13. Дополнительные наблюдения</h3>
+            <ul>
+              <li>Периваскулярные пространства: Расширены / норма.</li>
+              <li>Лимфоидная ткань: Гипертрофия глоточной миндалины (аденоиды __ степени).</li>
+            </ul>
+            <hr />
+            <h2>3. Заключение</h2>
+            <ul>
+              <li>
+                Основные находки:
+                <ul>
+                  <li>Отсутствие/наличие очаговых изменений, объёмных образований, сосудистых аномалий.</li>
+                  <li>Динамика (при сравнении с предыдущими исследованиями).</li>
+                </ul>
+              </li>
+              <li>Рекомендации: При необходимости — консультация специалиста, контроль.</li>
+            </ul>
+            <hr />
+            <p>Подпись врача: __________</p>
+            <p>Дата: __________</p>
+          </div>
+        </div>
       </div>
     </div>
   </body>

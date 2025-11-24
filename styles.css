@@ -56,16 +56,11 @@ h2 {
 }
 
 #research-form {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
     font-size: 14px;
     margin: 10px 0 20px;
-}
-
-#research-form input[type="date"] {
-    width: auto;
-    padding: 6px 8px;
 }
 
 label {
@@ -74,11 +69,40 @@ label {
     color: #333;
 }
 
-input[type="text"], 
-input[type="date"], 
-input[type="number"], 
-input[type="radio"], 
-input[type="checkbox"] {
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.field-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.option-row {
+    display: flex;
+    gap: 12px;
+}
+
+.option-column {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+input[type="radio"],
+input[type="checkbox"],
+textarea {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -103,6 +127,16 @@ button {
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.form-actions button {
+    width: auto;
+    flex: 1;
 }
 
 button:hover {

@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('research-form');
     const dateInput = document.getElementById('research-date');
+    const tabs = document.querySelectorAll('.tab');
 
     ensureMessageContainer();
 
@@ -13,11 +14,35 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    initTabs(tabs);
+
     form.addEventListener('submit', event => {
         event.preventDefault();
         renderSummary();
     });
 });
+
+function initTabs(tabs) {
+    const panels = document.querySelectorAll('.tab-panel');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const targetId = `tab-${tab.dataset.tab}`;
+
+            tabs.forEach(button => {
+                const isActive = button === tab;
+                button.classList.toggle('active', isActive);
+                button.setAttribute('aria-selected', isActive.toString());
+            });
+
+            panels.forEach(panel => {
+                const isTarget = panel.id === targetId;
+                panel.toggleAttribute('hidden', !isTarget);
+                panel.classList.toggle('active', isTarget);
+            });
+        });
+    });
+}
 
 function ensureMessageContainer() {
     let container = document.getElementById('messages');

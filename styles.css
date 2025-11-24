@@ -83,11 +83,24 @@ p {
     border: 1px solid var(--rsna-border);
 }
 
-.layout {
+.workspace {
     display: grid;
     grid-template-columns: 320px 1fr;
     gap: 20px;
     margin-top: 20px;
+    align-items: start;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .reference-card {
@@ -146,6 +159,23 @@ p {
     gap: 16px;
 }
 
+.workflow-card {
+    background: #fff;
+    border-radius: var(--card-radius);
+    border: 1px solid var(--rsna-border);
+    padding: 16px;
+    box-shadow: var(--shadow-soft);
+}
+
+.guide-list {
+    margin: 0;
+    padding-left: 18px;
+    display: grid;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
 .section-heading {
     display: flex;
     justify-content: space-between;
@@ -174,6 +204,19 @@ p {
     padding: 12px;
     background: #fff;
     box-shadow: inset 0 1px 0 rgba(12, 35, 64, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.workflow-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(280px, 4fr);
+    gap: 16px;
+    align-items: start;
+}
+
+.workflow-support {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -439,7 +482,11 @@ details summary {
 }
 
 @media (max-width: 980px) {
-    .layout {
+    .workspace {
+        grid-template-columns: 1fr;
+    }
+
+    .workflow-grid {
         grid-template-columns: 1fr;
     }
 

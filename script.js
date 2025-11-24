@@ -2,11 +2,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('research-form');
     const dateInput = document.getElementById('research-date');
 
+    ensureMessageContainer();
+
     if (dateInput && !dateInput.value) {
         dateInput.value = new Date().toISOString().split('T')[0];
     }
 
-    if (!form) return;
+    if (!form) {
+        showError('Forma tapylmady. Sahypany täzeden ýüklemegi synap görüň.');
+        return;
+    }
 
     form.addEventListener('submit', event => {
         event.preventDefault();
@@ -14,41 +19,132 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+function ensureMessageContainer() {
+    let container = document.getElementById('messages');
+
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'messages';
+        container.className = 'messages';
+        document.body.prepend(container);
+    }
+
+    return container;
+}
+
+function clearMessages() {
+    const container = ensureMessageContainer();
+    container.innerHTML = '';
+}
+
+function showError(message) {
+    const container = ensureMessageContainer();
+    const element = document.createElement('div');
+    element.className = 'message error';
+    element.textContent = message;
+    container.appendChild(element);
+}
+
+function getField(id, label) {
+    const element = document.getElementById(id);
+
+    if (!element) {
+        showError(`${label} elementi tapylmady.`);
+    }
+
+    return element;
+}
+
 function renderSummary() {
+    clearMessages();
+
+    const resultContainer = document.getElementById('result');
+    const form = document.getElementById('research-form');
+
+    if (!form) {
+        showError('Forma tapylmady, maglumatlary ugratyp bolmaýar.');
+        return;
+    }
+
+    if (!resultContainer) {
+        showError('Netije görkezmek üçin bölüm tapylmady.');
+        return;
+    }
+
+    const genderOptions = document.querySelectorAll('input[name="gender"]');
+    if (!genderOptions.length) {
+        showError('Jyns meýdançalary tapylmady.');
+        return;
+    }
+
+    const methodInputs = document.querySelectorAll('input[name="method"]');
+    if (!methodInputs.length) {
+        showError('Barlag usullary üçin goýbermeler tapylmady.');
+        return;
+    }
+
+    const fieldsWithElements = {
+        date: getField('research-date', 'Barlagyň senesi'),
+        patientName: getField('patient-name', 'Familiýasy, ady'),
+        department: getField('department', 'Bölüm'),
+        birthYear: getField('birth-year', 'Doglan ýyly'),
+        patientCode: getField('patient-code', 'Näsagyň kody'),
+        researchFrequency: getField('research-frequency', 'Barlagyň görnüşi'),
+        artifactNotes: getField('artifact-notes', 'Artefaktlar'),
+        skullShape: getField('skull-shape', 'Kelle çanak'),
+        cranialSutures: getField('cranial-sutures', 'Tikinleri'),
+        skullSymmetry: getField('skull-symmetry', 'Simmetriýa'),
+        cranialFossa: getField('cranial-fossa', 'Kelleçanagyň çukurjuklary'),
+        postoperativeChanges: getField('postoperative-changes', 'Operasiýadan soňky üýtgemeler'),
+        differentiation: getField('differentiation', 'Ak we çal maddanyň differensasiýasy'),
+        heterotopia: getField('heterotopia', 'Geterotopiýa'),
+        hippocampusSymmetry: getField('hippocampus-symmetry', 'Gippokamp simmetriýasy'),
+        hippocampusLesions: getField('hippocampus-lesions', 'Gippokampdaky ojaklar'),
+        parenchymaChanges: getField('parenchyma-changes', 'Beýni parenhimasynyň ojaklaýyn üýtgemeleri'),
+        liquorSpaces: getField('liquor-spaces', 'Likwor saklaýan giňişlikler'),
+        conclusion: getField('conclusion', 'Netije'),
+        advice: getField('advice', 'Maslahat'),
+        doctor: getField('doctor', 'Lukman'),
+    };
+
+    if (Object.values(fieldsWithElements).some(field => !field)) {
+        return;
+    }
+
     const genderInput = document.querySelector('input[name="gender"]:checked');
-    const methods = Array.from(document.querySelectorAll('input[name="method"]:checked')).map(({ value }) => value).join(', ');
+    const methods = Array.from(methodInputs).filter(input => input.checked).map(({ value }) => value).join(', ');
 
     const fields = {
-        date: document.getElementById('research-date')?.value,
-        patientName: document.getElementById('patient-name')?.value.trim(),
-        department: document.getElementById('department')?.value.trim(),
+        date: fieldsWithElements.date.value,
+        patientName: fieldsWithElements.patientName.value.trim(),
+        department: fieldsWithElements.department.value.trim(),
         gender: genderInput?.value,
-        birthYear: document.getElementById('birth-year')?.value,
-        patientCode: document.getElementById('patient-code')?.value.trim(),
+        birthYear: fieldsWithElements.birthYear.value,
+        patientCode: fieldsWithElements.patientCode.value.trim(),
         methods,
-        researchFrequency: document.getElementById('research-frequency')?.value,
-        artifactNotes: document.getElementById('artifact-notes')?.value,
-        skullShape: document.getElementById('skull-shape')?.value,
-        cranialSutures: document.getElementById('cranial-sutures')?.value,
-        skullSymmetry: document.getElementById('skull-symmetry')?.value,
-        cranialFossa: document.getElementById('cranial-fossa')?.value,
-        postoperativeChanges: document.getElementById('postoperative-changes')?.value,
-        differentiation: document.getElementById('differentiation')?.value,
-        heterotopia: document.getElementById('heterotopia')?.value,
-        hippocampusSymmetry: document.getElementById('hippocampus-symmetry')?.value,
-        hippocampusLesions: document.getElementById('hippocampus-lesions')?.value,
-        parenchymaChanges: document.getElementById('parenchyma-changes')?.value.trim(),
-        liquorSpaces: document.getElementById('liquor-spaces')?.value.trim(),
-        conclusion: document.getElementById('conclusion')?.value.trim(),
-        advice: document.getElementById('advice')?.value.trim(),
-        doctor: document.getElementById('doctor')?.value.trim(),
+        researchFrequency: fieldsWithElements.researchFrequency.value,
+        artifactNotes: fieldsWithElements.artifactNotes.value,
+        skullShape: fieldsWithElements.skullShape.value,
+        cranialSutures: fieldsWithElements.cranialSutures.value,
+        skullSymmetry: fieldsWithElements.skullSymmetry.value,
+        cranialFossa: fieldsWithElements.cranialFossa.value,
+        postoperativeChanges: fieldsWithElements.postoperativeChanges.value,
+        differentiation: fieldsWithElements.differentiation.value,
+        heterotopia: fieldsWithElements.heterotopia.value,
+        hippocampusSymmetry: fieldsWithElements.hippocampusSymmetry.value,
+        hippocampusLesions: fieldsWithElements.hippocampusLesions.value,
+        parenchymaChanges: fieldsWithElements.parenchymaChanges.value.trim(),
+        liquorSpaces: fieldsWithElements.liquorSpaces.value.trim(),
+        conclusion: fieldsWithElements.conclusion.value.trim(),
+        advice: fieldsWithElements.advice.value.trim(),
+        doctor: fieldsWithElements.doctor.value.trim(),
     };
 
     const requiredFields = ['date', 'patientName', 'department', 'gender', 'birthYear', 'conclusion', 'advice', 'doctor'];
     const missing = requiredFields.filter(key => !fields[key]);
 
     if (missing.length) {
-        alert('Ähli zerur meýdançalar dolduryň.');
+        showError('Ähli zerur meýdançalar dolduryň.');
         return;
     }
 
@@ -87,8 +183,5 @@ function renderSummary() {
         </ul>
     `;
 
-    const resultContainer = document.getElementById('result');
-    if (resultContainer) {
-        resultContainer.innerHTML = result;
-    }
+    resultContainer.innerHTML = result;
 }

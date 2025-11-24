@@ -159,8 +159,24 @@ button {
     flex: 1;
 }
 
+.result-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px 0;
+}
+
+.result-actions button {
+    width: auto;
+    min-width: 180px;
+}
+
 button:hover {
     background-color: #6a11cb;
+}
+
+button:disabled {
+    background-color: #9db7f5;
+    cursor: not-allowed;
 }
 
 .result {
@@ -186,6 +202,12 @@ button:hover {
     background-color: #fdecea;
     border: 1px solid #f5c2c0;
     color: #5f2120;
+}
+
+.message.success {
+    background-color: #e8f5e9;
+    border: 1px solid #b7e1cd;
+    color: #1b5e20;
 }
 
 .tab-container {

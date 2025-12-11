@@ -362,6 +362,123 @@ function setupConditionalFields(root) {
   });
 }
 
+function buildDocxTemplateData(reportData) {
+  const methodLabels = {
+    methodGeneral: 'Umumy',
+    methodT1: 'T1',
+    methodT2: 'T2',
+    methodT2Tirm: 'T2_tirm',
+    methodDiffuz: 'Diffuz',
+    methodAngiography: 'MRT angiografiýa',
+    methodFlair: 'FLAIR',
+  };
+
+  const selectedMethods = Object.entries(methodLabels)
+    .filter(([key]) => reportData[key])
+    .map(([, label]) => label)
+    .join(', ');
+
+  const examTypeMap = {
+    first: 'Ilkinji gezek.',
+    repeat: 'Gaýtadan gözegçilik.',
+  };
+
+  const artifactsMap = {
+    none: 'Artefaktlar ýok.',
+    minor: 'Az artefaktlar.',
+    significant: 'Ep-esli artefaktlar.',
+  };
+
+  return {
+    ...reportData,
+    methods: selectedMethods || 'Saýlanmady.',
+    examType: examTypeMap[reportData.examType] || reportData.examType || '-',
+    artifacts: artifactsMap[reportData.artifacts] || reportData.artifacts || '-',
+    postoperativeChangesDetails:
+      reportData.postoperativeChanges === 'bar (şu ýerde beýan ediň).' ? reportData.postoperativeChangesDetails || '' : '',
+    heterotopiaDetails:
+      reportData.heterotopia === 'bar (şu ýerde beýan ediň).' ? reportData.heterotopiaDetails || '' : '',
+  };
+}
+
+/**
+ * DOCX şablonyny taýýarlamak boýunça gollanma (binaryň üsti bilen däl, diňe tekst görnüşinde)
+ * 1. Word-da täze boş dokument açyň, "Faýl" → "Sakla" görnüşinden DOCX saýlaň.
+ * 2. Aşakdaky meýdanlary tekst hökmünde ýerleşdiriň (her placeholder bir w:t blokda gysylmazdan durmalydyr):
+ *    - "Familiýasy, ady: {{patientName}}"
+ *    - "Barlag senesi: {{examDate}}"
+ *    - "Bölüm: {{department}}"
+ *    - "Jynsy: {{gender}}"
+ *    - "Doglan ýyly: {{birthDate}}"
+ *    - "Näsag kody: {{patientCode}}"
+ *    - "Barlag usullary: {{methods}}"
+ *    - "Barlag görnüşi: {{examType}}"
+ *    - "Artefaktlar: {{artifacts}}"
+ *    - "Kesim ugry: {{sliceDirection}}"
+ *    - "Netije: {{netije}}"
+ *    - "Maslahat: {{maslahat}}"
+ *    - "Lukmanyň ady: {{doctorName}}"
+ *    Beýleki meýdanlaryň atlaryny hem setData sanawyna laýyklykda goşup bilersiňiz (mysal: postoperativeChanges,
+ *    postoperativeChangesDetails, heterotopia, heterotopiaDetails we ş.m.).
+ * 3. Şablony öz adyňyz bilen saklaň we konsoldan şu buýrugy ulanyp base64 hataryna öwürüň (binaryňy repo goýmazlyk
+ *    üçin):
+ *    base64 -w 0 siziň_faýlyňyz.docx > my_template_base64.txt
+ * 4. Döreden hataryňyzy aşakdaky EMBEDDED_TEMPLATE_BASE64 üýtgeýjisine goýuň (setirlerdäki aralyklar aýratyn ýoýulýar,
+ *    sebäbi base64ToArrayBuffer boşluklary awtomatik aýyrýar).
+ */
+
+// Repo-da binar faýl saklamazlyk üçin şablony base64 görnüşinde göni kodyň içinde saklaýarys.
+const EMBEDDED_TEMPLATE_BASE64 = `
+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
+`;
+
+function base64ToArrayBuffer(base64) {
+  const normalized = base64.replace(/\s+/g, '');
+  const binaryString = atob(normalized);
+  const len = binaryString.length;
+  const bytes = new Uint8Array(len);
+
+  for (let i = 0; i < len; i += 1) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+
+  return bytes.buffer;
+}
+
+async function exportToDocx(reportData) {
+  const preparedData = buildDocxTemplateData(reportData);
+
+  try {
+    const arrayBuffer = base64ToArrayBuffer(EMBEDDED_TEMPLATE_BASE64);
+    const zip = new PizZip(arrayBuffer);
+    const doc = new window.docxtemplater(zip, {
+      paragraphLoop: true,
+      linebreaks: true,
+    });
+
+    doc.setData(preparedData);
+    doc.render();
+
+    const output = doc.getZip().generate({
+      type: 'blob',
+      mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    });
+
+    const safePatientName = (reportData.patientName || 'nasag')
+      .replace(/\s+/g, '_')
+      .replace(/[^\w-]/g, '');
+    const safeExamDate = (reportData.examDate || 'senesiz').replace(/[^0-9-]/g, '');
+    const fileName = `MRI_brain_RSNA_${safePatientName || 'nasag'}_${safeExamDate || 'senesiz'}.docx`;
+
+    saveAs(output, fileName);
+  } catch (error) {
+    console.error('DOCX eksport ýalňyşlygy', error);
+    alert(
+      'Şablon DOCX faýlyny ýüklemek ýa-da taýýarlamak başartmady. Faýlyň elýeterdigini we internet birikmesini barlaň we täzeden synanyşyň.',
+    );
+  }
+}
+
 function collectFormData() {
   const form = document.getElementById('reportForm');
   if (!form) return {};
@@ -506,8 +623,9 @@ function setupReportActions(root) {
     console.info('RSNA şablonyny doldur: ösüş tapgyry.');
   });
 
-  exportBtn?.addEventListener('click', () => {
-    console.info('Word görnüşine eksport: ösüş tapgyry.');
+  exportBtn?.addEventListener('click', async () => {
+    const data = collectFormData();
+    await exportToDocx(data);
   });
 }
 

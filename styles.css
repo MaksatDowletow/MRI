@@ -123,10 +123,25 @@ main {
   background: #f9fafb;
 }
 
+.conditional-field[hidden] {
+  display: none;
+}
+
 .nested-field {
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.conditional-field .nested-field span {
+  font-weight: 600;
+  color: #111827;
+}
+
+.conditional-field .nested-field textarea {
+  background: #ffffff;
+  border-color: rgba(17, 24, 39, 0.16);
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.08);
 }
 
 .app-footer {

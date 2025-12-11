@@ -158,7 +158,7 @@ function renderForm() {
             <option value="bar (şu ýerde beýan ediň).">bar (şu ýerde beýan ediň).</option>
           </select>
         </label>
-        <div class="conditional-field" data-related="postoperativeChanges">
+        <div class="conditional-field" data-related="postoperativeChanges" hidden>
           <label class="nested-field">
             <span>Giňişleýin beýan</span>
             <textarea name="postoperativeChangesDetails" data-label-tm="Operasiýadan soňky üýtgemeleri (beýan)" rows="3"></textarea>
@@ -179,7 +179,7 @@ function renderForm() {
             <option value="bar (şu ýerde beýan ediň).">bar (şu ýerde beýan ediň).</option>
           </select>
         </label>
-        <div class="conditional-field" data-related="heterotopia">
+        <div class="conditional-field" data-related="heterotopia" hidden>
           <label class="nested-field">
             <span>Giňişleýin beýan</span>
             <textarea name="heterotopiaDetails" data-label-tm="Geterotopiýa (beýan)" rows="3"></textarea>

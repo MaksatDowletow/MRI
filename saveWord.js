@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 methods,
                 researchFrequency: document.getElementById('research-frequency')?.value || '',
                 artifactNotes: document.getElementById('artifact-notes')?.value || '',
+                slicePlanes: document.getElementById('slice-planes')?.value || '',
                 skullShape: document.getElementById('skull-shape')?.value || '',
                 cranialSutures: document.getElementById('cranial-sutures')?.value || '',
                 skullSymmetry: document.getElementById('skull-symmetry')?.value || '',
@@ -56,6 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="section"><span class="label">Barlag usuly:</span> ${methods || '—'}</div>
                     <div class="section"><span class="label">Barlagyň gaýtalanmasy:</span> ${formData.researchFrequency}</div>
                     <div class="section"><span class="label">Artefaktlar:</span> ${formData.artifactNotes}</div>
+                    <div class="section"><span class="label">Kesim ugry:</span> ${formData.slicePlanes}</div>
                     <div class="section"><span class="label">Kelle çanagy:</span> ${formData.skullShape}</div>
                     <div class="section"><span class="label">Tikinleri:</span> ${formData.cranialSutures}</div>
                     <div class="section"><span class="label">Simmetriýa:</span> ${formData.skullSymmetry}</div>

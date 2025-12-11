@@ -32,19 +32,20 @@
       <aside class="sidebar" aria-label="Kömekçi maglumatlar">
         <div class="reference-card" aria-label="Nusga maglumatlary">
           <div class="reference-header">
-            <span class="pill">Beýni_kada_.docx</span>
-            <p class="reference-title">Nusga hasabatdan alnan mazmunlar</p>
-            <p class="reference-subtitle">Meýdançalary doldurmak üçin görkezme hökmünde ulanyň.</p>
+            <span class="pill">RSNA şablony</span>
+            <p class="reference-title">KELLE BEÝNINIŇ MR TOMOGRAFIÝASY</p>
+            <p class="reference-subtitle">Şu mazmun awtodolduryş üçin esas bolup hyzmat edýär.</p>
           </div>
           <ul class="reference-list">
-            <li><strong>Barlagyň senesi:</strong> 24.11.2025 ý.</li>
-            <li><strong>Barlag usuly:</strong> Umumy, T1, T2, T2_tirm, diffuz we MRT angiografiýa usulda tra, sag, cor kesimlerde.</li>
-            <li><strong>Artefaktlar:</strong> Ýok. | <strong>Barlag:</strong> Ilkinji gezek.</li>
-            <li><strong>Kelleçanagyň şekili:</strong> Mezosefal tipli, simmetrik.</li>
-            <li><strong>Differensasiýa:</strong> Ak we çal maddanyň aýdyň, ojaklaýyn üýtgemeler ýok.</li>
-            <li><strong>Likwor giňişlikleri:</strong> Garynjyklary giňelmedik; bazal sisternalar we subarahnoidal keşler kadaly.</li>
-            <li><strong>Süňkler we beýleki gurluşlar:</strong> Kelleçanagyň eňňidinde patologiýa ýok, gözhanalar dogry ösen.</li>
-            <li><strong>Netije:</strong> Kelle beýnide organiki üýtgeşme anyklanmady. | <strong>Maslahat:</strong> Newropatolog maslahaty.</li>
+            <li><strong>Senesi:</strong> 09.12.2025 ý.</li>
+            <li><strong>Näsag:</strong> Amanow Aman | <strong>Bölüm:</strong> Ambulator | <strong>Jynsy:</strong> Erkek | <strong>Doglan ýyly:</strong> 01.01.2001 ý.</li>
+            <li><strong>Barlag usuly:</strong> Umumy, T1, T2, T2_tirm, diffuz we MRT angiografiýa; tra, sag, cor kesimlerde.</li>
+            <li><strong>Artefaktlar / barlag:</strong> Artefaktlar ýok, ilkinji gezek.</li>
+            <li><strong>Simmetriýa:</strong> Mezosefal, simmetrik; tikinleri kadaly.</li>
+            <li><strong>Parenhima:</strong> Ojak ýüze çykarylmaýar, geterotopiýa ýok, gippokamp simmetrik.</li>
+            <li><strong>Likwor giňişlikleri:</strong> Garynjyklary giňelmedik, bazal sisternalar we konweksital subarahnoidal keşler kadaly.</li>
+            <li><strong>Beýleki:</strong> Türk eýeri we gipofiz kadaly, orbitalar we beýnijik aýratynlyksyz, süňk gurluşlary patologiýasyz.</li>
+            <li><strong>Netije:</strong> Organiki üýtgeşme anyklanmady. | <strong>Maslahat:</strong> Newropatolog lukmanlaryň maslahaty.</li>
           </ul>
         </div>
 
@@ -122,8 +123,12 @@
                   <div class="field-group">
                     <span class="field-label">Barlag usuly</span>
                     <div class="option-column">
+                      <label><input type="checkbox" id="method-basic" name="method" value="Umumy" /> Umumy</label>
                       <label><input type="checkbox" id="method-t1" name="method" value="T1" /> T1</label>
                       <label><input type="checkbox" id="method-t2" name="method" value="T2" /> T2</label>
+                      <label><input type="checkbox" id="method-t2tirm" name="method" value="T2_tirm" /> T2_tirm</label>
+                      <label><input type="checkbox" id="method-diff" name="method" value="Diffuz" /> Diffuz</label>
+                      <label><input type="checkbox" id="method-angiography" name="method" value="MRT angiografiýa" /> MRT angiografiýa</label>
                       <label><input type="checkbox" id="method-fla" name="method" value="FLAIR" /> FLAIR</label>
                     </div>
                   </div>
@@ -145,6 +150,12 @@
                       <option value="Näsagyň hereket artefaktlary.">Näsagyň hereket artefaktlary.</option>
                       <option value="Metal artefaktlar.">Metal artefaktlar.</option>
                     </select>
+                  </div>
+                  <div class="field-group">
+                    <label for="slice-planes">
+                      Kesim ugry
+                      <span class="tooltip" aria-label="Tra, sag, cor ýaly ugrukmalar">?</span></label>
+                    <input type="text" id="slice-planes" name="slice-planes" placeholder="mysal: tra, sag, cor kesimlerde" />
                   </div>
                 </div>
               </div>
@@ -257,6 +268,7 @@
                 </div>
                 <div class="form-actions">
                   <button type="submit">Hasabat döret</button>
+                  <button type="button" id="fillTemplate" class="ghost">RSNA şablonyny doldur</button>
                   <button type="button" id="saveWord">Word görnüşde ýükle</button>
                 </div>
               </div>

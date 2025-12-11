@@ -3,7 +3,7 @@
 
 const DICTIONARY = {
   tm: {
-    "section.general": "Umumy maglumatlar",
+    "section.patient": "Näsag / barlag maglumatlary",
     "section.flow": "Barlag akymy",
     "section.structures": "Gurluşlar we simmetriýa",
     "section.result": "Netije",

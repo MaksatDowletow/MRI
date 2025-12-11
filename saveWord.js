@@ -70,47 +70,52 @@ function injectPlaceholders(zip) {
     const dom = parser.parseFromString(rawXml, 'application/xml');
     const textNodes = Array.from(dom.getElementsByTagNameNS('http://schemas.openxmlformats.org/wordprocessingml/2006/main', 't'));
 
-    const replacements = {
-        9: '{{date}}',
-        12: '{{patientName}}',
-        16: '{{department}}',
-        19: '{{gender}}',
-        23: '{{birthYear}}',
-        27: '{{patientCode}}',
-        29: '',
-        32: '{{methods}}',
-        36: '{{artifactNotes}}',
-        40: '{{researchFrequency}}',
-        43: '{{skullShape}}',
-        45: '{{skullSymmetry}}',
-        49: '{{differentiation}}',
-        50: '{{parenchymaChanges}}',
-        55: '{{liquorSpaces}}',
-        56: '',
-        57: '',
-        58: '',
-        59: '',
-        61: '',
-        62: '',
-        63: '',
-        64: '',
-        66: '',
-        67: '',
-        68: '',
-        69: '',
-        70: '',
-        71: '',
-        72: '',
-        140: '{{conclusion}}',
-        145: '{{advice}}',
-        155: 'Lukman: {{doctor}}',
-        156: '',
-    };
+    const replacements = new Map([
+        ['09.12.2025 ý.', '{{date}}'],
+        ['Amanow Aman', '{{patientName}}'],
+        ['Ambulator', '{{department}}'],
+        ['Erkek', '{{gender}}'],
+        ['01.01.2001 ý.', '{{birthYear}}'],
+        [' __', '{{patientCode}}'],
+        ['Umumy, T1, T2, T2_tirm, diffuz we MRT angiografiýa  usulda tra, sag, cor kesimlerde.', '{{methods}}'],
+        ['Ýok.', '{{artifactNotes}}'],
+        ['Ilkinji gezek.', '{{researchFrequency}}'],
+        ['Mezosefal tipli.', '{{skullShape}}'],
+        ['Simmetrik.', '{{skullSymmetry}}'],
+        ['aýdyň. ', '{{differentiation}}'],
+        [
+            'Beýni parenhimasynyň ojaklaýyn üýtgemeleri anyklanmaýar. Geterotopik ojaklar ýüze çykarylmady. Gippokampyň töweregi simmetrik ojaklaýyn üýtgemeleri bellenmeýär.',
+            '{{parenchymaChanges}}'
+        ],
+        [' giňelmedik (öz ýaşyna gabat gelýär); simmetrik, adaty şekilde. ', '{{liquorSpaces}}'],
+        ['Kelle beýnide organiki üýtgeşme anyklanmady', '{{conclusion}}'],
+        ['Newropatolog', '{{advice}}'],
+        ['Lukman:___________________________ ', 'Lukman:___________________________ {{doctor}}'],
+    ]);
 
-    Object.entries(replacements).forEach(([position, value]) => {
-        const index = Number(position) - 1;
-        if (textNodes[index]) {
-            textNodes[index].textContent = value;
+    const clearTexts = new Set([
+        '____',
+        'Garynjyk ara germewi:',
+        ' adaty. ',
+        'Bazal sisternalar:',
+        ' giňelmedik.',
+        'Konveksital subarahnoidal keşleri:',
+        ' adaty şekilde; kadaly ýerleşen; simmetrik; giňel',
+        'medik',
+        'Beýni',
+        ' (',
+        'Silwiew',
+        ')',
+        ' suw akary:',
+        ' üýtgemedik',
+        'Döwletow M.M.',
+    ]);
+
+    textNodes.forEach(node => {
+        if (replacements.has(node.textContent)) {
+            node.textContent = replacements.get(node.textContent);
+        } else if (clearTexts.has(node.textContent)) {
+            node.textContent = '';
         }
     });
 

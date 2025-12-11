@@ -9,11 +9,13 @@ import { loadDraft, saveDraft, clearDraft } from "./storage.js";
 import { translate } from "./i18n.js";
 import { exportToDocx } from "./exportDocx.js";
 import { SECTIONS, createEmptyReportState } from "./schema.js";
+import { RSNA_SNIPPETS } from "./rsnaSnippets.js";
 
 const appRoot = document.getElementById("app");
 const previewSection = document.getElementById("reportPreview");
 const previewContent = document.getElementById("reportPreviewContent");
 let profileDescriptionEl = null;
+let snippetStatusEl = null;
 
 function renderProfileDescription(profile) {
   if (!profileDescriptionEl) {
@@ -69,7 +71,84 @@ function renderShell() {
         <button id="btn-export" type="button">Word eksporty</button>
       </div>
     </section>
+    <section id="snippetPanel" class="card snippet-panel">
+      <div class="snippet-panel__header">
+        <div>
+          <h2>RSNA.txt patologiýa ýazgylary</h2>
+          <p>Dokumentdäki ähli patologik beýanlamalaryň türkmençe gysga wariantlary. Düzülýän meýdan seçilen bolsa, wariant şol ýere goşular; seçilmedik bolsa, tekst clipboard-a kopiýalanar.</p>
+        </div>
+        <p id="snippetStatus" class="snippet-panel__status" aria-live="polite"></p>
+      </div>
+      <div id="snippetsContainer" class="snippet-groups"></div>
+    </section>
   `;
+}
+
+function updateSnippetStatus(message) {
+  if (!snippetStatusEl) return;
+  snippetStatusEl.textContent = message || "";
+  if (message) {
+    setTimeout(() => {
+      snippetStatusEl.textContent = "";
+    }, 2500);
+  }
+}
+
+function insertSnippet(text) {
+  const active = document.activeElement;
+  const isTextControl =
+    active &&
+    (active.tagName === "TEXTAREA" ||
+      (active.tagName === "INPUT" && ["text", "number"].includes(active.type)));
+
+  if (isTextControl) {
+    const existing = active.value || "";
+    const needsNewline = existing && !existing.endsWith("\n");
+    const spacer = existing ? (needsNewline ? "\n" : "") : "";
+    active.value = `${existing}${spacer}${text}`;
+    active.dispatchEvent(new Event("input", { bubbles: true }));
+    active.focus();
+    updateSnippetStatus("Tekst meýdana goşuldy.");
+    return;
+  }
+
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(text).then(() => updateSnippetStatus("Tekst clipboard-a kopiýalandy."));
+    return;
+  }
+
+  window.prompt("Teksti kopiýa ediň:", text);
+}
+
+function renderSnippets() {
+  const container = document.getElementById("snippetsContainer");
+  if (!container) return;
+  container.innerHTML = "";
+
+  RSNA_SNIPPETS.forEach((group) => {
+    const details = document.createElement("details");
+    details.className = "snippet-group";
+    details.open = true;
+
+    const summary = document.createElement("summary");
+    summary.textContent = group.title;
+    details.appendChild(summary);
+
+    const list = document.createElement("div");
+    list.className = "snippet-chip-list";
+
+    group.options.forEach((option) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "snippet-chip";
+      button.textContent = option;
+      button.addEventListener("click", () => insertSnippet(option));
+      list.appendChild(button);
+    });
+
+    details.appendChild(list);
+    container.appendChild(details);
+  });
 }
 
 function attachHandlers() {
@@ -125,6 +204,8 @@ function init() {
 
   renderShell();
   renderForm(document.getElementById("formContainer"));
+  snippetStatusEl = document.getElementById("snippetStatus");
+  renderSnippets();
   renderProfileDescription(null);
   attachHandlers();
   setupAutosave();

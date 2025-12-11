@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabs = document.querySelectorAll('.tab');
     const copyButton = document.getElementById('copyReport');
     const templateButton = document.getElementById('fillTemplate');
+    const profilePicker = document.getElementById('profile-picker');
+    const applyProfileButton = document.getElementById('applyProfile');
+    const profileNote = document.getElementById('profile-note');
 
     ensureMessageContainer();
 
@@ -33,7 +36,27 @@ document.addEventListener('DOMContentLoaded', () => {
             renderSummary();
         });
     }
+
+    if (applyProfileButton && profilePicker) {
+        applyProfileButton.addEventListener('click', () => {
+            populateProfile(profilePicker.value);
+            renderSummary();
+        });
+
+        profilePicker.addEventListener('change', () => {
+            const note = PROFILE_NOTES[profilePicker.value];
+            if (profileNote && note) {
+                profileNote.textContent = note;
+            }
+        });
+    }
 });
+
+const PROFILE_NOTES = {
+    normal: 'Kadaly profil: anyk ojak ýok, artefaktlar ýok, standart kesimlerde doly protokol.',
+    vascular: 'Diskirkulýator üýtgeşmeler: Fazekas 1–2 derejesine laýyk bellikler we diffuz ojaklar boýunça ýazgy.',
+    postop: 'Operasiýadan soň: kraniotomiýa yzlary, kontrollik angiografiýa bellikleri we gollanma maslahaty bilen.',
+};
 
 function initTabs(tabs) {
     const panels = document.querySelectorAll('.tab-panel');
@@ -369,33 +392,28 @@ function populateTemplate() {
         doctor: 'Döwletow M.M.',
     };
 
-    const setValue = (id, value) => {
-        const element = document.getElementById(id);
-        if (element) element.value = value;
-    };
-
-    setValue('research-date', template.date);
-    setValue('patient-name', template.patientName);
-    setValue('department', template.department);
-    setValue('birth-year', template.birthYear);
-    setValue('patient-code', template.patientCode);
-    setValue('research-frequency', template.researchFrequency);
-    setValue('artifact-notes', template.artifactNotes);
-    setValue('slice-planes', template.slicePlanes);
-    setValue('skull-shape', template.skullShape);
-    setValue('cranial-sutures', template.cranialSutures);
-    setValue('skull-symmetry', template.skullSymmetry);
-    setValue('cranial-fossa', template.cranialFossa);
-    setValue('postoperative-changes', template.postoperativeChanges);
-    setValue('differentiation', template.differentiation);
-    setValue('heterotopia', template.heterotopia);
-    setValue('hippocampus-symmetry', template.hippocampusSymmetry);
-    setValue('hippocampus-lesions', template.hippocampusLesions);
-    setValue('parenchyma-changes', template.parenchymaChanges);
-    setValue('liquor-spaces', template.liquorSpaces);
-    setValue('conclusion', template.conclusion);
-    setValue('advice', template.advice);
-    setValue('doctor', template.doctor);
+    setFieldValue('date', template.date);
+    setFieldValue('patientName', template.patientName);
+    setFieldValue('department', template.department);
+    setFieldValue('birthYear', template.birthYear);
+    setFieldValue('patientCode', template.patientCode);
+    setFieldValue('researchFrequency', template.researchFrequency);
+    setFieldValue('artifactNotes', template.artifactNotes);
+    setFieldValue('slicePlanes', template.slicePlanes);
+    setFieldValue('skullShape', template.skullShape);
+    setFieldValue('cranialSutures', template.cranialSutures);
+    setFieldValue('skullSymmetry', template.skullSymmetry);
+    setFieldValue('cranialFossa', template.cranialFossa);
+    setFieldValue('postoperativeChanges', template.postoperativeChanges);
+    setFieldValue('differentiation', template.differentiation);
+    setFieldValue('heterotopia', template.heterotopia);
+    setFieldValue('hippocampusSymmetry', template.hippocampusSymmetry);
+    setFieldValue('hippocampusLesions', template.hippocampusLesions);
+    setFieldValue('parenchymaChanges', template.parenchymaChanges);
+    setFieldValue('liquorSpaces', template.liquorSpaces);
+    setFieldValue('conclusion', template.conclusion);
+    setFieldValue('advice', template.advice);
+    setFieldValue('doctor', template.doctor);
 
     const genderInput = document.querySelector(`input[name="gender"][value="${template.gender}"]`);
     if (genderInput) {
@@ -408,6 +426,175 @@ function populateTemplate() {
     });
 
     showSuccess('RSNA görnüşindäki nusga maglumatlary meýdançalara ýerleşdirildi.');
+}
+
+function populateProfile(profile) {
+    clearMessages();
+
+    const profiles = {
+        normal: {
+            date: new Date().toISOString().split('T')[0],
+            patientName: 'Amanow Aman',
+            department: 'Ambulator',
+            gender: 'Erkek',
+            birthYear: '1995',
+            patientCode: 'N-2024-001',
+            methods: ['Umumy', 'T1', 'T2', 'T2_tirm', 'Diffuz', 'MRT angiografiýa'],
+            researchFrequency: 'Ilkinji gezek.',
+            artifactNotes: 'Artefaktlar ýok.',
+            slicePlanes: 'tra, sag, cor kesimlerde.',
+            skullShape: 'Mezosefal tipli.',
+            cranialSutures: 'kadaly ýagdaýda.',
+            skullSymmetry: 'Simmetrik.',
+            cranialFossa: 'Kadaly.',
+            postoperativeChanges: 'ýok.',
+            differentiation: 'aýdyň. Ojaklaýyn üýtgemeleri bellenmeýär.',
+            heterotopia: 'bellenmeýar.',
+            hippocampusSymmetry: 'Simmetrik.',
+            hippocampusLesions: 'ojaklaýyn üýtgeşme ýok.',
+            parenchymaChanges: 'Beýni parenhimasynyň ojaklaýyn üýtgemeleri anyklanmaýar. Geterotopiýa ýok. Gippokamp simmetrik.',
+            liquorSpaces: 'Beýni garynjyklary giňelmedik, bazal sisternalar we konweksital subarahnoidal keşler kadaly.',
+            conclusion: 'Kelle beýnide anyk organiki üýtgeşme ýok.',
+            advice: 'Profilaktiki gözegçilik: kliniki dinamika boýunça baryp görmek.',
+            doctor: 'Döwletow M.M.',
+        },
+        vascular: {
+            date: new Date().toISOString().split('T')[0],
+            patientName: 'Gurbanowa Aýperi',
+            department: 'Nevrologiýa',
+            gender: 'Aýal',
+            birthYear: '1964',
+            patientCode: 'NV-45-219',
+            methods: ['T1', 'T2', 'T2_tirm', 'Diffuz', 'FLAIR', 'MRT angiografiýa'],
+            researchFrequency: 'Ilkinji gezek.',
+            artifactNotes: 'Artefaktlar ýok.',
+            slicePlanes: 'tra, sag, cor; ADC kartasy goşuldy.',
+            skullShape: 'Mezosefal tipli.',
+            cranialSutures: 'kadaly ýagdaýda.',
+            skullSymmetry: 'Simmetrik.',
+            cranialFossa: 'Kadaly.',
+            postoperativeChanges: 'ýok.',
+            differentiation: 'aýdyň, ýagny ak we çal madanyň arasy saýgarlanýar.',
+            heterotopia: 'bellenmeýar.',
+            hippocampusSymmetry: 'Simmetrik.',
+            hippocampusLesions: 'ojaklaýyn üýtgeşme ýok.',
+            parenchymaChanges: 'Periwentrikulýar we subkortikal ak maddada köpetäk mikrouçlar (Fazekas 1-2), täze diffuz ojak ýok.',
+            liquorSpaces: 'Garynjyklar dürli galyňlykda giňelmedik, bazal sisternalar açyk. Subarahnoidal giňişlikler simmetrik.',
+            conclusion: 'Diskirkulýator leýkoentsefalopatiýanyň MRI alamatlary (Fazekas 1-2). Täze ishemiki ojak anyklanmady.',
+            advice: 'Kandaky bosglaryň koreksiýasy, aspirin boýunça maslahat üçin nevrolog.',
+            doctor: 'Atabaýew R.S.',
+        },
+        postop: {
+            date: new Date().toISOString().split('T')[0],
+            patientName: 'Hudainazarow Nurgeldi',
+            department: 'Neýrohirurgiýa',
+            gender: 'Erkek',
+            birthYear: '1982',
+            patientCode: 'OP-308/23',
+            methods: ['T1', 'T2', 'Diffuz', 'FLAIR', 'MRT angiografiýa'],
+            researchFrequency: 'Gaýtadan.',
+            artifactNotes: 'Metal artefaktlar.',
+            slicePlanes: 'tra, sag, cor; operasiýa meýdançasyna inçe kesimler.',
+            skullShape: 'Brahiosefal tipli.',
+            cranialSutures: 'kraniostenoz alamatlary.',
+            skullSymmetry: 'Asimmetrik.',
+            cranialFossa: 'Giňelen.',
+            postoperativeChanges: 'Kraniotomiýa.',
+            differentiation: 'aýdyň, operasiýa meýdançasynyň töwereginde gliozly zolaklar.',
+            heterotopia: 'bellenmeýar.',
+            hippocampusSymmetry: 'Asimmetrik.',
+            hippocampusLesions: 'ojaklaýyn üýtgeşme bar.',
+            parenchymaChanges: 'Operasiýa meýdançasynda gliozly zolak, perifokal şişsiz. Rezeksiýa kanalynyň ugry boýunça T2 gadjeti ýokarlanýar.',
+            liquorSpaces: 'Postoperasion döwürde ýerli giňelme we ventriculomegaliýa alamatlary ýok.',
+            conclusion: 'Postoperasion ýagdaý: rezeksiýa meýdançasynyň gliozy, täze göwrümli döreme ýa ganakma alamaty ýok.',
+            advice: 'Kontrol MRT 6 aýdan, neuro-onkolog maslahatyny dowam etdiriň.',
+            doctor: 'Aşykow J.J.',
+        },
+    };
+
+    const template = profiles[profile];
+    if (!template) {
+        showError('Profil tapylmady. Gaýtadan saýlap görüň.');
+        return;
+    }
+
+    Object.entries(template).forEach(([key, value]) => {
+        switch (key) {
+            case 'methods':
+                document.querySelectorAll('input[name="method"]').forEach(input => {
+                    input.checked = value.includes(input.value);
+                });
+                break;
+            case 'gender': {
+                const genderInput = document.querySelector(`input[name="gender"][value="${value}"]`);
+                if (genderInput) genderInput.checked = true;
+                break;
+            }
+            case 'parenchymaChanges':
+            case 'liquorSpaces':
+            case 'conclusion':
+            case 'advice':
+            case 'patientName':
+            case 'department':
+            case 'birthYear':
+            case 'patientCode':
+            case 'slicePlanes':
+            case 'skullShape':
+            case 'cranialSutures':
+            case 'skullSymmetry':
+            case 'cranialFossa':
+            case 'postoperativeChanges':
+            case 'differentiation':
+            case 'heterotopia':
+            case 'hippocampusSymmetry':
+            case 'hippocampusLesions':
+            case 'researchFrequency':
+            case 'artifactNotes':
+            case 'doctor':
+            case 'date':
+                setFieldValue(key, value);
+                break;
+            default:
+                break;
+        }
+    });
+
+    showSuccess('Profil boýunça meýdançalar awtomatiki dolduryldy.');
+}
+
+function setFieldValue(key, value) {
+    const fieldMap = {
+        date: 'research-date',
+        patientName: 'patient-name',
+        department: 'department',
+        birthYear: 'birth-year',
+        patientCode: 'patient-code',
+        researchFrequency: 'research-frequency',
+        artifactNotes: 'artifact-notes',
+        slicePlanes: 'slice-planes',
+        skullShape: 'skull-shape',
+        cranialSutures: 'cranial-sutures',
+        skullSymmetry: 'skull-symmetry',
+        cranialFossa: 'cranial-fossa',
+        postoperativeChanges: 'postoperative-changes',
+        differentiation: 'differentiation',
+        heterotopia: 'heterotopia',
+        hippocampusSymmetry: 'hippocampus-symmetry',
+        hippocampusLesions: 'hippocampus-lesions',
+        parenchymaChanges: 'parenchyma-changes',
+        liquorSpaces: 'liquor-spaces',
+        conclusion: 'conclusion',
+        advice: 'advice',
+        doctor: 'doctor',
+    };
+
+    const elementId = fieldMap[key];
+    if (!elementId) return;
+
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.value = value;
+    }
 }
 
 async function copyReport() {

@@ -255,6 +255,20 @@ p {
     gap: 6px;
 }
 
+.field-error label,
+.field-error .field-label {
+    color: #b71c1c;
+}
+
+.field-error input[type="text"],
+.field-error input[type="date"],
+.field-error input[type="number"],
+.field-error select,
+.field-error textarea {
+    border-color: #d32f2f;
+    box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2);
+}
+
 label {
     font-size: 15px;
     color: var(--text-primary);
@@ -414,6 +428,11 @@ button:disabled {
     background-color: #e8f5e9;
     border-color: #b7e1cd;
     color: #1b5e20;
+}
+
+.message ul {
+    margin: 8px 0 0 18px;
+    padding: 0;
 }
 
 .tab-container {

@@ -75,12 +75,49 @@ function showError(message) {
     container.appendChild(element);
 }
 
+function showErrorList(title, items) {
+    const container = ensureMessageContainer();
+    const element = document.createElement('div');
+    element.className = 'message error';
+
+    const heading = document.createElement('div');
+    heading.textContent = title;
+    element.appendChild(heading);
+
+    const list = document.createElement('ul');
+    items.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        list.appendChild(li);
+    });
+
+    element.appendChild(list);
+    container.appendChild(element);
+}
+
 function showSuccess(message) {
     const container = ensureMessageContainer();
     const element = document.createElement('div');
     element.className = 'message success';
     element.textContent = message;
     container.appendChild(element);
+}
+
+function resetValidationState() {
+    document.querySelectorAll('.field-error').forEach(element => {
+        element.classList.remove('field-error');
+    });
+
+    document.querySelectorAll('[aria-invalid="true"]').forEach(element => {
+        element.removeAttribute('aria-invalid');
+    });
+}
+
+function markInvalid(element) {
+    const target = element.closest('.field-group') || element;
+    target.classList.add('field-error');
+    element.setAttribute('aria-invalid', 'true');
+    return target;
 }
 
 function getField(id, label) {
@@ -95,6 +132,7 @@ function getField(id, label) {
 
 function renderSummary() {
     clearMessages();
+    resetValidationState();
 
     const resultContainer = document.getElementById('result');
     const form = document.getElementById('research-form');
@@ -180,10 +218,57 @@ function renderSummary() {
     };
 
     const requiredFields = ['date', 'patientName', 'department', 'gender', 'birthYear', 'conclusion', 'advice', 'doctor'];
-    const missing = requiredFields.filter(key => !fields[key]);
+    const missing = [];
+
+    const requiredLabels = {
+        date: 'Barlagyň senesi',
+        patientName: 'Familiyasy, ady',
+        department: 'Bölüm',
+        gender: 'Jynsy',
+        birthYear: 'Doglan ýyly',
+        conclusion: 'Netije',
+        advice: 'Maslahat',
+        doctor: 'Lukman',
+    };
+
+    const fieldElementMap = {
+        date: fieldsWithElements.date,
+        patientName: fieldsWithElements.patientName,
+        department: fieldsWithElements.department,
+        birthYear: fieldsWithElements.birthYear,
+        conclusion: fieldsWithElements.conclusion,
+        advice: fieldsWithElements.advice,
+        doctor: fieldsWithElements.doctor,
+    };
+
+    requiredFields.forEach(key => {
+        if (!fields[key]) {
+            missing.push({ key, label: requiredLabels[key] });
+        }
+    });
 
     if (missing.length) {
-        showError('Ähli zerur meýdançalar dolduryň.');
+        let focusTarget = null;
+
+        missing.forEach(({ key }) => {
+            if (key === 'gender') {
+                const genderElement = document.querySelector('input[name="gender"]');
+                if (genderElement) {
+                    focusTarget = focusTarget || genderElement;
+                    markInvalid(genderElement);
+                }
+            } else {
+                const element = fieldElementMap[key];
+
+                if (element) {
+                    focusTarget = focusTarget || element;
+                    markInvalid(element);
+                }
+            }
+        });
+
+        showErrorList('Aşakdaky meýdançalary dolduryň:', missing.map(field => field.label));
+        focusTarget?.focus();
         return;
     }
 

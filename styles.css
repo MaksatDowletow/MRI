@@ -86,6 +86,17 @@ main {
   color: #1f2937;
 }
 
+.required-mark {
+  color: #ef4444;
+  margin-left: 6px;
+}
+
+.field-hint {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
 .form-field input,
 .form-field textarea,
 .form-field select {
@@ -102,11 +113,39 @@ main {
   resize: vertical;
 }
 
+.form-field--error label {
+  color: #b91c1c;
+}
+
+.input-error {
+  border-color: rgba(239, 68, 68, 0.7);
+  background: #fff5f5;
+}
+
 .actions {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
   margin-top: 8px;
+}
+
+.notice {
+  background: #fff3cd;
+  color: #7c4b00;
+  border: 1px solid #fcd34d;
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin: 12px 0;
+}
+
+.notice strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.profile-description {
+  margin: 6px 0 0;
+  color: #475569;
 }
 
 button {

@@ -4,15 +4,17 @@
 
 export const SECTIONS = [
   {
-    id: "general",
-    titleKey: "section.general",
+    id: "patient",
+    titleKey: "section.patient",
     fields: [
-      { name: "exam_date", labelTm: "Barlagyň senesi ?", type: "date" },
-      { name: "patient_name", labelTm: "Familiyasy, ady ?", type: "text" },
-      { name: "department", labelTm: "Bölüm ?", type: "text" },
-      { name: "gender", labelTm: "Jynsy", type: "select", options: ["Erkek", "Aýal"] },
-      { name: "birth_year", labelTm: "Doglan ýyly ?", type: "text" },
-      { name: "patient_code", labelTm: "Näsagyň kody ?", type: "text" },
+      { name: "patient_name", labelTm: "Familiýasy, ady", type: "text", required: true },
+      { name: "patient_code", labelTm: "Näsagyň kody / ID", type: "text", required: true },
+      { name: "age", labelTm: "Ýaşy", type: "number", placeholder: "45", required: true },
+      { name: "gender", labelTm: "Jynsy", type: "select", options: ["Erkek", "Aýal"], required: true },
+      { name: "birth_year", labelTm: "Doglan ýyly", type: "number", placeholder: "1975" },
+      { name: "exam_date", labelTm: "Barlagyň senesi", type: "date", required: true },
+      { name: "referrer", labelTm: "Ugratýan lukman", type: "text", placeholder: "Nörolog lukman" },
+      { name: "clinical_note", labelTm: "Kliniki maglumat / ugradyş sebäbi", type: "textarea" },
     ],
   },
   {
@@ -24,9 +26,11 @@ export const SECTIONS = [
         labelTm: "Barlag usuly",
         type: "multiselect",
         options: ["Umumy", "T1", "T2", "T2_tirm", "Diffuz", "MRT angiografiýa"],
+        hint: "Birnäçe sebit/sekansiýany saýlap bilersiňiz",
       },
-      { name: "artefacts", labelTm: "Artefaktlar", type: "textarea" },
-      { name: "slice_plane", labelTm: "Kesim ugry", type: "text" },
+      { name: "artefacts", labelTm: "Artefaktlar", type: "textarea", placeholder: "Artefaktlar ýok" },
+      { name: "slice_plane", labelTm: "Kesim ugry", type: "text", placeholder: "tra, sag, cor kesimlerde" },
+      { name: "contrast", labelTm: "Kontrast ulanmasy", type: "select", options: ["Ulanylmady", "Kontrast berildi"] },
     ],
   },
   {
@@ -36,12 +40,15 @@ export const SECTIONS = [
       { name: "skull", labelTm: "Kelle çanagynyň gurluşy", type: "textarea" },
       { name: "symmetry", labelTm: "Simmetriýa", type: "textarea" },
       { name: "parenchyma", labelTm: "Beýni parenhimasynyň üýtgemeleri", type: "textarea" },
+      { name: "ventricles", labelTm: "Ventrikulýar sistema / Serebrospinal suwuklyk", type: "textarea" },
+      { name: "vascular", labelTm: "Damar gurluşlary", type: "textarea" },
+      { name: "sinuses", labelTm: "Paranazal sinuslar / mastoid", type: "textarea" },
     ],
   },
   {
     id: "result",
     titleKey: "section.result",
-    fields: [{ name: "conclusion", labelTm: "Netije", type: "textarea" }],
+    fields: [{ name: "conclusion", labelTm: "Netije", type: "textarea", required: true }],
   },
   {
     id: "advice",
@@ -51,3 +58,18 @@ export const SECTIONS = [
 ];
 
 export const SECTION_ORDER = SECTIONS.map((section) => section.id);
+
+export function createEmptyReportState() {
+  return SECTIONS.reduce((acc, section) => {
+    section.fields.forEach((field) => {
+      const defaultValue =
+        field.defaultValue !== undefined
+          ? field.defaultValue
+          : field.type === "multiselect"
+          ? []
+          : "";
+      acc[field.name] = defaultValue;
+    });
+    return acc;
+  }, {});
+}

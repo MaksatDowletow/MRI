@@ -12,6 +12,12 @@ function createField(field) {
   const label = document.createElement("label");
   label.textContent = field.labelTm;
   label.setAttribute("for", field.name);
+  if (field.required) {
+    const mark = document.createElement("span");
+    mark.className = "required-mark";
+    mark.textContent = "*";
+    label.appendChild(mark);
+  }
 
   let control;
   switch (field.type) {
@@ -44,6 +50,10 @@ function createField(field) {
 
   control.id = field.name;
   control.name = field.name;
+  control.required = Boolean(field.required);
+  if (field.placeholder) {
+    control.placeholder = field.placeholder;
+  }
 
   const currentValue = reportState.getField(field.name);
   if (control.multiple && Array.isArray(currentValue)) {
@@ -63,6 +73,12 @@ function createField(field) {
 
   wrapper.appendChild(label);
   wrapper.appendChild(control);
+  if (field.hint) {
+    const hint = document.createElement("p");
+    hint.className = "field-hint";
+    hint.textContent = field.hint;
+    wrapper.appendChild(hint);
+  }
   return wrapper;
 }
 
@@ -87,6 +103,7 @@ function renderSection(section) {
 }
 
 export function renderForm(root) {
+  if (!root) return;
   root.innerHTML = "";
   SECTIONS.forEach((section) => {
     const sectionEl = renderSection(section);

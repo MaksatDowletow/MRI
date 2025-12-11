@@ -1,13 +1,17 @@
 // state.js
 // Ýönekeý observable görnüşli state dolandyryşy. reportState data modelini saklaýar.
 
+import { createEmptyReportState } from "./schema.js";
+
 const listeners = [];
 
 export const reportState = {
-  data: {},
+  data: createEmptyReportState(),
+  baseState: createEmptyReportState(),
 
   init(initialData = {}) {
-    this.data = { ...initialData };
+    this.baseState = createEmptyReportState();
+    this.data = { ...this.baseState, ...initialData };
     this.notify();
   },
 
@@ -18,6 +22,16 @@ export const reportState = {
 
   getField(name) {
     return this.data[name];
+  },
+
+  isDirty() {
+    return Object.entries(this.data).some(([key, value]) => {
+      const baseValue = this.baseState[key];
+      if (Array.isArray(value)) {
+        return value.length > 0 && JSON.stringify(value) !== JSON.stringify(baseValue || []);
+      }
+      return value !== baseValue && value !== "" && value !== null && value !== undefined;
+    });
   },
 
   subscribe(listener) {

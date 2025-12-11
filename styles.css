@@ -8,31 +8,31 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  background: #f7f8fa;
-  color: #1f2933;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f5f7fb;
+  color: #0f172a;
   line-height: 1.6;
 }
 
 .shell {
-  max-width: 1100px;
+  max-width: 1080px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
 .app-header {
   background: #ffffff;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
   padding: 28px 0;
 }
 
 .app-title {
   margin: 0 0 6px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   font-weight: 700;
-  color: #394b59;
-  font-size: 0.95rem;
+  color: #475569;
+  font-size: 0.9rem;
 }
 
 .app-subtitle {
@@ -43,202 +43,91 @@ body {
 }
 
 main {
-  padding: 32px 0 40px;
+  padding: 32px 0 42px;
+  display: grid;
+  gap: 18px;
 }
 
 #app {
-  min-height: 320px;
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 14px;
-  padding: 32px;
-  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.05);
-}
-
-.draft-status {
-  margin: 0 0 16px;
-  padding: 10px 12px;
-  border-radius: 10px;
-  background: rgba(59, 130, 246, 0.08);
-  color: #1d4ed8;
-  border: 1px solid rgba(59, 130, 246, 0.25);
-  font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.draft-status.is-restored {
-  background: rgba(16, 185, 129, 0.1);
-  border-color: rgba(16, 185, 129, 0.35);
-  color: #047857;
+  min-height: 280px;
 }
 
 .card {
   background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  border-radius: 12px;
-  padding: 20px 24px;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
-  margin-bottom: 20px;
-}
-
-.card-profile {
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  background: linear-gradient(135deg, #f4fffb 0%, #ffffff 65%);
-}
-
-.card-profile__header {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  align-items: flex-start;
-}
-
-.card-profile__control {
-  min-width: 240px;
-  margin: 0;
-}
-
-.card-description {
-  margin: 6px 0 0;
-  color: #4b5563;
-}
-
-.card-note {
-  margin: 14px 0 0;
-  padding: 12px 14px;
-  border-radius: 10px;
-  background: rgba(16, 185, 129, 0.08);
-  color: #065f46;
-  border: 1px solid rgba(16, 185, 129, 0.24);
-  font-weight: 600;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  border-radius: 14px;
+  padding: 20px 22px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
 }
 
 .card h2 {
-  margin: 0 0 16px;
-  font-size: 1.2rem;
-  color: #0f172a;
+  margin: 0 0 12px;
+  font-size: 1.15rem;
 }
 
-.form-row {
+.form-section {
+  margin-bottom: 18px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px 18px;
+}
+
+.form-field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-bottom: 14px;
+  gap: 6px;
 }
 
-.form-row label,
-.form-row > span {
+.form-field label {
   font-weight: 600;
   color: #1f2937;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
 }
 
-.form-row input,
-.form-row select,
-.form-row textarea {
+.form-field input,
+.form-field textarea,
+.form-field select {
   padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid rgba(17, 24, 39, 0.12);
-  background: #f9fafb;
+  border-radius: 10px;
+  border: 1px solid rgba(15, 23, 42, 0.15);
   font-size: 1rem;
   font-family: inherit;
+  background: #f8fafc;
 }
 
-.form-row textarea {
-  resize: vertical;
+.form-field textarea {
   min-height: 90px;
+  resize: vertical;
 }
 
-.options-group {
+.actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px 16px;
-}
-
-.option-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 500;
-  color: #374151;
-}
-
-.conditional-field {
-  padding: 8px 12px 10px;
-  border-radius: 10px;
-  border: 1px dashed rgba(17, 24, 39, 0.15);
-  background: #f9fafb;
-}
-
-.conditional-field[hidden] {
-  display: none;
-}
-
-.nested-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.conditional-field .nested-field span {
-  font-weight: 600;
-  color: #111827;
-}
-
-.conditional-field .nested-field textarea {
-  background: #ffffff;
-  border-color: rgba(17, 24, 39, 0.16);
-  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.08);
-}
-
-.action-buttons {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 12px;
-  margin-top: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
 }
 
-.action-buttons button {
+button {
   padding: 12px 14px;
   border-radius: 10px;
-  border: 1px solid rgba(17, 24, 39, 0.08);
-  background: linear-gradient(145deg, #f0f4ff, #e5ecff);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: linear-gradient(145deg, #e9efff, #dbe7ff);
   color: #0f172a;
   font-weight: 700;
-  letter-spacing: 0.01em;
   cursor: pointer;
-  transition: all 160ms ease-in-out;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65), 0 8px 18px rgba(15, 23, 42, 0.12);
+  transition: transform 120ms ease, box-shadow 120ms ease;
 }
 
-.action-buttons button:hover {
+button:hover {
   transform: translateY(-1px);
-  background: linear-gradient(145deg, #e8efff, #dce6ff);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 10px 20px rgba(15, 23, 42, 0.15);
-}
-
-.action-buttons button:active {
-  transform: translateY(0);
-  box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.12);
-}
-
-.action-buttons button.is-success {
-  background: linear-gradient(145deg, #d1f5e6, #b8ebd8);
-  color: #0f5132;
-  border-color: rgba(16, 185, 129, 0.3);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
 }
 
 .report-preview {
-  border-color: rgba(16, 185, 129, 0.25);
+  border-color: rgba(16, 185, 129, 0.2);
   background: #f8fffb;
-}
-
-.report-preview__header {
-  margin-bottom: 12px;
 }
 
 .report-preview__header h2 {
@@ -246,28 +135,25 @@ main {
 }
 
 .report-preview__header p {
-  margin: 6px 0 0;
+  margin: 6px 0 12px;
   color: #374151;
 }
 
-#reportPreview pre,
-#reportPreviewContent {
+#reportPreview pre {
   background: #ffffff;
-  border: 1px solid rgba(17, 24, 39, 0.08);
-  border-radius: 12px;
-  padding: 16px;
-  font-size: 0.98rem;
-  line-height: 1.5;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 10px;
+  padding: 14px;
   white-space: pre-wrap;
   word-break: break-word;
-  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.06);
+  min-height: 160px;
 }
 
 .app-footer {
   background: #ffffff;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-  padding: 24px 0;
-  color: #4b5563;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 22px 0;
+  color: #475569;
   font-size: 0.95rem;
 }
 
@@ -280,8 +166,7 @@ main {
     font-size: 1.5rem;
   }
 
-  #app {
-    padding: 24px;
-    min-height: 240px;
+  .card {
+    padding: 18px;
   }
 }

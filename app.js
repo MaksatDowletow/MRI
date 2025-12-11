@@ -21,6 +21,8 @@ const CLINICAL_PROFILES = {
   },
 };
 
+const DRAFT_STORAGE_KEY = 'mri_brain_rsna_draft';
+
 function renderForm() {
   const appRoot = document.getElementById('app');
   if (!appRoot) return;
@@ -29,6 +31,7 @@ function renderForm() {
 
   appRoot.innerHTML = `
     <form id="reportForm">
+      <div id="draftStatus" class="draft-status" hidden aria-live="polite"></div>
       <section class="card card-profile">
         <div class="card-profile__header">
           <div>
@@ -279,6 +282,7 @@ function renderForm() {
           <button type="button" id="btn-fill-rsna">RSNA şablonyny doldur</button>
           <button type="button" id="btn-export-docx">Word görnüşde ýükle</button>
           <button type="button" id="btn-copy-text">Nusgany göçür</button>
+          <button type="button" id="btn-reset-draft">Arassala / Täze hasabat</button>
         </div>
       </section>
 
@@ -295,6 +299,8 @@ function renderForm() {
   setupClinicalProfiles(appRoot);
   setupConditionalFields(appRoot);
   setupReportActions(appRoot);
+  setupAutosave(appRoot);
+  restoreDraftIfAvailable(appRoot);
 }
 
 function applyClinicalProfile(profileKey, root) {
@@ -360,6 +366,85 @@ function setupConditionalFields(root) {
     selectEl.addEventListener('change', toggleField);
     toggleField();
   });
+}
+
+function updateDraftStatus(message, type = 'autosaved') {
+  const statusEl = document.getElementById('draftStatus');
+  if (!statusEl) return;
+
+  statusEl.textContent = message;
+  statusEl.hidden = !message;
+  statusEl.classList.toggle('is-restored', type === 'restored');
+}
+
+function saveDraft(reportData) {
+  try {
+    localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(reportData));
+    updateDraftStatus('Draft autosaved', 'autosaved');
+  } catch (error) {
+    console.error('Draft saklanylanda ýalňyşlyk boldy', error);
+  }
+}
+
+function fillFormWithData(data, root) {
+  const form = root.querySelector('#reportForm');
+  if (!form || !data) return;
+
+  const elements = form.querySelectorAll('input[name], select[name], textarea[name]');
+
+  elements.forEach((el) => {
+    const { name, type } = el;
+    const value = data[name];
+
+    if (value === undefined) return;
+
+    if (type === 'checkbox') {
+      el.checked = Boolean(value);
+      return;
+    }
+
+    if (type === 'radio') {
+      el.checked = value === el.value;
+      return;
+    }
+
+    el.value = value;
+  });
+
+  const changeTargets = form.querySelectorAll('select[name], input[type="radio"], input[type="checkbox"]');
+  changeTargets.forEach((el) => {
+    el.dispatchEvent(new Event('change', { bubbles: true }));
+  });
+}
+
+function restoreDraftIfAvailable(root) {
+  const rawDraft = localStorage.getItem(DRAFT_STORAGE_KEY);
+  if (!rawDraft) return;
+
+  try {
+    const parsedDraft = JSON.parse(rawDraft);
+    const shouldRestore = confirm('Saklanan taslama tapyldy. Dikeltmek isleýärsiňizmi?');
+
+    if (shouldRestore) {
+      fillFormWithData(parsedDraft, root);
+      updateDraftStatus('DRAFT dikeldildi', 'restored');
+    }
+  } catch (error) {
+    console.error('Taslama maglumatlaryny dikeltmek başartmady', error);
+  }
+}
+
+function setupAutosave(root) {
+  const form = root.querySelector('#reportForm');
+  if (!form) return;
+
+  const handleDraftSave = () => {
+    const reportData = collectFormData();
+    saveDraft(reportData);
+  };
+
+  form.addEventListener('input', handleDraftSave);
+  form.addEventListener('change', handleDraftSave);
 }
 
 function buildDocxTemplateData(reportData) {
@@ -584,8 +669,10 @@ function setupReportActions(root) {
   const copyBtn = root.querySelector('#btn-copy-text');
   const rsnaBtn = root.querySelector('#btn-fill-rsna');
   const exportBtn = root.querySelector('#btn-export-docx');
+  const resetBtn = root.querySelector('#btn-reset-draft');
   const previewSection = root.querySelector('#reportPreview');
   const previewContent = root.querySelector('#reportPreviewContent');
+  const form = root.querySelector('#reportForm');
 
   let lastReportText = '';
 
@@ -626,6 +713,22 @@ function setupReportActions(root) {
   exportBtn?.addEventListener('click', async () => {
     const data = collectFormData();
     await exportToDocx(data);
+  });
+
+  resetBtn?.addEventListener('click', () => {
+    form?.reset();
+    localStorage.removeItem(DRAFT_STORAGE_KEY);
+    updateDraftStatus('', 'autosaved');
+
+    const changeTargets = form?.querySelectorAll('select[name], input[type="radio"], input[type="checkbox"]') || [];
+    changeTargets.forEach((el) => {
+      el.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+
+    if (previewSection && previewContent) {
+      previewContent.textContent = '';
+      previewSection.hidden = true;
+    }
   });
 }
 

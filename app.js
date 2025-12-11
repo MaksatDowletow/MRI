@@ -1,3 +1,26 @@
+const CLINICAL_PROFILES = {
+  kadaly: {
+    label: 'Kadaly MRT (profilaktika)',
+    description: 'Kadaly profil: anyk ojak ýok, artefaktlar ýok, standart kesimlerde doly protokol.',
+    defaults: {
+      methods: ['methodGeneral', 'methodT1', 'methodT2', 'methodT2Tirm', 'methodDiffuz', 'methodAngiography'],
+      examType: 'first',
+      artifacts: 'none',
+      sliceDirection: 'tra, sag, cor kesimlerde.',
+    },
+  },
+  dyscirculatory: {
+    label: 'Diskirkulýator ojakly',
+    description: '',
+    defaults: {},
+  },
+  postoperative: {
+    label: 'Operasiýadan soňky gözegçilik',
+    description: '',
+    defaults: {},
+  },
+};
+
 function renderForm() {
   const appRoot = document.getElementById('app');
   if (!appRoot) return;
@@ -5,6 +28,27 @@ function renderForm() {
   const today = new Date().toISOString().split('T')[0];
 
   appRoot.innerHTML = `
+    <section class="card card-profile">
+      <div class="card-profile__header">
+        <div>
+          <h2>Auto Intake</h2>
+          <p class="card-description">Profil saýlap, meýdançalary awtomatiki dolduryň</p>
+        </div>
+        <div class="form-row card-profile__control">
+          <label>
+            Kliniki profil
+            <select name="clinicalProfile" aria-label="Kliniki profil">
+              <option value="">Profil saýlaň</option>
+              ${Object.entries(CLINICAL_PROFILES)
+                .map(([key, profile]) => `<option value="${key}">${profile.label}</option>`)
+                .join('')}
+            </select>
+          </label>
+        </div>
+      </div>
+      <p class="card-note">${CLINICAL_PROFILES.kadaly.description}</p>
+    </section>
+
     <section class="card section-general">
       <h2>Umumy maglumatlar</h2>
       <div class="form-row">
@@ -210,7 +254,43 @@ function renderForm() {
     </section>
   `;
 
+  setupClinicalProfiles(appRoot);
   setupConditionalFields(appRoot);
+}
+
+function applyClinicalProfile(profileKey, root) {
+  const profile = CLINICAL_PROFILES[profileKey];
+
+  if (!profile || !profile.defaults) return;
+
+  const { methods = [], examType, artifacts, sliceDirection } = profile.defaults;
+
+  const methodCheckboxes = root.querySelectorAll('input[type="checkbox"][name^="method"]');
+
+  methodCheckboxes.forEach((checkbox) => {
+    const shouldCheck = methods.includes(checkbox.name);
+    checkbox.checked = shouldCheck;
+  });
+
+  const updateFieldValue = (selector, value) => {
+    if (!value) return;
+    const field = root.querySelector(selector);
+    if (!field) return;
+    field.value = value;
+  };
+
+  updateFieldValue('select[name="examType"]', examType);
+  updateFieldValue('select[name="artifacts"]', artifacts);
+  updateFieldValue('input[name="sliceDirection"]', sliceDirection);
+}
+
+function setupClinicalProfiles(root) {
+  const select = root.querySelector('select[name="clinicalProfile"]');
+  if (!select) return;
+
+  select.addEventListener('change', () => {
+    applyClinicalProfile(select.value, root);
+  });
 }
 
 function setupConditionalFields(root) {

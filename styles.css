@@ -64,6 +64,38 @@ main {
   margin-bottom: 20px;
 }
 
+.card-profile {
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  background: linear-gradient(135deg, #f4fffb 0%, #ffffff 65%);
+}
+
+.card-profile__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.card-profile__control {
+  min-width: 240px;
+  margin: 0;
+}
+
+.card-description {
+  margin: 6px 0 0;
+  color: #4b5563;
+}
+
+.card-note {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(16, 185, 129, 0.08);
+  color: #065f46;
+  border: 1px solid rgba(16, 185, 129, 0.24);
+  font-weight: 600;
+}
+
 .card h2 {
   margin: 0 0 16px;
   font-size: 1.2rem;

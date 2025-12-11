@@ -16,6 +16,8 @@ const previewSection = document.getElementById("reportPreview");
 const previewContent = document.getElementById("reportPreviewContent");
 let profileDescriptionEl = null;
 let snippetStatusEl = null;
+const PREVIEW_PLACEHOLDER =
+  "Gerekli maglumatlar girizileniňden soň hasabat şu ýerde peýda bolar.";
 
 function renderProfileDescription(profile) {
   if (!profileDescriptionEl) {
@@ -94,6 +96,12 @@ function updateSnippetStatus(message) {
   }
 }
 
+function showPreview(text = "") {
+  if (!previewSection || !previewContent) return;
+  previewContent.textContent = text || PREVIEW_PLACEHOLDER;
+  previewSection.hidden = false;
+}
+
 function insertSnippet(text) {
   const active = document.activeElement;
   const isTextControl =
@@ -165,10 +173,12 @@ function attachHandlers() {
   generateBtn?.addEventListener("click", () => {
     const valid = validateRequiredFields();
     const reportText = generatePlainTextReport(reportState.data);
-    if (previewSection && previewContent) {
-      previewContent.textContent = reportText || "Gerekli maglumatlar girizileniňden soň hasabat şu ýerde peýda bolar.";
-      previewSection.hidden = !valid || !reportText;
+    if (!valid || !reportText) {
+      showPreview();
+      return;
     }
+
+    showPreview(reportText);
   });
 
   const clearBtn = document.getElementById("btn-clear");
@@ -178,10 +188,7 @@ function attachHandlers() {
     clearDraft();
     renderForm(document.getElementById("formContainer"));
     renderProfileDescription(null);
-    if (previewSection && previewContent) {
-      previewContent.textContent = "";
-      previewSection.hidden = true;
-    }
+    showPreview();
   });
 
   const exportBtn = document.getElementById("btn-export");
@@ -209,6 +216,7 @@ function init() {
   renderProfileDescription(null);
   attachHandlers();
   setupAutosave();
+  showPreview();
 }
 
 function validateRequiredFields() {

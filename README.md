@@ -1,7 +1,7 @@
 # MRI
 
 ## Overview
-The site is a single-page Turkmen-language MRI reporting helper built from `index.html`, `styles.css`, `script.js`, and `saveWord.js`, with FileSaver loaded from a CDN for downloads.
+The site is a single-page Turkmen-language MRI reporting helper built from `index.html`, `styles.css`, `script.js`, and `saveWord.js`, with FileSaver loaded from a CDN for downloads. The export workflow now feeds collected values into the bundled `Beýni_kada_.docx` template through PizZip + Docxtemplater for true `.docx` output.
 
 The layout follows an RSNA-branded hero, a sidebar with sample report snippets and workflow tips, and a main form-driven protocol area organized into numbered sections for patient info, scan parameters, structural findings, and conclusions.
 
@@ -13,4 +13,4 @@ The layout follows an RSNA-branded hero, a sidebar with sample report snippets a
 - Таб-листы (`.tab-panel`), расположенные рядом, содержат чек-листы по радиологическим находкам (очаговые изменения, динамика/контрастирование, ликворные пространства/сосуды, прочие области) для справки во время заполнения.
 - При загрузке страницы `script.js` подставляет сегодняшнюю дату, переключает вкладки, проверяет обязательные поля, формирует HTML-резюме в блоке `#result` при отправке формы и включает кнопку копирования текста отчёта в буфер с сообщениями об успехе или ошибке.
 - Вспомогательные функции создают зоны для сообщений и отображают подсказки по валидации или статус копирования; если ключевые элементы формы отсутствуют, вывод резюме блокируется с понятными ошибками.
-- `saveWord.js` собирает те же значения формы, строит минимальный стилизованный HTML, оборачивает его в совместимый с Word Blob и через FileSaver (`saveAs`) скачивает `.doc` с датой в имени.
+- `saveWord.js` собирает те же значения формы, подменяет в `Beýni_kada_.docx` заранее goýlan tekst RUN-larynda taglaryňy ýerleşdirýär, догоняя Docxtemplater arkaly `.docx` файлын döredýär we FileSaver (`saveAs`) arkaly görnüşi boýunça ýükleýär.

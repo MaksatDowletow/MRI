@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const genderInput = document.querySelector('input[name="gender"]:checked');
             const methods = Array.from(document.querySelectorAll('input[name="method"]:checked')).map(el => el.value).join(', ');
+            const slicePlanes = document.getElementById('slice-planes')?.value || '';
+            const methodText = [methods, slicePlanes].filter(Boolean).join('; ');
 
             const formData = {
                 date: document.getElementById('research-date')?.value || '',
@@ -14,19 +16,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 gender: genderInput?.value || '',
                 birthYear: document.getElementById('birth-year')?.value || '',
                 patientCode: document.getElementById('patient-code')?.value || '',
-                methods,
+                methods: methodText || '—',
                 researchFrequency: document.getElementById('research-frequency')?.value || '',
                 artifactNotes: document.getElementById('artifact-notes')?.value || '',
-                slicePlanes: document.getElementById('slice-planes')?.value || '',
                 skullShape: document.getElementById('skull-shape')?.value || '',
-                cranialSutures: document.getElementById('cranial-sutures')?.value || '',
                 skullSymmetry: document.getElementById('skull-symmetry')?.value || '',
-                cranialFossa: document.getElementById('cranial-fossa')?.value || '',
-                postoperativeChanges: document.getElementById('postoperative-changes')?.value || '',
                 differentiation: document.getElementById('differentiation')?.value || '',
-                heterotopia: document.getElementById('heterotopia')?.value || '',
-                hippocampusSymmetry: document.getElementById('hippocampus-symmetry')?.value || '',
-                hippocampusLesions: document.getElementById('hippocampus-lesions')?.value || '',
                 parenchymaChanges: document.getElementById('parenchyma-changes')?.value || '',
                 liquorSpaces: document.getElementById('liquor-spaces')?.value || '',
                 conclusion: document.getElementById('conclusion')?.value || '',
@@ -34,53 +29,93 @@ document.addEventListener('DOMContentLoaded', function() {
                 doctor: document.getElementById('doctor')?.value || ''
             };
 
-            const htmlContent = `<!DOCTYPE html>
-                <html lang="tk">
-                  <head>
-                    <meta charset="UTF-8" />
-                    <title>MRT hasabaty</title>
-                    <style>
-                      body { font-family: 'Arial', sans-serif; line-height: 1.5; }
-                      h1 { text-align: center; }
-                      .section { margin: 12px 0; }
-                      .label { font-weight: bold; }
-                    </style>
-                  </head>
-                  <body>
-                    <h1>KELLE BEÝNINIŇ MRT BARLAGY</h1>
-                    <div class="section"><span class="label">Barlagyň senesi:</span> ${formData.date}</div>
-                    <div class="section"><span class="label">Familiyasy, ady:</span> ${formData.patientName}</div>
-                    <div class="section"><span class="label">Bölüm:</span> ${formData.department}</div>
-                    <div class="section"><span class="label">Jynsy:</span> ${formData.gender}</div>
-                    <div class="section"><span class="label">Doglan ýyly:</span> ${formData.birthYear}</div>
-                    <div class="section"><span class="label">Näsagyň kody:</span> ${formData.patientCode}</div>
-                    <div class="section"><span class="label">Barlag usuly:</span> ${methods || '—'}</div>
-                    <div class="section"><span class="label">Barlagyň gaýtalanmasy:</span> ${formData.researchFrequency}</div>
-                    <div class="section"><span class="label">Artefaktlar:</span> ${formData.artifactNotes}</div>
-                    <div class="section"><span class="label">Kesim ugry:</span> ${formData.slicePlanes}</div>
-                    <div class="section"><span class="label">Kelle çanagy:</span> ${formData.skullShape}</div>
-                    <div class="section"><span class="label">Tikinleri:</span> ${formData.cranialSutures}</div>
-                    <div class="section"><span class="label">Simmetriýa:</span> ${formData.skullSymmetry}</div>
-                    <div class="section"><span class="label">Kelleçanagyň çukurjuklary:</span> ${formData.cranialFossa}</div>
-                    <div class="section"><span class="label">Operasiýadan soňky üýtgemeleri:</span> ${formData.postoperativeChanges}</div>
-                    <div class="section"><span class="label">Ak we çal maddanyň differensasiýasy:</span> ${formData.differentiation}</div>
-                    <div class="section"><span class="label">Geterotopiýa:</span> ${formData.heterotopia}</div>
-                    <div class="section"><span class="label">Gippokamp simmetriýasy:</span> ${formData.hippocampusSymmetry}</div>
-                    <div class="section"><span class="label">Gippokampdaky ojaklar:</span> ${formData.hippocampusLesions}</div>
-                    <div class="section"><span class="label">Beýni parenhimasynyň ojaklaýyn üýtgemeleri:</span><br/>${formData.parenchymaChanges || '—'}</div>
-                    <div class="section"><span class="label">Likwor saklaýan giňişlikler:</span><br/>${formData.liquorSpaces || '—'}</div>
-                    <div class="section"><span class="label">Netije:</span><br/>${formData.conclusion}</div>
-                    <div class="section"><span class="label">Maslahat:</span><br/>${formData.advice}</div>
-                    <div class="section"><span class="label">Lukman:</span> ${formData.doctor}</div>
-                  </body>
-                </html>`;
+            const templateResponse = await fetch('Beýni_kada_.docx');
 
-            const blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword;charset=utf-8' });
-            saveAs(blob, `mrt_hasabaty_${new Date().toISOString().slice(0, 10)}.doc`);
+            if (!templateResponse.ok) {
+                throw new Error('Şablony ýüklemek başartmady.');
+            }
 
+            const arrayBuffer = await templateResponse.arrayBuffer();
+            const preparedZip = injectPlaceholders(new PizZip(arrayBuffer));
+            const doc = new window.docxtemplater(preparedZip, {
+                paragraphLoop: true,
+                linebreaks: true,
+            });
+
+            doc.setData(formData);
+            doc.render();
+
+            const out = doc.getZip().generate({
+                type: 'blob',
+                mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            });
+
+            saveAs(out, `mrt_beyni_${new Date().toISOString().slice(0, 10)}.docx`);
         } catch(error) {
             console.error("Ýalňyşlyk:", error);
             alert("Resminama döretmekde ýalňyşlyk: " + error.message);
         }
     });
 });
+
+function injectPlaceholders(zip) {
+    const documentFile = zip.file('word/document.xml');
+
+    if (!documentFile) {
+        throw new Error('Şablon dokumentiniň gurluşy üýtgeşik: word/document.xml tapylmady.');
+    }
+
+    const rawXml = documentFile.asText();
+    const parser = new DOMParser();
+    const dom = parser.parseFromString(rawXml, 'application/xml');
+    const textNodes = Array.from(dom.getElementsByTagNameNS('http://schemas.openxmlformats.org/wordprocessingml/2006/main', 't'));
+
+    const replacements = {
+        9: '{{date}}',
+        12: '{{patientName}}',
+        16: '{{department}}',
+        19: '{{gender}}',
+        23: '{{birthYear}}',
+        27: '{{patientCode}}',
+        29: '',
+        32: '{{methods}}',
+        36: '{{artifactNotes}}',
+        40: '{{researchFrequency}}',
+        43: '{{skullShape}}',
+        45: '{{skullSymmetry}}',
+        49: '{{differentiation}}',
+        50: '{{parenchymaChanges}}',
+        55: '{{liquorSpaces}}',
+        56: '',
+        57: '',
+        58: '',
+        59: '',
+        61: '',
+        62: '',
+        63: '',
+        64: '',
+        66: '',
+        67: '',
+        68: '',
+        69: '',
+        70: '',
+        71: '',
+        72: '',
+        140: '{{conclusion}}',
+        145: '{{advice}}',
+        155: 'Lukman: {{doctor}}',
+        156: '',
+    };
+
+    Object.entries(replacements).forEach(([position, value]) => {
+        const index = Number(position) - 1;
+        if (textNodes[index]) {
+            textNodes[index].textContent = value;
+        }
+    });
+
+    const serializer = new XMLSerializer();
+    const updatedXml = serializer.serializeToString(dom);
+    zip.file('word/document.xml', updatedXml);
+    return zip;
+}

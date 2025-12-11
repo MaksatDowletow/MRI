@@ -113,7 +113,134 @@ function renderForm() {
         </label>
       </div>
     </section>
+
+    <section class="card section-structures">
+      <h2>Gurluşlar we simmetriýa</h2>
+      <div class="form-row">
+        <label>
+          Kelle çanak:
+          <select name="skullShape" data-label-tm="Kelle çanak:">
+            <option value="Mezosefal tipli." selected>Mezosefal tipli.</option>
+            <option value="Dolihosefal tipli.">Dolihosefal tipli.</option>
+            <option value="Brahisefal tipli.">Brahisefal tipli.</option>
+          </select>
+        </label>
+      </div>
+      <div class="form-row">
+        <label>
+          Tikinleri:
+          <select name="sutures" data-label-tm="Tikinleri:">
+            <option value="kadaly ýagdaýda.">kadaly ýagdaýda.</option>
+            <option value="synostoz alamatly.">synostoz alamatly.</option>
+          </select>
+        </label>
+      </div>
+      <div class="form-row">
+        <label>
+          Simmetriýa:
+          <select name="symmetry" data-label-tm="Simmetriýa:">
+            <option value="Simmetrik.">Simmetrik.</option>
+            <option value="Asimmetrik.">Asimmetrik.</option>
+          </select>
+        </label>
+      </div>
+      <div class="form-row">
+        <label>
+          Kelleçanagyň çukurjuklary:
+          <textarea name="cranialFossa" data-label-tm="Kelleçanagyň çukurjuklary:" rows="3">Kadaly.</textarea>
+        </label>
+      </div>
+      <div class="form-row">
+        <label>
+          Operasiýadan soňky üýtgemeleri:
+          <select name="postoperativeChanges" data-label-tm="Operasiýadan soňky üýtgemeleri:">
+            <option value="ýok.">ýok.</option>
+            <option value="bar (şu ýerde beýan ediň).">bar (şu ýerde beýan ediň).</option>
+          </select>
+        </label>
+        <div class="conditional-field" data-related="postoperativeChanges">
+          <label class="nested-field">
+            <span>Giňişleýin beýan</span>
+            <textarea name="postoperativeChangesDetails" data-label-tm="Operasiýadan soňky üýtgemeleri (beýan)" rows="3"></textarea>
+          </label>
+        </div>
+      </div>
+      <div class="form-row">
+        <label>
+          Ak we çal maddanyň differensasiýasy:
+          <textarea name="whiteGrayMatterDifferentiation" data-label-tm="Ak we çal maddanyň differensasiýasy:" rows="3">aýdyň. Ojaklaýyn üýtgemeleri bellenmeýär.</textarea>
+        </label>
+      </div>
+      <div class="form-row">
+        <label>
+          Geterotopiýa:
+          <select name="heterotopia" data-label-tm="Geterotopiýa:">
+            <option value="bellenmeýar.">bellenmeýar.</option>
+            <option value="bar (şu ýerde beýan ediň).">bar (şu ýerde beýan ediň).</option>
+          </select>
+        </label>
+        <div class="conditional-field" data-related="heterotopia">
+          <label class="nested-field">
+            <span>Giňişleýin beýan</span>
+            <textarea name="heterotopiaDetails" data-label-tm="Geterotopiýa (beýan)" rows="3"></textarea>
+          </label>
+        </div>
+      </div>
+      <div class="form-row">
+        <label>
+          Gippokamp simmetriýasy:
+          <select name="hippocampalSymmetry" data-label-tm="Gippokamp simmetriýasy:">
+            <option value="Simmetrik.">Simmetrik.</option>
+            <option value="Asimmetrik.">Asimmetrik.</option>
+          </select>
+        </label>
+      </div>
+      <div class="form-row">
+        <label>
+          Gippokampdaky ojaklar:
+          <textarea name="hippocampalFoci" data-label-tm="Gippokampdaky ojaklar:" rows="3">ojaklaýyn üýtgeşme ýok.</textarea>
+        </label>
+      </div>
+      <div class="form-row">
+        <label>
+          Beýni parenhimasynyň ojaklaýyn üýtgemeleri:
+          <textarea name="parenchymaLesions" data-label-tm="Beýni parenhimasynyň ojaklaýyn üýtgemeleri:" rows="3"></textarea>
+        </label>
+      </div>
+    </section>
   `;
+
+  setupConditionalFields(appRoot);
+}
+
+function setupConditionalFields(root) {
+  const conditionalConfigs = [
+    {
+      selectName: 'postoperativeChanges',
+      triggerValue: 'bar (şu ýerde beýan ediň).',
+      relatedSelector: '[data-related="postoperativeChanges"]',
+    },
+    {
+      selectName: 'heterotopia',
+      triggerValue: 'bar (şu ýerde beýan ediň).',
+      relatedSelector: '[data-related="heterotopia"]',
+    },
+  ];
+
+  conditionalConfigs.forEach(({ selectName, triggerValue, relatedSelector }) => {
+    const selectEl = root.querySelector(`select[name="${selectName}"]`);
+    const relatedField = root.querySelector(relatedSelector);
+
+    if (!selectEl || !relatedField) return;
+
+    const toggleField = () => {
+      const shouldShow = selectEl.value === triggerValue;
+      relatedField.hidden = !shouldShow;
+    };
+
+    selectEl.addEventListener('change', toggleField);
+    toggleField();
+  });
 }
 
 export function renderApp() {

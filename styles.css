@@ -87,12 +87,19 @@ main {
 }
 
 .form-row input,
-.form-row select {
+.form-row select,
+.form-row textarea {
   padding: 10px 12px;
   border-radius: 8px;
   border: 1px solid rgba(17, 24, 39, 0.12);
   background: #f9fafb;
   font-size: 1rem;
+  font-family: inherit;
+}
+
+.form-row textarea {
+  resize: vertical;
+  min-height: 90px;
 }
 
 .options-group {
@@ -107,6 +114,19 @@ main {
   gap: 6px;
   font-weight: 500;
   color: #374151;
+}
+
+.conditional-field {
+  padding: 8px 12px 10px;
+  border-radius: 10px;
+  border: 1px dashed rgba(17, 24, 39, 0.15);
+  background: #f9fafb;
+}
+
+.nested-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .app-footer {

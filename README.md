@@ -3,6 +3,8 @@
 ## Overview
 Static single-page RSNA MRI report studio built for GitHub Pages with vanilla HTML/CSS/JS and ES modules. The app renders a schema-driven form for RSNA/022 brain MRI reports, supports clinical profile presets, autosaves drafts to `localStorage`, and generates Turkmen-language plain-text reports for quick copy/paste or future DOCX export.
 
+An RSNA.txt snippet panel now exposes all core pathological descriptions in Turkmen, letting you drop standardized findings into any field or copy them to the clipboard.
+
 ## Architecture
 - `index.html` – Page shell (header/main/footer), mounts the form into `#app` and shows preview in `#reportPreview`.
 - `styles.css` – Base layout and card styling for form sections and preview.

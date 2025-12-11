@@ -188,6 +188,71 @@ button:hover {
   min-height: 160px;
 }
 
+.snippet-panel {
+  border-color: rgba(59, 130, 246, 0.24);
+  background: #f8fbff;
+}
+
+.snippet-panel__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.snippet-panel__header p {
+  margin: 6px 0 0;
+  color: #475569;
+}
+
+.snippet-panel__status {
+  margin: 0;
+  color: #16a34a;
+  font-weight: 700;
+  min-width: 180px;
+  text-align: right;
+}
+
+.snippet-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.snippet-group {
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #ffffff;
+}
+
+.snippet-group summary {
+  font-weight: 700;
+  color: #1d4ed8;
+  cursor: pointer;
+}
+
+.snippet-chip-list {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.snippet-chip {
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: #e0ebff;
+  border-color: rgba(59, 130, 246, 0.3);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.snippet-chip:hover {
+  background: #d5e4ff;
+}
+
 .app-footer {
   background: #ffffff;
   border-top: 1px solid rgba(15, 23, 42, 0.08);

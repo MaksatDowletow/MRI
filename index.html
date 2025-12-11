@@ -16,19 +16,21 @@
 
   <main class="shell" aria-label="RSNA MRI report studio">
     <div id="app"></div>
+    <section id="reportPreview" class="card report-preview" aria-live="polite" hidden>
+      <div class="report-preview__header">
+        <h2>Hasabat deslapdan görkezmesi</h2>
+        <p>"Hasabat döret" düwmesine basanyňyzda tekst bu ýerde peýda bolar.</p>
+      </div>
+      <pre id="reportPreviewContent"></pre>
+    </section>
   </main>
 
   <footer class="app-footer" role="contentinfo">
     <div class="shell">
-      <p>022 görnüşli lukmançylyk resminamasy, HSMM №82, 23.04.2004 ý.</p>
-      <p>KYKMH – lukman-radiologlar üçin</p>
+      <p>022 görnüşli lukmançylyk resminamasy, HSMM №82, 23.04.2004 ý. KYKMH</p>
     </div>
   </footer>
 
-  <!-- DOCX eksporty üçin zerur kitaplary CDN arkaly birikdirýäris -->
-  <script src="https://cdn.jsdelivr.net/npm/pizzip@3.1.7/dist/pizzip.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/docxtemplater@3.46.0/build/docxtemplater.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js" defer></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>

@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   dbReadyPromise = initDatabase();
   await dbReadyPromise;
   renderProtocolList();
+  applyStateToInputs();
   updateReportPreview();
 });
 
@@ -257,7 +258,8 @@ function buildReportText() {
   RSNA_SNIPPETS.forEach((section) => {
     const selected = state.selections[section.id];
     if (selected && selected.length) {
-      lines.push(`${section.title}:`);
+      const heading = section.id === "result" ? "Netije" : section.title;
+      lines.push(`${heading}:`);
       selected.forEach((item) => lines.push(`- ${item}`));
     }
   });
@@ -296,13 +298,25 @@ async function initDatabase() {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT NOT NULL,
         report TEXT NOT NULL,
-        created_at TEXT NOT NULL
+        created_at TEXT NOT NULL,
+        state_json TEXT
       )`,
     );
+    ensureStateColumn();
     if (status) status.textContent = "Işjeň";
   } catch (error) {
     console.error("SQL.js ýüklemekde ýalňyşlyk", error);
     if (status) status.textContent = "Ýalňyşlyk";
+  }
+}
+
+function ensureStateColumn() {
+  if (!db) return;
+  const info = db.exec("PRAGMA table_info('protocols')");
+  const hasStateColumn = info?.[0]?.values?.some((col) => col[1] === "state_json");
+  if (!hasStateColumn) {
+    db.run("ALTER TABLE protocols ADD COLUMN state_json TEXT");
+    persistDb();
   }
 }
 
@@ -400,8 +414,10 @@ function saveProtocolHandler() {
     return;
   }
 
-  const stmt = db.prepare("INSERT INTO protocols (title, report, created_at) VALUES (?, ?, ?)");
-  stmt.run([title, preview.value, new Date().toISOString()]);
+  const stmt = db.prepare(
+    "INSERT INTO protocols (title, report, created_at, state_json) VALUES (?, ?, ?, ?)",
+  );
+  stmt.run([title, preview.value, new Date().toISOString(), JSON.stringify(snapshotState())]);
   stmt.free();
   persistDb();
   renderProtocolList();
@@ -411,13 +427,21 @@ function saveProtocolHandler() {
 
 function loadProtocol(id) {
   if (!db) return;
-  const stmt = db.prepare("SELECT report FROM protocols WHERE id = ?");
+  const stmt = db.prepare("SELECT report, state_json FROM protocols WHERE id = ?");
   stmt.bind([id]);
   if (stmt.step()) {
-    const { report } = stmt.getAsObject();
+    const { report, state_json: stateJson } = stmt.getAsObject();
     const preview = document.getElementById("reportText");
     if (preview) {
       preview.value = report;
+    }
+    if (stateJson) {
+      try {
+        const parsed = JSON.parse(stateJson);
+        restoreState(parsed);
+      } catch (error) {
+        console.warn("State formatyny okap bolmady", error);
+      }
     }
   }
   stmt.free();
@@ -472,6 +496,45 @@ function exportWord() {
   link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
+}
+
+function snapshotState() {
+  return JSON.parse(
+    JSON.stringify({
+      ...state,
+      selections: state.selections,
+    }),
+  );
+}
+
+function restoreState(saved) {
+  if (!saved) return;
+  Object.keys(state).forEach((key) => {
+    if (key === "selections") return;
+    const defaultValue = typeof state[key] === "boolean" ? false : "";
+    state[key] = saved[key] ?? defaultValue;
+  });
+  state.selections = saved.selections || {};
+  applyStateToInputs();
+}
+
+function applyStateToInputs() {
+  document.querySelectorAll("[data-field]").forEach((input) => {
+    const key = input.dataset.field;
+    const value = state[key];
+    if (input.type === "checkbox") {
+      input.checked = Boolean(value);
+    } else if (value !== undefined) {
+      input.value = value;
+    }
+  });
+
+  document.querySelectorAll("[data-category]").forEach((checkbox) => {
+    const selected = state.selections[checkbox.dataset.category] || [];
+    checkbox.checked = selected.includes(checkbox.dataset.value);
+  });
+
+  updateReportPreview();
 }
 
 function toBase64(buffer) {

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beýni MRT - RSNA gurluşly hasabat</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>RSNA görnüşli beýni MRT studiýasy</h1>
+    <p class="muted">Electron + SQLite görnüşindäki stasionar demo</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">1. Näsag maglumatlary</p>
+          <h2>Pacienti ýaz</h2>
+        </div>
+        <button id="load-patients" type="button">Ýatda saklanlary görkez</button>
+      </div>
+      <div class="grid">
+        <label>Familiýasy, ady<input id="p-fullname" type="text" required /></label>
+        <label>Doglan senesi<input id="p-birth" type="date" /></label>
+        <label>Jynsy
+          <select id="p-gender">
+            <option value="erkek">Erkek</option>
+            <option value="aýal">Aýal</option>
+          </select>
+        </label>
+        <label>Kart / ID<input id="p-id" type="text" /></label>
+      </div>
+      <div class="actions">
+        <button id="btn-save-patient" type="button" class="primary">Pacienti ýaz</button>
+        <p id="patient-status" class="muted"></p>
+      </div>
+      <div id="patient-list" class="list"></div>
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">2. Barlag maglumatlary</p>
+      <h2>Barlag sessiýasy</h2>
+      <div class="grid">
+        <label>Barlag senesi<input id="s-date" type="date" /></label>
+        <label>Ugratýan lukman<input id="s-ref" type="text" /></label>
+        <label class="full">Kliniki maglumat<textarea id="s-clinical" rows="2"></textarea></label>
+        <label><input id="s-is-followup" type="checkbox" /> Gaýtadan barlag</label>
+        <label>Öňki barlag senesi<input id="s-prev-date" type="date" /></label>
+      </div>
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">3. Tapyndylar</p>
+      <h2>Beýni MRT meýdançalary</h2>
+      <div class="grid">
+        <label>Artefaktlar
+          <select id="r-artefacts">
+            <option value="ýok">Artefaktlar ýok</option>
+            <option value="hereket">Hereket artefakty</option>
+            <option value="metal_klips">Metal klips</option>
+          </select>
+        </label>
+        <label>Çelek şekili
+          <select id="r-skull-shape">
+            <option value="">Saýla</option>
+            <option value="mezo">Mezosefalik</option>
+            <option value="dolihosefalik">Dolihosefalik</option>
+            <option value="brahiosefalik">Brahiosefalik</option>
+          </select>
+        </label>
+        <label class="full">Ishemiýa / diskirkulýator<textarea id="r-lesions-ischemic" rows="2"></textarea></label>
+        <label class="full">Gemorragik ojaklar<textarea id="r-lesions-hemorrhagic" rows="2"></textarea></label>
+        <label class="full">Demielinizasion ojaklar<textarea id="r-lesions-demyelinating" rows="2"></textarea></label>
+        <label class="full">Kistalar<textarea id="r-cysts" rows="2"></textarea></label>
+        <label class="full">Tumor / mass<textarea id="r-mass" rows="2"></textarea></label>
+        <label class="full">Injekler<textarea id="r-ventricles" rows="2"></textarea></label>
+        <label class="full">Bazal sisternalar<textarea id="r-cisterns" rows="2"></textarea></label>
+        <label class="full">Subarahnoidal giňişlik<textarea id="r-subarachnoid" rows="2"></textarea></label>
+        <label class="full">Gipofiz<textarea id="r-pituitary" rows="2"></textarea></label>
+        <label class="full">Orbit<textarea id="r-orbit" rows="2"></textarea></label>
+        <label class="full">Wagt süňki<textarea id="r-temporal" rows="2"></textarea></label>
+        <label class="full">Kranial nerwler<textarea id="r-nerves" rows="2"></textarea></label>
+        <label class="full">Angiografiýa<textarea id="r-angio" rows="2"></textarea></label>
+        <label class="full">Netije<textarea id="r-conclusion" rows="3"></textarea></label>
+        <label class="full">Maslahat<textarea id="r-recommendations" rows="3"></textarea></label>
+      </div>
+      <div class="actions">
+        <button id="btn-generate" type="button" class="primary">Hasabat döret we sakla</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">4. Netije</p>
+      <h2>Taýýar tekst</h2>
+      <textarea id="output-text" rows="14" class="fullwidth"></textarea>
+    </section>
+  </main>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

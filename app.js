@@ -35,11 +35,11 @@ const fieldHelpers = {
   examContext: "Ilkinji/gaýtadan barlag, deňeşdirmeler ýaly jikme-jiklikleri ýazyň.",
 };
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", () => {
   variantCopy = initAnalytics();
   renderShell();
   bindInteractions();
-  await renderSnippetSection();
+  scheduleSnippetLoad();
   applyStateToInputs();
   updateReportPreview();
   renderAnalyticsPanel();
@@ -248,6 +248,30 @@ async function renderSnippetSection() {
   grid.innerHTML = renderSnippetCards(snippets);
   grid.removeAttribute("aria-busy");
   bindSnippetInteractions();
+  applyStateToInputs();
+}
+
+function scheduleSnippetLoad() {
+  const grid = document.getElementById("snippetGrid");
+  if (!grid) return;
+
+  const load = () => renderSnippetSection();
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          load();
+          obs.disconnect();
+        }
+      },
+      { rootMargin: "160px" },
+    );
+    observer.observe(grid);
+  } else if ("requestIdleCallback" in window) {
+    requestIdleCallback(load, { timeout: 500 });
+  } else {
+    setTimeout(load, 200);
+  }
 }
 
 function renderSnippetCards(snippets) {

@@ -1,5 +1,3 @@
-import { RSNA_SNIPPETS } from "./rsnaSnippets.js";
-
 const state = {
   patientName: "",
   patientId: "",
@@ -11,20 +9,18 @@ const state = {
   selections: {},
 };
 
-const DB_KEY = "rsna_protocol_db";
-let SQL = null;
-let db = null;
-let dbReadyPromise = null;
-const SQL_WASM_BASE = "https://cdn.jsdelivr.net/npm/sql.js@1.9.0/dist/";
+let dbModulePromise = null;
+let dbModule = null;
+let snippetsPromise = null;
+let snippetData = [];
 
 document.addEventListener("DOMContentLoaded", async () => {
   renderShell();
   bindInteractions();
-  dbReadyPromise = initDatabase();
-  await dbReadyPromise;
-  renderProtocolList();
+  await renderSnippetSection();
   applyStateToInputs();
   updateReportPreview();
+  warmupDbWhenVisible();
 });
 
 function renderShell() {
@@ -103,7 +99,7 @@ function renderShell() {
         </div>
         <div class="pill">RSNA.txt esasynda</div>
       </div>
-      <div class="content-grid">${renderSnippetCards()}</div>
+      <div class="content-grid" id="snippetGrid" aria-busy="true">${renderSnippetSkeleton()}</div>
     </section>
 
     <section class="card note-card">
@@ -158,43 +154,89 @@ function renderShell() {
   `;
 }
 
-function renderSnippetCards() {
+function renderSnippetSkeleton() {
+  return `
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
+  `;
+}
+
+async function renderSnippetSection() {
+  const grid = document.getElementById("snippetGrid");
+  if (!grid) return;
+  grid.innerHTML = renderSnippetSkeleton();
+  grid.setAttribute("aria-busy", "true");
+
+  const snippets = await loadSnippets();
+  grid.innerHTML = renderSnippetCards(snippets);
+  grid.removeAttribute("aria-busy");
+  bindSnippetInteractions();
+}
+
+function renderSnippetCards(snippets) {
+  if (!snippets?.length) {
+    return `<p class="muted">Wariantlary ýüklemek başartmady.</p>`;
+  }
+
   return `
     <div class="survey-list" role="list">
-      ${RSNA_SNIPPETS.map(
-        (section, idx) => `
-          <article class="survey-item selection-card" data-section="${section.id}" role="listitem">
-            <div class="survey-heading">
-              <div class="survey-index">${idx + 1}</div>
-              <div>
-                <p class="eyebrow">Patologiýa bölümi</p>
-                <h3>${section.title}</h3>
+      ${snippets
+        .map(
+          (section, idx) => `
+            <article class="survey-item selection-card" data-section="${section.id}" role="listitem">
+              <div class="survey-heading">
+                <div class="survey-index">${idx + 1}</div>
+                <div>
+                  <p class="eyebrow">Patologiýa bölümi</p>
+                  <h3>${section.title}</h3>
+                </div>
               </div>
-            </div>
-            <ul class="survey-options" aria-label="${section.title}">
-              ${section.options
-                .map(
-                  (option, optionIndex) => `
-                    <li class="survey-option">
-                      <label class="option compact">
-                        <input
-                          type="checkbox"
-                          data-category="${section.id}"
-                          data-value="${option}"
-                          id="${section.id}-${optionIndex}"
-                        />
-                        <span>${option}</span>
-                      </label>
-                    </li>
-                  `,
-                )
-                .join("")}
-            </ul>
-          </article>
-        `,
-      ).join("")}
+              <ul class="survey-options" aria-label="${section.title}">
+                ${section.options
+                  .map(
+                    (option, optionIndex) => `
+                      <li class="survey-option">
+                        <label class="option compact">
+                          <input
+                            type="checkbox"
+                            data-category="${section.id}"
+                            data-value="${option}"
+                            id="${section.id}-${optionIndex}"
+                          />
+                          <span>${option}</span>
+                        </label>
+                      </li>
+                    `,
+                  )
+                  .join("")}
+              </ul>
+            </article>
+          `,
+        )
+        .join("")}
     </div>
   `;
+}
+
+function bindSnippetInteractions() {
+  document.querySelectorAll("[data-category]").forEach((checkbox) => {
+    checkbox.addEventListener("change", () => {
+      toggleSelection(checkbox.dataset.category, checkbox.dataset.value, checkbox.checked);
+      updateReportPreview();
+    });
+  });
+}
+
+function loadSnippets() {
+  if (snippetData.length) return Promise.resolve(snippetData);
+  if (!snippetsPromise) {
+    snippetsPromise = import("./rsnaSnippets.js").then((module) => {
+      snippetData = module.RSNA_SNIPPETS;
+      return snippetData;
+    });
+  }
+  return snippetsPromise;
 }
 
 function bindInteractions() {
@@ -210,13 +252,6 @@ function bindInteractions() {
         updateReportPreview();
       });
     }
-  });
-
-  document.querySelectorAll("[data-category]").forEach((checkbox) => {
-    checkbox.addEventListener("change", () => {
-      toggleSelection(checkbox.dataset.category, checkbox.dataset.value, checkbox.checked);
-      updateReportPreview();
-    });
   });
 
   const copyButton = document.getElementById("copyReport");
@@ -236,7 +271,7 @@ function bindInteractions() {
 
   const refreshButton = document.getElementById("refreshProtocolList");
   if (refreshButton) {
-    refreshButton.addEventListener("click", () => renderProtocolList());
+    refreshButton.addEventListener("click", () => refreshProtocols());
   }
 }
 
@@ -269,7 +304,8 @@ function buildReportText() {
     lines.push(`Barlag konteksti: ${contextLines.join(" ")}`);
   }
 
-  RSNA_SNIPPETS.forEach((section) => {
+  const sections = snippetData.length ? snippetData : [];
+  sections.forEach((section) => {
     const selected = state.selections[section.id];
     if (selected && selected.length) {
       const heading = section.id === "result" ? "Netije" : section.title;
@@ -301,122 +337,57 @@ function updateReportPreview() {
   }
 }
 
-async function initDatabase() {
-  const status = document.getElementById("dbStatus");
-  try {
-    SQL = await loadSqlJs();
-    const persisted = localStorage.getItem(DB_KEY);
-    db = persisted ? new SQL.Database(toUint8Array(persisted)) : new SQL.Database();
-    db.run(
-      `CREATE TABLE IF NOT EXISTS protocols (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT NOT NULL,
-        report TEXT NOT NULL,
-        created_at TEXT NOT NULL,
-        state_json TEXT
-      )`,
-    );
-    ensureStateColumn();
-    if (status) status.textContent = "Işjeň";
-  } catch (error) {
-    console.error("SQL.js ýüklemekde ýalňyşlyk", error);
-    if (status) status.textContent = "Ýalňyşlyk";
-  }
-}
+function warmupDbWhenVisible() {
+  const dbCard = document.querySelector(".db-card");
+  if (!dbCard) return;
 
-function ensureStateColumn() {
-  if (!db) return;
-  const info = db.exec("PRAGMA table_info('protocols')");
-  const hasStateColumn = info?.[0]?.values?.some((col) => col[1] === "state_json");
-  if (!hasStateColumn) {
-    db.run("ALTER TABLE protocols ADD COLUMN state_json TEXT");
-    persistDb();
-  }
-}
-
-function loadSqlJs() {
-  if (SQL) return Promise.resolve(SQL);
-
-  if (window.initSqlJs) {
-    return window.initSqlJs({ locateFile: (file) => `${SQL_WASM_BASE}${file}` });
-  }
-
-  return new Promise((resolve, reject) => {
-    const script = document.createElement("script");
-    script.src = `${SQL_WASM_BASE}sql-wasm.js`;
-    script.async = true;
-
-    script.onload = () => {
-      if (window.initSqlJs) {
-        window
-          .initSqlJs({ locateFile: (file) => `${SQL_WASM_BASE}${file}` })
-          .then(resolve)
-          .catch(reject);
-      } else {
-        reject(new Error("initSqlJs globala goşulmady"));
+  const observer = new IntersectionObserver(
+    (entries, obs) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        loadDbModule();
+        obs.disconnect();
       }
-    };
+    },
+    { rootMargin: "200px" },
+  );
 
-    script.onerror = () => reject(new Error("SQL.js skripti ýüklenmedi"));
-    document.head.appendChild(script);
-  });
+  observer.observe(dbCard);
 }
 
-function persistDb() {
-  if (!db) return;
-  const data = db.export();
-  localStorage.setItem(DB_KEY, toBase64(data));
+function loadDbModule() {
+  if (dbModulePromise) return dbModulePromise;
+  dbModulePromise = import("./db.js").then(async (module) => {
+    dbModule = module;
+    await module.initDatabase(document.getElementById("dbStatus"));
+    renderProtocolList();
+    return module;
+  });
+  return dbModulePromise;
 }
 
 function renderProtocolList() {
   const list = document.getElementById("protocolList");
   if (!list) return;
-  if (!db) {
+  if (!dbModule) {
     list.innerHTML = `<p class="muted">SQL.js ýüklenýänçä garaşyň...</p>`;
     return;
   }
-  const stmt = db.prepare("SELECT id, title, created_at FROM protocols ORDER BY created_at DESC");
-  const rows = [];
-  while (stmt.step()) {
-    rows.push(stmt.getAsObject());
-  }
-  stmt.free();
 
-  if (!rows.length) {
-    list.innerHTML = `<p class="muted">Entäk saklanan protokol ýok.</p>`;
-    return;
-  }
-
-  list.innerHTML = rows
-    .map(
-      (row) => `
-        <div class="protocol-row">
-          <div>
-            <p class="protocol-title">${row.title}</p>
-            <p class="muted">${new Date(row.created_at).toLocaleString()}</p>
-          </div>
-          <div class="row-actions">
-            <button class="btn ghost" data-load="${row.id}">Ýükle</button>
-            <button class="btn ghost danger" data-delete="${row.id}">Pozmak</button>
-          </div>
-        </div>
-      `,
-    )
-    .join("");
-
-  list.querySelectorAll("[data-load]").forEach((btn) => {
-    btn.addEventListener("click", () => loadProtocol(Number(btn.dataset.load)));
-  });
-
-  list.querySelectorAll("[data-delete]").forEach((btn) => {
-    btn.addEventListener("click", () => deleteProtocol(Number(btn.dataset.delete)));
+  dbModule.renderProtocolList(list, {
+    onLoad: (id) => loadProtocol(id),
+    onDelete: (id) => deleteProtocol(id),
   });
 }
 
-function saveProtocolHandler() {
+async function refreshProtocols() {
+  await loadDbModule();
+  renderProtocolList();
+}
+
+async function saveProtocolHandler() {
   const titleInput = document.getElementById("protocolTitle");
   const preview = document.getElementById("reportText");
-  if (!db || !titleInput || !preview) return;
+  if (!titleInput || !preview) return;
 
   const title = titleInput.value.trim();
   if (!title) {
@@ -428,45 +399,33 @@ function saveProtocolHandler() {
     return;
   }
 
-  const stmt = db.prepare(
-    "INSERT INTO protocols (title, report, created_at, state_json) VALUES (?, ?, ?, ?)",
-  );
-  stmt.run([title, preview.value, new Date().toISOString(), JSON.stringify(snapshotState())]);
-  stmt.free();
-  persistDb();
+  await loadDbModule();
+  if (!dbModule?.isDatabaseReady()) return;
+
+  dbModule.saveProtocol({ title, report: preview.value, state: snapshotState() });
   renderProtocolList();
   titleInput.value = "";
   alert("Protokol üstünlikli saklandy.");
 }
 
-function loadProtocol(id) {
-  if (!db) return;
-  const stmt = db.prepare("SELECT report, state_json FROM protocols WHERE id = ?");
-  stmt.bind([id]);
-  if (stmt.step()) {
-    const { report, state_json: stateJson } = stmt.getAsObject();
-    const preview = document.getElementById("reportText");
-    if (preview) {
-      preview.value = report;
-    }
-    if (stateJson) {
-      try {
-        const parsed = JSON.parse(stateJson);
-        restoreState(parsed);
-      } catch (error) {
-        console.warn("State formatyny okap bolmady", error);
-      }
-    }
+async function loadProtocol(id) {
+  await loadDbModule();
+  if (!dbModule) return;
+  const record = dbModule.fetchProtocol(id);
+  if (!record) return;
+  const preview = document.getElementById("reportText");
+  if (preview && record.report) {
+    preview.value = record.report;
   }
-  stmt.free();
+  if (record.state) {
+    restoreState(record.state);
+  }
 }
 
-function deleteProtocol(id) {
-  if (!db) return;
-  const stmt = db.prepare("DELETE FROM protocols WHERE id = ?");
-  stmt.run([id]);
-  stmt.free();
-  persistDb();
+async function deleteProtocol(id) {
+  await loadDbModule();
+  if (!dbModule) return;
+  dbModule.deleteProtocol(id);
   renderProtocolList();
 }
 
@@ -549,22 +508,4 @@ function applyStateToInputs() {
   });
 
   updateReportPreview();
-}
-
-function toBase64(buffer) {
-  const bytes = new Uint8Array(buffer);
-  let binary = "";
-  bytes.forEach((b) => {
-    binary += String.fromCharCode(b);
-  });
-  return btoa(binary);
-}
-
-function toUint8Array(base64) {
-  const binary = atob(base64);
-  const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i += 1) {
-    bytes[i] = binary.charCodeAt(i);
-  }
-  return bytes;
 }

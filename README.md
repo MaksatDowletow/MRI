@@ -18,5 +18,7 @@ An RSNA.txt snippet panel now exposes all core pathological descriptions in Turk
 - `i18n.js` – Minimal translation helper for UI labels (TM-first, extensible to RU/EN).
 - `exportDocx.js` – Generates a Word-compatible `.doc` download from the structured report.
 
+See `DEVELOPMENT_PLAN.md` for a roadmap on evolving the application into a full MRI reporting platform (backend API, ML-assisted drafting, observability, and deployment considerations).
+
 ## Usage
 Open `index.html` on GitHub Pages or a static server. Select a clinical profile to prefill defaults, complete the generated form, and click **Hasabat döret** to view the structured text in the preview panel. Drafts save automatically between sessions; **Arassala / täzele** clears state and storage. DOCX export is stubbed until docxtemplater wiring is added.

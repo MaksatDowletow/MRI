@@ -173,6 +173,49 @@ main {
   gap: 16px;
 }
 
+.survey-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.survey-item {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: #fbfcff;
+  display: grid;
+  grid-template-columns: minmax(220px, 260px) 1fr;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.survey-heading {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.survey-index {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: #eef2ff;
+  color: var(--accent-strong);
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.12);
+}
+
+.survey-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px;
+  align-items: start;
+}
+
 .content-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -258,8 +301,17 @@ main {
   background: white;
 }
 
+.option.compact {
+  padding: 8px 10px;
+  gap: 8px;
+}
+
 .option input[type="checkbox"] {
   margin-top: 4px;
+}
+
+.option.compact input[type="checkbox"] {
+  margin-top: 2px;
 }
 
 .note-card textarea,
@@ -374,6 +426,16 @@ footer {
   color: var(--muted);
   text-align: center;
   border-top: 1px solid var(--border);
+}
+
+@media (max-width: 900px) {
+  .survey-item {
+    grid-template-columns: 1fr;
+  }
+
+  .survey-heading {
+    flex-direction: row;
+  }
 }
 
 @media (max-width: 640px) {

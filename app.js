@@ -159,28 +159,40 @@ function renderShell() {
 }
 
 function renderSnippetCards() {
-  return RSNA_SNIPPETS.map(
-    (section) => `
-      <article class="content-card selection-card" data-section="${section.id}">
-        <div class="card-header">
-          <p class="eyebrow">Patologiýa bölümi</p>
-          <h3>${section.title}</h3>
-        </div>
-        <div class="option-list">
-          ${section.options
-            .map(
-              (option, idx) => `
-                <label class="option">
-                  <input type="checkbox" data-category="${section.id}" data-value="${option}" id="${section.id}-${idx}" />
-                  <span>${option}</span>
-                </label>
-              `,
-            )
-            .join("")}
-        </div>
-      </article>
-    `,
-  ).join("");
+  return `
+    <div class="survey-list" role="list">
+      ${RSNA_SNIPPETS.map(
+        (section, idx) => `
+          <article class="survey-item selection-card" data-section="${section.id}" role="listitem">
+            <div class="survey-heading">
+              <div class="survey-index">${idx + 1}</div>
+              <div>
+                <p class="eyebrow">Patologiýa bölümi</p>
+                <h3>${section.title}</h3>
+              </div>
+            </div>
+            <div class="survey-options" aria-label="${section.title}">
+              ${section.options
+                .map(
+                  (option, optionIndex) => `
+                    <label class="option compact">
+                      <input
+                        type="checkbox"
+                        data-category="${section.id}"
+                        data-value="${option}"
+                        id="${section.id}-${optionIndex}"
+                      />
+                      <span>${option}</span>
+                    </label>
+                  `,
+                )
+                .join("")}
+            </div>
+          </article>
+        `,
+      ).join("")}
+    </div>
+  `;
 }
 
 function bindInteractions() {

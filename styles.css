@@ -258,6 +258,12 @@ main {
   margin-bottom: 12px;
 }
 
+.section-tools {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.1em;

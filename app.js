@@ -56,26 +56,26 @@ function renderShell() {
         <p class="eyebrow">Awtomatlaşdyrylan forma</p>
         <h1>${variantCopy.heading}</h1>
         <p class="lead">
-          Patologiýa wariantlaryny saýlaň, Netije bölegi awtomatiki dolsun. Protokoly SQL.js bazasynda
-          saklap, islendik wagtda gaýtadan ýükleýärsiňiz we Word görnüşinde eksport edýärsiňiz.
+          Patologiýa wariantlaryny saýlaň, netije bölegi awtomatiki doldurylsyn. Protokoly SQL.js ammarynda
+          saklap, islendik wagtda gaýtadan ýükläp ýa-da Word görnüşinde eksport edip bilersiňiz.
         </p>
         <div class="tags">
           <span class="tag">Patologiýa saýlaýjy</span>
-          <span class="tag">SQL.js saklaýyş</span>
-          <span class="tag">DOC eksporty</span>
+          <span class="tag">SQL.js arkaly ýerli ammar</span>
+          <span class="tag">Word eksporty</span>
         </div>
         <div class="hero-cta">
           <button id="primaryCta" class="btn primary-cta" data-cta-variant="${variantCopy.cta}">${variantCopy.cta}</button>
           <button id="secondaryCta" class="btn ghost" aria-label="Patologiýa wariantlaryna geç">Wariantlara seret</button>
         </div>
-        <p class="muted cta-note">CTA birinji ekranda görkezilýär we gönüden-göni forma bölümine eltýär.</p>
+        <p class="muted cta-note">CTA düwmesi ilkinji ekranda goýlup, gönüden-göni forma bölümine eltýär.</p>
       </div>
       <div class="hero-panel">
         <h2>Çalt başlangyç</h2>
         <ol class="hero-list">
-          <li>Umumy maglumatlary dolduryň we epilepsiýa kesimlerini işjeňleşdiriň.</li>
-          <li>Isleýän patologiýa beýanlamalaryňyzy belliklerden saýlaň.</li>
-          <li>Netije blokyny göçüriň, SQL.js-e ýazdyryň ýa-da Word görnüşinde indiriň.</li>
+          <li>Umumy maglumatlary dolduryň, zerur bolsa epilepsiýa üçin aýratyn kesimleri işjeňleşdiriň.</li>
+          <li>Islenýän patologiýa beýanlamalaryny belliklerden saýlaň.</li>
+          <li>Netije blokyny göçüriň, SQL.js-e ýazdyryň ýa-da Word-faýl görnüşinde indiriň.</li>
         </ol>
         <p class="muted">Wariantlar RSNA.txt faýlyndaky möhüm böleklerden taýýarlanyldy.</p>
       </div>
@@ -118,7 +118,7 @@ function renderShell() {
         </label>
         <label class="form-field toggle">
           <input data-field="epilepsyCuts" type="checkbox" />
-          <span>Epilepsiýa ýagdaýynda ýörite kosý kesimler ýerine ýetirildi</span>
+          <span>Epilepsiýa ýagdaýynda ýörite gyýak kesimler ýerine ýetirildi</span>
         </label>
       </form>
     </section>
@@ -128,7 +128,7 @@ function renderShell() {
         <div>
           <p class="eyebrow">Patologiýa wariantlary</p>
           <h2 id="snippetHeading">Beýanlamalary bellik görnüşinde saýlaň</h2>
-          <p class="muted" id="snippetDescription">Her karta kliniki taýdan degişli standart sözlem toplumy bolup, saýlananlary awtomatiki netije girizýär.</p>
+          <p class="muted" id="snippetDescription">Her karta kliniki taýdan degişli standart sözlemleri jemleýär; saýlananlary awtomatiki netije bölümine geçirýär.</p>
         </div>
         <div class="pill">RSNA.txt esasynda</div>
       </div>
@@ -146,7 +146,7 @@ function renderShell() {
         <div>
           <p class="eyebrow">Goşmaça bellik</p>
           <h2 id="notesHeading">Erkin ýazgy</h2>
-          <p class="muted" id="notesDescription">Awtomatlaşdyrma üpjün etmeýän jikme-jiklikleri goşuň.</p>
+          <p class="muted" id="notesDescription">Awtomatlaşdyrylmadyk jikme-jiklikleri şu ýerde belläň.</p>
         </div>
         <div class="pill">Islege görä</div>
       </div>
@@ -167,7 +167,7 @@ function renderShell() {
         <div>
           <p class="eyebrow">Netije</p>
           <h2 id="previewHeading">Awtodöredilen tekst</h2>
-          <p class="muted" id="previewDescription">Saýlanan wariantlar esasynda düzülen görnüşli tekst.</p>
+          <p class="muted" id="previewDescription">Saýlanan wariantlaryň esasynda düzülen tertipli tekst.</p>
         </div>
         <div class="actions">
           <button id="copyReport" class="btn ghost" aria-label="Netije blokyny göçürmek">Köçürmek</button>
@@ -190,7 +190,7 @@ function renderShell() {
         <div>
           <p class="eyebrow">Protokol ammary</p>
           <h2>SQL.js bilen ýerli ýatda saklamak</h2>
-          <p class="muted">Döreden protokollaryňyzy offline görnüşde saklap, gaýtadan ulanyň.</p>
+          <p class="muted">Döreden protokollaryňyzy internet bolmasa-da saklap, gaýtadan ulanyň.</p>
         </div>
         <div class="pill" id="dbStatus">Ýüklenýär...</div>
       </div>
@@ -212,13 +212,13 @@ function renderShell() {
         <div>
           <p class="eyebrow">Analitika</p>
           <h2>Iň uly ýitgi bar bolan basgançak</h2>
-          <p class="muted">Woronka çäreleri boýunça sanly maglumatlar we A/B netijeleri.</p>
+          <p class="muted">Basgançaklaýyn geçişler boýunça sanly maglumatlar we A/B netijeleri.</p>
         </div>
         <div class="pill" id="dropoffBadge">Hasaplanýar...</div>
       </div>
       <div class="analytics-grid">
         <div>
-          <h3>Woronka basgançaklary</h3>
+          <h3>Basgançaklaýyn akym</h3>
           <ul class="funnel-list" id="funnelList"></ul>
         </div>
         <div>

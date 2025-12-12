@@ -1,3 +1,13 @@
+import {
+  CTA_VARIANTS,
+  getFunnelReport,
+  getVariantCopy,
+  getVariantKey,
+  initAnalytics,
+  recordCtaClick,
+  recordFunnelStep,
+} from "./analytics.js";
+
 const state = {
   patientName: "",
   patientId: "",
@@ -13,13 +23,26 @@ let dbModulePromise = null;
 let dbModule = null;
 let snippetsPromise = null;
 let snippetData = [];
+let variantCopy = getVariantCopy();
+const sessionSteps = new Set();
+
+const requiredFields = ["patientName", "age", "examDate"];
+const fieldHelpers = {
+  patientName: "Familiýa + ady iň az 3 harp bilen görkezmegiňizi haýyş edýäris.",
+  patientId: "Kliniki ID ýa-da kart kody (islege görä).",
+  age: "Ýaşy 0-120 aralygynda giriziň.",
+  examDate: "Gelejekdäki senä ýol berilmeýär.",
+  examContext: "Ilkinji/gaýtadan barlag, deňeşdirmeler ýaly jikme-jiklikleri ýazyň.",
+};
 
 document.addEventListener("DOMContentLoaded", async () => {
+  variantCopy = initAnalytics();
   renderShell();
   bindInteractions();
   await renderSnippetSection();
   applyStateToInputs();
   updateReportPreview();
+  renderAnalyticsPanel();
   warmupDbWhenVisible();
 });
 
@@ -31,7 +54,7 @@ function renderShell() {
     <section class="hero" id="introSection">
       <div class="hero-text">
         <p class="eyebrow">Awtomatlaşdyrylan forma</p>
-        <h1>Beýni MRT hasabatlaryny kliniki logika bilen ýygna</h1>
+        <h1>${variantCopy.heading}</h1>
         <p class="lead">
           Patologiýa wariantlaryny saýlaň, Netije bölegi awtomatiki dolsun. Protokoly SQL.js bazasynda
           saklap, islendik wagtda gaýtadan ýükleýärsiňiz we Word görnüşinde eksport edýärsiňiz.
@@ -41,6 +64,11 @@ function renderShell() {
           <span class="tag">SQL.js saklaýyş</span>
           <span class="tag">DOC eksporty</span>
         </div>
+        <div class="hero-cta">
+          <button id="primaryCta" class="btn primary-cta" data-cta-variant="${variantCopy.cta}">${variantCopy.cta}</button>
+          <button id="secondaryCta" class="btn ghost" aria-label="Patologiýa wariantlaryna geç">Wariantlara seret</button>
+        </div>
+        <p class="muted cta-note">CTA birinji ekranda görkezilýär we gönüden-göni forma bölümine eltýär.</p>
       </div>
       <div class="hero-panel">
         <h2>Çalt başlangyç</h2>
@@ -63,25 +91,30 @@ function renderShell() {
         <div class="pill">Hasabat awtodolyşygi</div>
       </div>
       <form class="form-grid" aria-labelledby="formHeading formDescription" id="reportForm" novalidate>
-        <label class="form-field">
+        <label class="form-field required">
           <span>Familiýasy, ady</span>
-          <input data-field="patientName" type="text" placeholder="Amanow Aman" />
+          <input data-field="patientName" type="text" placeholder="Amanow Aman" autocomplete="name" aria-describedby="hint-patientName" />
+          <small class="field-hint" id="hint-patientName">${fieldHelpers.patientName}</small>
         </label>
         <label class="form-field">
           <span>Näsag kody / ID</span>
-          <input data-field="patientId" type="text" placeholder="ID12345" />
+          <input data-field="patientId" type="text" placeholder="ID12345" autocomplete="off" aria-describedby="hint-patientId" />
+          <small class="field-hint" id="hint-patientId">${fieldHelpers.patientId}</small>
         </label>
-        <label class="form-field">
+        <label class="form-field required">
           <span>Ýaşy</span>
-          <input data-field="age" type="number" min="0" placeholder="45" />
+          <input data-field="age" type="number" min="0" max="120" inputmode="numeric" pattern="\\d*" placeholder="45" aria-describedby="hint-age" />
+          <small class="field-hint" id="hint-age">${fieldHelpers.age}</small>
         </label>
-        <label class="form-field">
+        <label class="form-field required">
           <span>Barlag senesi</span>
-          <input data-field="examDate" type="date" value="${state.examDate}" />
+          <input data-field="examDate" type="date" max="${state.examDate}" value="${state.examDate}" aria-describedby="hint-examDate" />
+          <small class="field-hint" id="hint-examDate">${fieldHelpers.examDate}</small>
         </label>
         <label class="form-field wide">
           <span>Barlag konteksti</span>
-          <textarea data-field="examContext" rows="2" placeholder="Ilkinji gezek / gaýtadan barlag, öňki bilen deňeşdirmeler ...">${state.examContext}</textarea>
+          <textarea data-field="examContext" rows="2" placeholder="Ilkinji gezek / gaýtadan barlag, öňki bilen deňeşdirmeler ..." aria-describedby="hint-examContext">${state.examContext}</textarea>
+          <small class="field-hint" id="hint-examContext">${fieldHelpers.examContext}</small>
         </label>
         <label class="form-field toggle">
           <input data-field="epilepsyCuts" type="checkbox" />
@@ -141,6 +174,7 @@ function renderShell() {
           <button id="exportDoc" class="btn" aria-label="Netijäni Word görnüşinde eksport etmek">Word görnüşinde eksport</button>
         </div>
       </div>
+      <div class="inline-status" id="actionFeedback" role="status" aria-live="polite"></div>
       <div class="chip-row" id="selectionChips"></div>
       <textarea
         id="reportText"
@@ -171,6 +205,27 @@ function renderShell() {
         </div>
       </div>
       <div id="protocolList" class="protocol-list"></div>
+    </section>
+
+    <section class="card analytics-card" id="analyticsSection">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Analitika</p>
+          <h2>Iň uly ýitgi bar bolan basgançak</h2>
+          <p class="muted">Woronka çäreleri boýunça sanly maglumatlar we A/B netijeleri.</p>
+        </div>
+        <div class="pill" id="dropoffBadge">Hasaplanýar...</div>
+      </div>
+      <div class="analytics-grid">
+        <div>
+          <h3>Woronka basgançaklary</h3>
+          <ul class="funnel-list" id="funnelList"></ul>
+        </div>
+        <div>
+          <h3>CTA wariantlary (A/B)</h3>
+          <div class="variant-stats" id="variantStats"></div>
+        </div>
+      </div>
     </section>
   `;
 }
@@ -271,17 +326,38 @@ function bindInteractions() {
     form.addEventListener("submit", (event) => event.preventDefault());
   }
 
+  const primaryCta = document.getElementById("primaryCta");
+  if (primaryCta) {
+    primaryCta.addEventListener("click", () => {
+      recordCtaClick();
+      markFunnelStep("hero_cta");
+      scrollToSection("formSection");
+    });
+  }
+
+  const secondaryCta = document.getElementById("secondaryCta");
+  if (secondaryCta) {
+    secondaryCta.addEventListener("click", () => {
+      scrollToSection("snippetSection");
+    });
+  }
+
   document.querySelectorAll("[data-field]").forEach((input) => {
     if (input.type === "checkbox") {
       input.addEventListener("change", () => {
         state[input.dataset.field] = input.checked;
         updateReportPreview();
+        validateField(input);
+        markFunnelStep("form_start");
       });
     } else {
       input.addEventListener("input", () => {
         state[input.dataset.field] = input.value;
         updateReportPreview();
+        validateField(input);
+        markFunnelStep("form_start");
       });
+      input.addEventListener("blur", () => validateField(input));
     }
   });
 
@@ -310,6 +386,7 @@ function toggleSelection(category, value, isChecked) {
   const existing = new Set(state.selections[category] || []);
   if (isChecked) {
     existing.add(value);
+    markFunnelStep("snippet_select");
   } else {
     existing.delete(value);
   }
@@ -355,8 +432,12 @@ function buildReportText() {
 function updateReportPreview() {
   const reportText = buildReportText();
   const preview = document.getElementById("reportText");
+  const hasReport = Boolean(reportText.trim());
+  if (hasReport && sessionSteps.has("form_start")) {
+    markFunnelStep("report_ready");
+  }
   if (preview) {
-    preview.value = reportText;
+    preview.value = hasReport ? reportText : "Netije döretmek üçin maglumatlary giriziň.";
   }
   const chips = document.getElementById("selectionChips");
   if (chips) {
@@ -422,11 +503,11 @@ async function saveProtocolHandler() {
 
   const title = titleInput.value.trim();
   if (!title) {
-    alert("Protokolyň adyny giriziň.");
+    showInlineStatus("Protokolyň adyny giriziň.", "error");
     return;
   }
   if (!preview.value) {
-    alert("Ilki bilen netije dörediň.");
+    showInlineStatus("Ilki bilen netije dörediň.", "error");
     return;
   }
 
@@ -436,7 +517,8 @@ async function saveProtocolHandler() {
   dbModule.saveProtocol({ title, report: preview.value, state: snapshotState() });
   renderProtocolList();
   titleInput.value = "";
-  alert("Protokol üstünlikli saklandy.");
+  showInlineStatus("Protokol üstünlikli saklandy.", "success");
+  markFunnelStep("protocol_saved");
 }
 
 async function loadProtocol(id) {
@@ -465,14 +547,14 @@ function copyReport() {
   if (!preview || !preview.value) return;
   navigator.clipboard
     .writeText(preview.value)
-    .then(() => alert("Netije göçürildi."))
-    .catch(() => alert("Göçürmek başartmady."));
+    .then(() => showInlineStatus("Netije göçürildi.", "success"))
+    .catch(() => showInlineStatus("Göçürmek başartmady.", "error"));
 }
 
 function exportWord() {
   const preview = document.getElementById("reportText");
   if (!preview || !preview.value) {
-    alert("Eksport etmek üçin netije döredilýär.");
+    showInlineStatus("Eksport etmek üçin ilki netije dörediň.", "error");
     return;
   }
   const html = `
@@ -500,6 +582,7 @@ function exportWord() {
   link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
+  showInlineStatus("Word eksporty başlady.", "success");
 }
 
 function snapshotState() {
@@ -539,4 +622,143 @@ function applyStateToInputs() {
   });
 
   updateReportPreview();
+}
+
+function validateField(input) {
+  const key = input.dataset.field;
+  const rawValue = input.type === "checkbox" ? input.checked : input.value.trim();
+  let status = "hint";
+  let message = fieldHelpers[key] || "";
+
+  if (requiredFields.includes(key) && !rawValue) {
+    status = "error";
+    message = "Bu meýdan hökmany.";
+  } else if (key === "patientName" && rawValue && rawValue.length < 3) {
+    status = "error";
+    message = "Iň az 3 harp giriziň.";
+  } else if (key === "age" && rawValue) {
+    const ageValue = Number(rawValue);
+    if (Number.isNaN(ageValue) || ageValue < 0 || ageValue > 120) {
+      status = "error";
+      message = fieldHelpers.age;
+    } else {
+      status = "success";
+      message = "Ýaş dogry görnüşde girizildi.";
+    }
+  } else if (key === "examDate" && rawValue) {
+    const today = new Date().toISOString().slice(0, 10);
+    if (rawValue > today) {
+      status = "error";
+      message = "Gelejekdäki sene kabul edilmeýär.";
+    } else {
+      status = "success";
+      message = "Sene kabul edildi.";
+    }
+  } else if (rawValue) {
+    status = "success";
+    message = "Girizme kabul edildi.";
+  }
+
+  updateFieldState(key, status, message);
+  return status !== "error";
+}
+
+function updateFieldState(key, status, message) {
+  const hint = document.getElementById(`hint-${key}`);
+  if (hint) {
+    hint.textContent = message;
+    hint.dataset.state = status;
+  }
+  const field = document.querySelector(`[data-field="${key}"]`)?.closest(".form-field");
+  if (field) {
+    field.dataset.state = status;
+  }
+}
+
+function markFunnelStep(step) {
+  if (sessionSteps.has(step)) return;
+  sessionSteps.add(step);
+  recordFunnelStep(step, { variant: getVariantKey() });
+  renderAnalyticsPanel();
+}
+
+function scrollToSection(id) {
+  const target = document.getElementById(id);
+  if (target) {
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
+function showInlineStatus(message, type = "info") {
+  const area = document.getElementById("actionFeedback");
+  if (!area) return;
+  area.textContent = message;
+  area.dataset.state = type;
+}
+
+function renderAnalyticsPanel() {
+  const funnelList = document.getElementById("funnelList");
+  const dropoffBadge = document.getElementById("dropoffBadge");
+  const variantStats = document.getElementById("variantStats");
+  if (!funnelList || !dropoffBadge || !variantStats) return;
+
+  const report = getFunnelReport();
+  const dropFrom = report.biggestDrop.from ? stepLabel(report.biggestDrop.from) : "Giriş";
+  const dropTo = report.biggestDrop.to ? stepLabel(report.biggestDrop.to) : "Basgançak";
+  dropoffBadge.textContent = report.biggestDrop.drop
+    ? `Iň uly ýitgi: ${dropFrom} → ${dropTo} (-${report.biggestDrop.drop})`
+    : "Ýitgi tapylmady";
+
+  funnelList.innerHTML = report.steps
+    .map(
+      (step) => `
+        <li class="funnel-row">
+          <div>
+            <span class="funnel-label">${stepLabel(step.id)}</span>
+            <small class="muted">${step.count} çäre</small>
+          </div>
+          <div class="funnel-meter" aria-label="Basgançak meýilnamasy">
+            <span style="width: ${Math.min(100, step.count * 10)}%"></span>
+          </div>
+        </li>
+      `,
+    )
+    .join("");
+
+  const variantMarkup = Object.keys(CTA_VARIANTS)
+    .map((key) => {
+      const stats = report.variantStats[key];
+      const ctr = stats.views ? Math.round((stats.clicks / stats.views) * 1000) / 10 : 0;
+      const isCurrent = report.variant === key ? "variant-active" : "";
+      return `
+        <div class="variant-card ${isCurrent}">
+          <div class="variant-name">${key} warianty</div>
+          <p class="variant-copy">${CTA_VARIANTS[key].heading}</p>
+          <div class="variant-metrics">
+            <span>${stats.views} görkezme</span>
+            <span>${stats.clicks} basyş</span>
+            <span>CTR: ${ctr}%</span>
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+  variantStats.innerHTML = variantMarkup;
+}
+
+function stepLabel(id) {
+  switch (id) {
+    case "hero_cta":
+      return "CTA basyldy";
+    case "form_start":
+      return "Forma başlandy";
+    case "snippet_select":
+      return "Patologiýa saýlandy";
+    case "report_ready":
+      return "Netije görkezildi";
+    case "protocol_saved":
+      return "Protokol saklandy";
+    default:
+      return id;
+  }
 }

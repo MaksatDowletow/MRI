@@ -175,6 +175,22 @@ main {
   box-shadow: var(--shadow);
 }
 
+.hero-cta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 14px 0 4px;
+}
+
+.primary-cta {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  box-shadow: 0 12px 30px rgba(234, 88, 12, 0.35);
+}
+
+.cta-note {
+  margin: 2px 0 0;
+}
+
 .hero h1 {
   margin: 6px 0 10px;
   font-size: 2rem;
@@ -351,6 +367,40 @@ main {
   color: var(--text);
 }
 
+.form-field.required > span::after {
+  content: " *";
+  color: var(--danger);
+  font-weight: 800;
+}
+
+.form-field[data-state="error"] input,
+.form-field[data-state="error"] textarea,
+.form-field[data-state="error"] select {
+  border-color: rgba(220, 38, 38, 0.4);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.form-field[data-state="success"] input,
+.form-field[data-state="success"] textarea,
+.form-field[data-state="success"] select {
+  border-color: rgba(22, 163, 74, 0.5);
+}
+
+.field-hint {
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--muted);
+  transition: color 0.2s ease;
+}
+
+.field-hint[data-state="error"] {
+  color: var(--danger);
+}
+
+.field-hint[data-state="success"] {
+  color: var(--success);
+}
+
 .form-field input,
 .form-field textarea,
 .form-field select {
@@ -447,6 +497,20 @@ input[type="checkbox"]:focus-visible {
   flex-wrap: wrap;
 }
 
+.inline-status {
+  min-height: 24px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.inline-status[data-state="success"] {
+  color: var(--success);
+}
+
+.inline-status[data-state="error"] {
+  color: var(--danger);
+}
+
 .btn {
   background: var(--accent);
   color: white;
@@ -537,6 +601,85 @@ input[type="checkbox"]:focus-visible {
 .row-actions {
   display: flex;
   gap: 8px;
+}
+
+.analytics-card h3 {
+  margin-top: 0;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.funnel-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.funnel-row {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  background: #f8fafc;
+}
+
+.funnel-label {
+  font-weight: 700;
+}
+
+.funnel-meter {
+  margin-top: 6px;
+  height: 10px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.funnel-meter span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+}
+
+.variant-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px;
+}
+
+.variant-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  background: #fff7ed;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04);
+}
+
+.variant-active {
+  border-color: rgba(234, 88, 12, 0.5);
+  box-shadow: 0 10px 24px rgba(234, 88, 12, 0.2);
+}
+
+.variant-name {
+  font-weight: 800;
+}
+
+.variant-copy {
+  margin: 4px 0 10px;
+  color: var(--muted);
+}
+
+.variant-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-weight: 700;
 }
 
 footer {

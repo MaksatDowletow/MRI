@@ -70,9 +70,100 @@
             <option value="brahiosefalik">Brahiosefalik</option>
           </select>
         </label>
-        <label class="full">Ishemiýa / diskirkulýator<textarea id="r-lesions-ischemic" rows="2"></textarea></label>
-        <label class="full">Gemorragik ojaklar<textarea id="r-lesions-hemorrhagic" rows="2"></textarea></label>
-        <label class="full">Demielinizasion ojaklar<textarea id="r-lesions-demyelinating" rows="2"></textarea></label>
+        <div class="full pathology-block">
+          <div class="field-header">
+            <span>Patologik üýtgemeler</span>
+            <p class="muted">Kategorýalar boýunça degişli wariantlary belläň, gerek bolsa goşmaça bellik giriziň.</p>
+          </div>
+          <div class="checklist-grid">
+            <div class="checklist-group">
+              <div class="checklist-heading">
+                <p class="checklist-title">Ishemiýa / diskirkulýator</p>
+                <p class="muted small">Birnäçe wariant saýlap bolýar</p>
+              </div>
+              <div class="option-grid">
+                <label class="option">
+                  <input type="checkbox" data-pathology="ischemic" value="Ojak görnüşli üýtgeme ýok (Fazekas 0)." />
+                  <span>Ojak görnüşli üýtgeme ýok (Fazekas 0).</span>
+                </label>
+                <label class="option">
+                  <input type="checkbox" data-pathology="ischemic" value="Subkortikal / periwentrikulýar birnäçe gipersistens ojak (Fazekas 1-2)." />
+                  <span>Subkortikal / periwentrikulýar birnäçe gipersistens ojak (Fazekas 1-2).</span>
+                </label>
+                <label class="option">
+                  <input type="checkbox" data-pathology="ischemic" value="Giň ýaýran birleşýän gipersistens sahalar (Fazekas 3)." />
+                  <span>Giň ýaýran birleşýän gipersistens sahalar (Fazekas 3).</span>
+                </label>
+                <label class="option">
+                  <input type="checkbox" data-pathology="ischemic" value="Lakunýar infarkt yzlary (** mm çenli)." />
+                  <span>Lakunýar infarkt yzlary (** mm çenli).</span>
+                </label>
+              </div>
+              <label class="note-field">
+                <span class="muted">Goşmaça bellik</span>
+                <input id="r-ischemic-note" type="text" placeholder="Mysal: periwaskulýar giňelme ýok" />
+              </label>
+            </div>
+
+            <div class="checklist-group">
+              <div class="checklist-heading">
+                <p class="checklist-title">Gemorragik ojaklar</p>
+                <p class="muted small">Saýlananlar awtomatiki netije giriziler</p>
+              </div>
+              <div class="option-grid">
+                <label class="option">
+                  <input type="checkbox" data-pathology="hemorrhagic" value="Gan akma alamaty ýok, siderofag halkasy tapylmady." />
+                  <span>Gan akma alamaty ýok, siderofag halkasy tapylmady.</span>
+                </label>
+                <label class="option">
+                  <input type="checkbox" data-pathology="hemorrhagic" value="Mikrogemorragik ojaklar (** mm çenli), diffuz ýaýran." />
+                  <span>Mikrogemorragik ojaklar (** mm çenli), diffuz ýaýran.</span>
+                </label>
+                <label class="option">
+                  <input type="checkbox" data-pathology="hemorrhagic" value="Parenhimal ganakma (**/**/** mm), perifokal çişme bilen." />
+                  <span>Parenhimal ganakma (**/**/** mm), perifokal çişme bilen.</span>
+                </label>
+                <label class="option">
+                  <input type="checkbox" data-pathology="hemorrhagic" value="Subdural ýa-da epidural gan gatlagy (** mm galyňlykda)." />
+                  <span>Subdural ýa-da epidural gan gatlagy (** mm galyňlykda).</span>
+                </label>
+              </div>
+              <label class="note-field">
+                <span class="muted">Goşmaça bellik</span>
+                <input id="r-hemorrhagic-note" type="text" placeholder="Mysal: gadjet tapylmady" />
+              </label>
+            </div>
+
+            <div class="checklist-group">
+              <div class="checklist-heading">
+                <p class="checklist-title">Demielinizasion ojaklar</p>
+                <p class="muted small">Standart wariantlaryň sanawy</p>
+              </div>
+              <div class="option-grid">
+                <label class="option">
+                  <input type="checkbox" data-pathology="demyelinating" value="Demielinizasion ojak tapylmady." />
+                  <span>Demielinizasion ojak tapylmady.</span>
+                </label>
+                <label class="option">
+                  <input type="checkbox" data-pathology="demyelinating" value="Periwentrikulýar MS-tipli T2 gipersistens ojaklar." />
+                  <span>Periwentrikulýar MS-tipli T2 gipersistens ojaklar.</span>
+                </label>
+                <label class="option">
+                  <input type="checkbox" data-pathology="demyelinating" value="Infratentorial ýa-da korpus kallosumda täze plakalar." />
+                  <span>Infratentorial ýa-da korpus kallosumda täze plakalar.</span>
+                </label>
+                <label class="option">
+                  <input type="checkbox" data-pathology="demyelinating" value="Kontrast toplap duran aktiw plakalar bar." />
+                  <span>Kontrast toplap duran aktiw plakalar bar.</span>
+                </label>
+              </div>
+              <label class="note-field">
+                <span class="muted">Goşmaça bellik</span>
+                <input id="r-demyelinating-note" type="text" placeholder="Mysal: optiki nerwleriň demielinizasiýasy" />
+              </label>
+            </div>
+          </div>
+        </div>
         <label class="full">Kistalar<textarea id="r-cysts" rows="2"></textarea></label>
         <label class="full">Tumor / mass<textarea id="r-mass" rows="2"></textarea></label>
         <label class="full">Injekler<textarea id="r-ventricles" rows="2"></textarea></label>

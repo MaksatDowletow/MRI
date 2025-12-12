@@ -40,6 +40,7 @@ header {
   justify-content: space-between;
   align-items: center;
   gap: 16px;
+  flex-wrap: wrap;
   border-bottom: 1px solid var(--border);
 }
 
@@ -429,6 +430,20 @@ footer {
 }
 
 @media (max-width: 900px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .badge {
+    width: 100%;
+    text-align: center;
+  }
+
+  .section-header {
+    align-items: flex-start;
+  }
+
   .survey-item {
     grid-template-columns: 1fr;
   }
@@ -443,6 +458,44 @@ footer {
   main,
   footer {
     padding: 18px 14px;
+  }
+
+  .section-header {
+    flex-direction: column;
+  }
+
+  .actions,
+  .db-actions {
+    width: 100%;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions .btn,
+  .db-actions .btn {
+    width: 100%;
+  }
+
+  .db-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .protocol-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .row-actions {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .row-actions .btn {
+    flex: 1;
+    min-width: 120px;
   }
 
   .hero h1 {

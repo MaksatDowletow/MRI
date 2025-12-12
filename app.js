@@ -7,23 +7,29 @@ import {
   recordCtaClick,
   recordFunnelStep,
 } from "./analytics.js";
+import { clearDraft, loadDraft, saveDraft } from "./storage.js";
 
-const state = {
-  patientName: "",
-  patientId: "",
-  age: "",
-  examDate: new Date().toISOString().slice(0, 10),
-  examContext: "Ilkinji gezek geçirilen MRT barlagy.",
-  epilepsyCuts: false,
-  customNotes: "",
-  selections: {},
-};
+function createBaseState() {
+  return {
+    patientName: "",
+    patientId: "",
+    age: "",
+    examDate: new Date().toISOString().slice(0, 10),
+    examContext: "Ilkinji gezek geçirilen MRT barlagy.",
+    epilepsyCuts: false,
+    customNotes: "",
+    selections: {},
+  };
+}
+
+let state = createBaseState();
 
 let dbModulePromise = null;
 let dbModule = null;
 let snippetsPromise = null;
 let snippetData = [];
 let variantCopy = getVariantCopy();
+let draftSaveTimer = null;
 const sessionSteps = new Set();
 
 const requiredFields = ["patientName", "age", "examDate"];
@@ -38,6 +44,7 @@ const fieldHelpers = {
 document.addEventListener("DOMContentLoaded", () => {
   variantCopy = initAnalytics();
   renderShell();
+  hydrateDraft();
   bindInteractions();
   scheduleSnippetLoad();
   applyStateToInputs();
@@ -45,6 +52,17 @@ document.addEventListener("DOMContentLoaded", () => {
   renderAnalyticsPanel();
   warmupDbWhenVisible();
 });
+
+function hydrateDraft() {
+  const draft = loadDraft();
+  if (!draft) return;
+  state = {
+    ...createBaseState(),
+    ...draft,
+    selections: draft.selections || {},
+  };
+  showInlineStatus("Autosaklanan taslak dikeldildi.");
+}
 
 function renderShell() {
   const app = document.getElementById("app");
@@ -88,7 +106,10 @@ function renderShell() {
           <h2 id="formHeading">Näsag we barlag barada</h2>
           <p class="muted" id="formDescription">Hasabatyň başyndaky hökmany maglumatlar.</p>
         </div>
-        <div class="pill">Hasabat awtodolyşygi</div>
+        <div class="section-tools">
+          <button id="resetForm" class="btn ghost" type="button">Ähli maglumatlary arassala</button>
+          <div class="pill">Hasabat awtodolyşygi</div>
+        </div>
       </div>
       <form class="form-grid" aria-labelledby="formHeading formDescription" id="reportForm" novalidate>
         <label class="form-field required">
@@ -369,14 +390,14 @@ function bindInteractions() {
   document.querySelectorAll("[data-field]").forEach((input) => {
     if (input.type === "checkbox") {
       input.addEventListener("change", () => {
-        state[input.dataset.field] = input.checked;
+        updateStateField(input.dataset.field, input.checked);
         updateReportPreview();
         validateField(input);
         markFunnelStep("form_start");
       });
     } else {
       input.addEventListener("input", () => {
-        state[input.dataset.field] = input.value;
+        updateStateField(input.dataset.field, input.value);
         updateReportPreview();
         validateField(input);
         markFunnelStep("form_start");
@@ -404,6 +425,11 @@ function bindInteractions() {
   if (refreshButton) {
     refreshButton.addEventListener("click", () => refreshProtocols());
   }
+
+  const resetButton = document.getElementById("resetForm");
+  if (resetButton) {
+    resetButton.addEventListener("click", resetFormState);
+  }
 }
 
 function toggleSelection(category, value, isChecked) {
@@ -415,6 +441,21 @@ function toggleSelection(category, value, isChecked) {
     existing.delete(value);
   }
   state.selections[category] = Array.from(existing);
+  persistDraft();
+}
+
+function updateStateField(key, value) {
+  state[key] = value;
+  persistDraft();
+}
+
+function persistDraft() {
+  if (draftSaveTimer) {
+    clearTimeout(draftSaveTimer);
+  }
+  draftSaveTimer = window.setTimeout(() => {
+    saveDraft(snapshotState());
+  }, 300);
 }
 
 function buildReportText() {
@@ -620,19 +661,22 @@ function snapshotState() {
 
 function restoreState(saved) {
   if (!saved) return;
-  Object.keys(state).forEach((key) => {
-    if (key === "selections") return;
-    const defaultValue = typeof state[key] === "boolean" ? false : "";
-    state[key] = saved[key] ?? defaultValue;
-  });
-  state.selections = saved.selections || {};
+  state = {
+    ...createBaseState(),
+    ...saved,
+    selections: saved.selections || {},
+  };
   applyStateToInputs();
+  persistDraft();
 }
 
 function applyStateToInputs() {
   document.querySelectorAll("[data-field]").forEach((input) => {
     const key = input.dataset.field;
     const value = state[key];
+    if (input.type === "date") {
+      input.max = new Date().toISOString().slice(0, 10);
+    }
     if (input.type === "checkbox") {
       input.checked = Boolean(value);
     } else if (value !== undefined) {
@@ -646,6 +690,14 @@ function applyStateToInputs() {
   });
 
   updateReportPreview();
+}
+
+function resetFormState() {
+  state = createBaseState();
+  applyStateToInputs();
+  updateReportPreview();
+  clearDraft();
+  showInlineStatus("Ähli meýdanlar arassalandy.", "success");
 }
 
 function validateField(input) {

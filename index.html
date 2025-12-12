@@ -2,8 +2,13 @@
 <html lang="tk">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Beýni MRT hasabat studiýasy</title>
+  <script>
+    if (navigator.connection?.saveData) {
+      document.documentElement.dataset.saveMode = "true";
+    }
+  </script>
   <link rel="preconnect" href="https://rsms.me" crossorigin />
   <link
     rel="preload"
@@ -38,14 +43,16 @@
       color: var(--text);
       line-height: 1.7;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
     header,
     main,
     footer {
       max-width: 1180px;
+      width: min(1180px, 100%);
       margin: 0 auto;
-      padding: 24px 20px;
+      padding: clamp(16px, 3vw, 24px) clamp(14px, 4vw, 24px);
     }
 
     header {

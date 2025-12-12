@@ -152,3 +152,78 @@ h3 {
   padding: 10px 12px;
   text-align: left;
 }
+
+.pathology-block {
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  background: #0f182d;
+}
+
+.field-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.checklist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.checklist-group {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  background: #0c1426;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.checklist-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.checklist-title {
+  margin: 0;
+  font-weight: 600;
+}
+
+.small {
+  font-size: 12px;
+}
+
+.option-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.option {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
+  align-items: start;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #0f1c32;
+  color: var(--text);
+}
+
+.option input {
+  margin-top: 4px;
+}
+
+.note-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}

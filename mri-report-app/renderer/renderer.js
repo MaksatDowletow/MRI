@@ -65,15 +65,16 @@ function wireReportSection() {
 }
 
 function buildReportPayload() {
+  const pathology = collectPathologySelections();
   return {
     artefacts_type: document.getElementById("r-artefacts")?.value || "",
     skull_shape: document.getElementById("r-skull-shape")?.value || "",
     skull_sutures: "",
     skull_form_symmetry: "",
     posterior_fossa: "",
-    lesions_ischemic: document.getElementById("r-lesions-ischemic")?.value || "",
-    lesions_hemorrhagic: document.getElementById("r-lesions-hemorrhagic")?.value || "",
-    lesions_demyelinating: document.getElementById("r-lesions-demyelinating")?.value || "",
+    lesions_ischemic: pathology.ischemic,
+    lesions_hemorrhagic: pathology.hemorrhagic,
+    lesions_demyelinating: pathology.demyelinating,
     lesions_number: "",
     lesions_location: "",
     lesions_size: "",
@@ -90,6 +91,29 @@ function buildReportPayload() {
     conclusion: document.getElementById("r-conclusion")?.value || "",
     recommendations: document.getElementById("r-recommendations")?.value || "",
   };
+}
+
+function collectPathologySelections() {
+  return {
+    ischemic: collectPathologyGroup("ischemic"),
+    hemorrhagic: collectPathologyGroup("hemorrhagic"),
+    demyelinating: collectPathologyGroup("demyelinating"),
+  };
+}
+
+function collectPathologyGroup(groupKey) {
+  const selected = Array.from(document.querySelectorAll(`input[data-pathology='${groupKey}']`))
+    .filter((checkbox) => checkbox.checked)
+    .map((checkbox) => checkbox.value.trim())
+    .filter(Boolean);
+
+  const noteInput = document.getElementById(`r-${groupKey}-note`);
+  const note = noteInput?.value.trim();
+  if (note) {
+    selected.push(note);
+  }
+
+  return selected.join("; ");
 }
 
 function generateReportText(study, r) {

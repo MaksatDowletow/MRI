@@ -3,6 +3,123 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta
+    name="description"
+    content="RSNA/022 beýni MRT hasabat studiýasy: kliniki profilleri, autosave, SQL.js ammary we Word eksporty bilen schema-esasly forma."
+  />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#2563eb" />
+  <link rel="canonical" href="https://rsna-mri.app/" />
+  <meta property="og:title" content="Beýni MRT hasabat studiýasy" />
+  <meta property="og:description" content="Patologiýa wariantlaryny bellik görnüşinde saýlap, RSNA/022 standartlaryna laýyk MRT hasabatlaryny awtomatiki dörediň." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="tk_TM" />
+  <meta property="og:site_name" content="RSNA MRI report" />
+  <meta property="og:url" content="https://rsna-mri.app/" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Beýni MRT hasabat studiýasy" />
+  <meta name="twitter:description" content="Schema-esasly RSNA/022 beýni MRT hasabat generatory. Profil saýlaň, wariantlary işaralaň, netije blokyny göçüriň." />
+  <meta name="twitter:url" content="https://rsna-mri.app/" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://rsna-mri.app/#organization",
+          "name": "RSNA MRT studiýasy",
+          "url": "https://rsna-mri.app/",
+          "description": "RSNA/022 beýni MRT hasabatlaryny düzmek üçin awtomatlaşdyrylan internet studiýasy.",
+          "sameAs": ["https://rsna-mri.app/"]
+        },
+        {
+          "@type": "Product",
+          "@id": "https://rsna-mri.app/#product",
+          "name": "RSNA/022 beýni MRT hasabat generatory",
+          "applicationCategory": "MedicalApplication",
+          "audience": {
+            "@type": "MedicalAudience",
+            "name": "Radiology"
+          },
+          "brand": {
+            "@id": "https://rsna-mri.app/#organization"
+          },
+          "description": "Schema-esasly forma, RSNA.txt patologiýa wariantlary we SQL.js ammary bilen MRT hasabatlaryny döretmek üçin mugt web gural.",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+          },
+          "url": "https://rsna-mri.app/"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Baş sahypa",
+              "item": "https://rsna-mri.app/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Umumy maglumatlar",
+              "item": "https://rsna-mri.app/#formSection"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Patologiýa wariantlary",
+              "item": "https://rsna-mri.app/#snippetSection"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Netije",
+              "item": "https://rsna-mri.app/#previewSection"
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "Ammar",
+              "item": "https://rsna-mri.app/#storageSection"
+            }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Nädip awtodolyşygyny başlamak?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Umumy maglumatlar bölüminde näsag baradaky meýdanlary dolduryň we epilepsiýa kesimlerini zerur bolsa işjeňleşdiriň. Ondan soň patologiýa kartalaryndaky bellikleri saýlaň."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Hasabaty nädip saklap ýa-da eksport edip bilerin?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Netije kartasynda döredilen teksti göçüriň, SQL.js ammaryna ýazdyryň ýa-da Word görnüşinde eksport düwmesine basyň."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Profil saýlanyňda maglumatlarym näme bolýar?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Profil ýa-da wariant saýlamazdan öň bar bolan maglumatlaryňyz ýerinde saklanýar; täze profil saýlanyňyzda diňe degişli meýdanlar awtodolyrylýar."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  </script>
   <title>Beýni MRT hasabat studiýasy</title>
   <script>
     if (navigator.connection?.saveData) {

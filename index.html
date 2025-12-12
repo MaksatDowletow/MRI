@@ -3,23 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Beýni MRT maglumatlary</title>
+  <title>Beýni MRT hasabat studiýasy</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header role="banner">
     <div>
-      <p class="app-title">Täze görnüş</p>
-      <p class="app-subtitle">Beýni MRT barada gysgaça maglumatlar</p>
+      <p class="app-title">RSNA / 022 şablony</p>
+      <p class="app-subtitle">Beýni MRT hasabatlaryny awtomatlaşdyrmak üçin saýty</p>
     </div>
+    <div class="badge">SQL.js ýatda saklaýyş + Word eksporty</div>
   </header>
 
   <main aria-live="polite">
-    <div id="app"></div>
+    <div id="app" class="page"></div>
   </main>
 
   <footer role="contentinfo">
-    <p>RSNA nukdaýnazarynda tertiplendirilen maglumatlaryň gysga beýany.</p>
+    <p>Patologiýa wariantlaryny çalt saýlaň, netije awtomatiki dörediň, protokoly SQL.js arkaly saklaň ýa-da Word görnüşinde eksport ediň.</p>
   </footer>
 
   <script type="module" src="app.js"></script>

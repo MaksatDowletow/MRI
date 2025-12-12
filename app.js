@@ -3,6 +3,7 @@ import { reportState } from "./state.js";
 import { buildReportBlocks, generatePlainTextReport } from "./report.js";
 import { translate } from "./i18n.js";
 import { SECTIONS } from "./schema.js";
+import { loadDraft, saveDraft, clearDraft } from "./storage.js";
 
 function createHero() {
   return `
@@ -130,20 +131,21 @@ function wireActions() {
   const copyTextButton = document.getElementById("copy-text");
   const copyJsonButton = document.getElementById("copy-json");
 
-  reportState.init();
+  const draft = loadDraft();
+  reportState.init(draft || {});
   renderForm(formContainer);
   renderPreview(previewContainer, reportState.data);
   renderJson(jsonContainer, reportState.data);
 
-  const rerender = () => {
-    renderPreview(previewContainer, reportState.data);
-    renderJson(jsonContainer, reportState.data);
-  };
-
-  reportState.subscribe(rerender);
+  reportState.subscribe((data) => {
+    renderPreview(previewContainer, data);
+    renderJson(jsonContainer, data);
+    saveDraft(data);
+  });
 
   generateButton?.addEventListener("click", () => {
-    rerender();
+    renderPreview(previewContainer, reportState.data);
+    renderJson(jsonContainer, reportState.data);
     generateButton.classList.add("success-state");
     setTimeout(() => generateButton.classList.remove("success-state"), 1000);
   });
@@ -151,7 +153,9 @@ function wireActions() {
   resetButton?.addEventListener("click", () => {
     reportState.init();
     renderForm(formContainer);
-    rerender();
+    clearDraft();
+    renderPreview(previewContainer, reportState.data);
+    renderJson(jsonContainer, reportState.data);
   });
 
   copyTextButton?.addEventListener("click", async () => {

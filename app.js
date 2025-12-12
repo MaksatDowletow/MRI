@@ -1,4 +1,3 @@
-import initSqlJs from "https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.9.0/sql-wasm.js";
 import { RSNA_SNIPPETS } from "./rsnaSnippets.js";
 
 const state = {
@@ -16,6 +15,7 @@ const DB_KEY = "rsna_protocol_db";
 let SQL = null;
 let db = null;
 let dbReadyPromise = null;
+const SQL_WASM_BASE = "https://cdn.jsdelivr.net/npm/sql.js@1.9.0/dist/";
 
 document.addEventListener("DOMContentLoaded", async () => {
   renderShell();
@@ -288,9 +288,7 @@ function updateReportPreview() {
 async function initDatabase() {
   const status = document.getElementById("dbStatus");
   try {
-    SQL = await initSqlJs({
-      locateFile: (file) => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.9.0/${file}`,
-    });
+    SQL = await loadSqlJs();
     const persisted = localStorage.getItem(DB_KEY);
     db = persisted ? new SQL.Database(toUint8Array(persisted)) : new SQL.Database();
     db.run(
@@ -306,6 +304,34 @@ async function initDatabase() {
     console.error("SQL.js ýüklemekde ýalňyşlyk", error);
     if (status) status.textContent = "Ýalňyşlyk";
   }
+}
+
+function loadSqlJs() {
+  if (SQL) return Promise.resolve(SQL);
+
+  if (window.initSqlJs) {
+    return window.initSqlJs({ locateFile: (file) => `${SQL_WASM_BASE}${file}` });
+  }
+
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = `${SQL_WASM_BASE}sql-wasm.js`;
+    script.async = true;
+
+    script.onload = () => {
+      if (window.initSqlJs) {
+        window
+          .initSqlJs({ locateFile: (file) => `${SQL_WASM_BASE}${file}` })
+          .then(resolve)
+          .catch(reject);
+      } else {
+        reject(new Error("initSqlJs globala goşulmady"));
+      }
+    };
+
+    script.onerror = () => reject(new Error("SQL.js skripti ýüklenmedi"));
+    document.head.appendChild(script);
+  });
 }
 
 function persistDb() {

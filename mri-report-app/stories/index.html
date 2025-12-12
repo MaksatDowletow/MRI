@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="tk">
+  <head>
+    <meta charset="UTF-8" />
+    <title>RSNA MRI UI Catalog</title>
+    <link rel="stylesheet" href="../renderer/tokens.css" />
+    <link rel="stylesheet" href="../renderer/styles.css" />
+    <style>
+      body {
+        padding: var(--space-3xl);
+      }
+      .story-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: var(--space-xl);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>UI Catalog</h1>
+    <p class="muted">Static stories for key MRI report components.</p>
+    <div class="story-grid">
+      <section class="card">
+        <p class="eyebrow">Story</p>
+        <h2>Patient capture</h2>
+        <div class="grid">
+          <label>Familiýasy, ady<input type="text" required placeholder="Myrat Durdy" /></label>
+          <label>Doglan senesi<input type="date" value="1980-01-01" /></label>
+          <label>Jynsy
+            <select>
+              <option value="erkek">Erkek</option>
+              <option value="aýal">Aýal</option>
+            </select>
+          </label>
+          <label>Kart / ID<input type="text" placeholder="A-10234" /></label>
+        </div>
+        <div class="actions">
+          <button type="button" class="primary">Pacienti ýaz</button>
+          <p class="muted">Hasap görnüşi üçin demonstrasiýa</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <p class="eyebrow">Story</p>
+        <h2>Pathology checklist</h2>
+        <div class="pathology-block">
+          <div class="field-header">
+            <span>Patologik üýtgemeler</span>
+            <p class="muted">Kategorýalar boýunça degişli wariantlary belläň.</p>
+          </div>
+          <div class="checklist-grid">
+            <div class="checklist-group">
+              <div class="checklist-heading">
+                <p class="checklist-title">Ishemiýa</p>
+                <p class="muted small">Multi-select</p>
+              </div>
+              <div class="option-grid">
+                <label class="option">
+                  <input type="checkbox" checked />
+                  <span>Ojak görnüşli üýtgeme ýok (Fazekas 0).</span>
+                </label>
+                <label class="option">
+                  <input type="checkbox" />
+                  <span>Subkortikal birnäçe gipersistens ojak.</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

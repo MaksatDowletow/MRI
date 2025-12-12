@@ -235,3 +235,11 @@ function setStatus(elementId, message) {
     el.textContent = message;
   }
 }
+
+if (typeof module !== "undefined") {
+  module.exports = {
+    collectPathologyGroup,
+    generateReportText,
+    humanArtefact,
+  };
+}

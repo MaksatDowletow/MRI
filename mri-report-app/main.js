@@ -2,6 +2,8 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const db = require("./db");
 
+const monitoringEndpoint = process.env.MONITORING_ENDPOINT || "";
+
 function createWindow() {
   const win = new BrowserWindow({
     width: 1280,
@@ -38,3 +40,15 @@ ipcMain.handle("reports:save", (event, report) => db.saveBrainReport(report));
 
 ipcMain.handle("patients:list", () => db.listPatients());
 ipcMain.handle("studies:byPatient", (event, patientId) => db.listStudies(patientId));
+
+ipcMain.on("telemetry:rum", (_event, metric) => {
+  const message = `[RUM] ${metric.name}=${metric.value?.toFixed?.(2) ?? metric.value}`;
+  console.log(message);
+  if (monitoringEndpoint) {
+    fetch(monitoringEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ metric, source: "renderer" }),
+    }).catch((err) => console.error("Failed to push RUM metric", err));
+  }
+});

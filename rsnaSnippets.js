@@ -20,7 +20,7 @@ export const RSNA_SNIPPETS = [
       "Birinji gezek ýerine ýetirilen MRT barlagy.",
       "Gaýtadan geçirilen barlag, öňki MRT bilen deňeşdirme mümkin boldy.",
       "Öňki barlag bilen deňeşdirme: ____ seneden.",
-      "Epilepsiýa ýagdaýynda Silwiý aryklygyna paralel we perpendikulýar ýörite kosý kesimler ýerine ýetirildi.",
+      "Epilepsiýa ýagdaýynda Silwiý aryklygyna paralel we perpendikulýar ýörite gyýak kesimler ýerine ýetirildi.",
     ],
   },
   {
@@ -170,7 +170,7 @@ export const RSNA_SNIPPETS = [
     options: [
       "Türk sedlesi we gipofiz görnüşi adaty, ölçegi norma degişli.",
       "Gipofizde uzynlygy sagittal __ mm, koronar __ mm, akssial __ mm; adeno-neýrohypofiz differensiýasy saklanýar.",
-      "Supra-selýar sisterna ... mm aşak prolabirlenen, woronka süýşmesi ýok/ bar.",
+      "Supra-selýar sisterna ... mm aşak prolabirlenen, gipofiz dirneginiň süýşmesi ýok / bar.",
     ],
   },
   {

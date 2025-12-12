@@ -171,23 +171,25 @@ function renderSnippetCards() {
                 <h3>${section.title}</h3>
               </div>
             </div>
-            <div class="survey-options" aria-label="${section.title}">
+            <ul class="survey-options" aria-label="${section.title}">
               ${section.options
                 .map(
                   (option, optionIndex) => `
-                    <label class="option compact">
-                      <input
-                        type="checkbox"
-                        data-category="${section.id}"
-                        data-value="${option}"
-                        id="${section.id}-${optionIndex}"
-                      />
-                      <span>${option}</span>
-                    </label>
+                    <li class="survey-option">
+                      <label class="option compact">
+                        <input
+                          type="checkbox"
+                          data-category="${section.id}"
+                          data-value="${option}"
+                          id="${section.id}-${optionIndex}"
+                        />
+                        <span>${option}</span>
+                      </label>
+                    </li>
                   `,
                 )
                 .join("")}
-            </div>
+            </ul>
           </article>
         `,
       ).join("")}

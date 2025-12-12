@@ -211,10 +211,17 @@ main {
 }
 
 .survey-options {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 8px;
-  align-items: start;
+  padding-left: 18px;
+  list-style: disc;
+  list-style-position: outside;
+  margin: 0;
+}
+
+.survey-option {
+  list-style: disc;
 }
 
 .content-grid {

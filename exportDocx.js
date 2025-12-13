@@ -3,6 +3,13 @@
 
 import { generatePlainTextReport } from "./report.js";
 
+function getPatientIdentifier(reportData) {
+  const rawName =
+    typeof reportData?.patientName === "string" ? reportData.patientName : "";
+  const normalized = rawName.trim();
+  return normalized || "hasabat";
+}
+
 function buildPatientHeader(blocks) {
   const patientBlock = blocks.find((block) => block.id === "patient");
   if (!patientBlock) return "";
@@ -57,7 +64,7 @@ export async function exportToDocx(reportData, blocks = []) {
   const blob = new Blob([html], { type: "application/msword" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
-  const filename = `rsna-mri-${reportData.patient_name || "hasabat"}.doc`;
+  const filename = `rsna-mri-${getPatientIdentifier(reportData)}.doc`;
   link.href = url;
   link.download = filename;
   document.body.appendChild(link);

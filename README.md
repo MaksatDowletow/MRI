@@ -22,3 +22,6 @@ See `DEVELOPMENT_PLAN.md` for a roadmap on evolving the application into a full 
 
 ## Usage
 Open `index.html` on GitHub Pages or a static server. Select a clinical profile to prefill defaults, complete the generated form, and click **Hasabat döret** to view the structured text in the preview panel. Drafts save automatically between sessions; **Arassala / täzele** clears state and storage. DOCX export is stubbed until docxtemplater wiring is added.
+
+## Demos
+- `vb-form-demo/index.html` – мини-пример веб-формы с абсолютным позиционированием «как в VB», позволяющий ввести данные карты пациента и вывести их в JSON через кнопку «Показать данные».

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Form1</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="app__header">
+      <h1 id="formCaption">Form1</h1>
+      <p class="app__tagline">Демо веб-формы с абсолютным позиционированием, как в VB6/WinForms.</p>
+    </header>
+
+    <section id="vbForm" class="vb-form" aria-label="VB Form" role="form">
+      <!-- Контролы добавляются скриптом -->
+    </section>
+
+    <footer class="app__footer">
+      <button id="btnDump" type="button" class="btn">Показать данные</button>
+      <pre id="dumpPanel" class="dump" aria-live="polite"></pre>
+    </footer>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

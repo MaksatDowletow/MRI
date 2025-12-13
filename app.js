@@ -248,6 +248,49 @@ function renderShell() {
         </div>
       </div>
     </section>
+
+    <section class="card resource-card" id="vbDemoSection">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Goşmaça demo</p>
+          <h2>vb-form-demo papkasyndaky dokumentler</h2>
+          <p class="muted">Absolýut pozisiýaly web-forma bilen baglanyşykly faýllar baş sahypadan hem elýeterli.</p>
+        </div>
+        <div class="pill">VB görnüşi</div>
+      </div>
+      <div class="resource-grid">
+        <div class="resource-copy">
+          <p>
+            Formanyň ähli kontrol blueprintleri, ýagdaý dumpy we WinForms görnüşindäki bezegleri aýratyn papkada saklanýar.
+            Faýllary aşakdaky baglanyşyklar arkaly göni açyp bilersiňiz.
+          </p>
+          <p class="muted">Demo sahypasynda maglumatlary giriziň we «Показать данные» arkaly JSON görnüşinde serediň.</p>
+        </div>
+        <ul class="resource-links" aria-label="VB forma demo faýllary">
+          <li>
+            <a class="resource-link" href="vb-form-demo/index.html" target="_blank" rel="noopener">
+              Demo sahypasy (index.html)
+              <span aria-hidden="true">→</span>
+            </a>
+            <p class="muted">Absolýut pozisiýaly forma we maglumatlaryň ýaşaýyş ýagdaýda çykarylyşy.</p>
+          </li>
+          <li>
+            <a class="resource-link" href="vb-form-demo/app.js" target="_blank" rel="noopener">
+              app.js
+              <span aria-hidden="true">→</span>
+            </a>
+            <p class="muted">Kontrol blueprintleri, ýagdaý obýekti we JSON dump düwmesi.</p>
+          </li>
+          <li>
+            <a class="resource-link" href="vb-form-demo/styles.css" target="_blank" rel="noopener">
+              styles.css
+              <span aria-hidden="true">→</span>
+            </a>
+            <p class="muted">WinForms/VB görnüşindäki stil we pozisiýalar.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
   `;
 }
 

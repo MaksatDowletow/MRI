@@ -704,6 +704,51 @@ input[type="checkbox"]:focus-visible {
   font-weight: 700;
 }
 
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+
+.resource-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.resource-links li {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  background: #f8fafc;
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.05);
+}
+
+.resource-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.resource-link:hover,
+.resource-link:focus-visible {
+  color: var(--accent-strong);
+  outline: none;
+}
+
+.resource-copy {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(16, 185, 129, 0.05));
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

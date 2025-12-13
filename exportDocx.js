@@ -1,7 +1,7 @@
 // exportDocx.js
 // Ýönekeý Word (DOC) eksporty: hasabaty HTML görnüşinde ýygnap, .doc görnüşinde ýükleýär.
 
-import { generatePlainTextReport } from "./report.js";
+import { buildReportBlocks, generatePlainTextReport } from "./report.js";
 
 function getPatientIdentifier(reportData) {
   const rawName =
@@ -25,7 +25,7 @@ export async function exportToDocx(reportData, blocks = []) {
     return;
   }
 
-  const sectionBlocks = blocks.length > 0 ? blocks : [];
+  const sectionBlocks = blocks.length > 0 ? blocks : buildReportBlocks(reportData);
   const patientHeader = buildPatientHeader(sectionBlocks);
   const otherSections = sectionBlocks
     .filter((block) => block.id !== "patient")

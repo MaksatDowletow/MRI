@@ -291,6 +291,31 @@ function renderShell() {
         </ul>
       </div>
     </section>
+
+    <section class="card resource-card" id="atlasSection">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Atlas çeşmesi</p>
+          <h2>Egnim MRT anatomiýa atlasyna tiz baglanyşyk</h2>
+          <p class="muted">Freitas Radiology sahypasyndaky egnim atlasy diferensial düşündiriş taýýarlamakda kömek eder.</p>
+        </div>
+        <div class="pill">Daşarky çeşme</div>
+      </div>
+      <ul class="resource-links" aria-label="Egnim atlas baglanyşygy">
+        <li>
+          <a
+            class="resource-link"
+            href="https://www.freitasrad.net/pages/atlas/Shoulder/Shoulder.php"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            FreitasRad Shoulder Atlas
+            <span aria-hidden="true">→</span>
+          </a>
+          <p class="muted">Egnim bogunyň MRT kesitleri, anatomiýa bellikleri we atlas görnüşindäki vizual salgylanma.</p>
+        </li>
+      </ul>
+    </section>
   `;
 }
 

@@ -308,11 +308,19 @@ async function renderSnippetSection() {
   grid.innerHTML = renderSnippetSkeleton();
   grid.setAttribute("aria-busy", "true");
 
-  const snippets = await loadSnippets();
-  grid.innerHTML = renderSnippetCards(snippets);
-  grid.removeAttribute("aria-busy");
-  bindSnippetInteractions();
-  applyStateToInputs();
+  loadSnippets()
+    .then((snippets) => {
+      grid.innerHTML = renderSnippetCards(snippets);
+      bindSnippetInteractions();
+      applyStateToInputs();
+    })
+    .catch((error) => {
+      console.error("Patologiýa wariantlaryny ýüklemek şowsuz boldy", error);
+      renderSnippetError(grid);
+    })
+    .finally(() => {
+      grid.removeAttribute("aria-busy");
+    });
 }
 
 function scheduleSnippetLoad() {
@@ -382,10 +390,29 @@ function renderSnippetCards(snippets) {
               </ul>
             </article>
           `,
-        )
-        .join("")}
+      )
+      .join("")}
     </div>
   `;
+}
+
+function renderSnippetError(grid) {
+  grid.innerHTML = `
+    <div class="notice error" role="alert">
+      <div>
+        <p class="eyebrow">Ýükleme ýalňyşy</p>
+        <p>Patologiýa wariantlaryny ýükläp bolmady. Internet birikmesini barlap, täzeden synanyşyň.</p>
+      </div>
+      <button id="retrySnippets" class="btn ghost">Täzeden synanyşyk</button>
+    </div>
+  `;
+
+  const retryButton = grid.querySelector("#retrySnippets");
+  if (retryButton) {
+    retryButton.addEventListener("click", () => {
+      renderSnippetSection();
+    });
+  }
 }
 
 function bindSnippetInteractions() {

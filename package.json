@@ -1,0 +1,13 @@
+{
+  "name": "mri",
+  "version": "1.0.0",
+  "description": "The site is a single-page Turkmen-language MRI reporting helper built from index.html, styles.css, script.js, and saveWord.js, with FileSaver loaded from a CDN for downloads. The export workflow now feeds collected values into the bundled Beýni_kada_.docx template through PizZip + Docxtemplater for true .docx output.",
+  "main": "FileSaver.min.js",
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

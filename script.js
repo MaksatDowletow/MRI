@@ -631,3 +631,14 @@ async function copyReport() {
         showError('Hasabaty göçürip bolmady: ' + error.message);
     }
 }
+
+if (typeof module !== 'undefined') {
+    module.exports = {
+        renderSummary,
+        copyReport,
+        ensureMessageContainer,
+        clearMessages,
+        resetValidationState,
+        markInvalid,
+    };
+}
